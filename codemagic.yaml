@@ -51,6 +51,75 @@ workflows:
       - J1ROX_TV_iOS/build/logs/*.log
       - J1ROX_TV_iOS/build/DerivedData-check/Logs/**/*.xcactivitylog
 
+  ios-ipa:
+    name: J1ROX TV iOS - Unsigned IPA
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    environment:
+      xcode: latest
+    scripts:
+      - name: Build unsigned Release app
+        script: |
+          #!/bin/bash
+          set -euo pipefail
+          cd "$CM_BUILD_DIR/J1ROX_TV_iOS"
+          mkdir -p build/logs
+          test -f J1ROXTV.xcodeproj/project.pbxproj
+          test -f J1ROXTV.xcodeproj/xcshareddata/xcschemes/J1ROXTV.xcscheme
+          xcodebuild \
+            -project J1ROXTV.xcodeproj \
+            -scheme J1ROXTV \
+            -configuration Release \
+            -sdk iphoneos \
+            -destination "generic/platform=iOS" \
+            -derivedDataPath build/DerivedData-ipa \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            build 2>&1 | tee build/logs/unsigned-ipa-build.log
+      - name: Package and verify unsigned IPA
+        script: |
+          #!/bin/bash
+          set -euo pipefail
+          cd "$CM_BUILD_DIR/J1ROX_TV_iOS"
+          mkdir -p build/logs
+          exec > >(tee build/logs/unsigned-ipa-package.log) 2>&1
+          APP_PATH="build/DerivedData-ipa/Build/Products/Release-iphoneos/J1ROXTV.app"
+          test -d "$APP_PATH"
+          test -s "$APP_PATH/J1ROXTV"
+          test -x "$APP_PATH/J1ROXTV"
+          test -s "$APP_PATH/Info.plist"
+          test "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$APP_PATH/Info.plist")" = "com.jirox.jiroxtv"
+          test "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$APP_PATH/Info.plist")" = "J1ROXTV"
+          # Recreate only the packaging output to avoid stale archive entries.
+          rm -rf build/ipa/Payload
+          rm -f build/ipa/J1ROXTV-unsigned.ipa
+          mkdir -p build/ipa/Payload
+          ditto "$APP_PATH" build/ipa/Payload/J1ROXTV.app
+          cd build/ipa
+          zip -qry J1ROXTV-unsigned.ipa Payload
+          test -s J1ROXTV-unsigned.ipa
+          unzip -tq J1ROXTV-unsigned.ipa
+          python3 - <<'PY'
+          import plistlib
+          import zipfile
+          from pathlib import Path
+
+          ipa = Path("J1ROXTV-unsigned.ipa")
+          assert ipa.is_file() and ipa.stat().st_size > 0, "IPA is missing or empty"
+          with zipfile.ZipFile(ipa) as archive:
+              assert all(name.startswith("Payload/") for name in archive.namelist()), "Unexpected IPA root"
+              for name in ("Payload/J1ROXTV.app/J1ROXTV", "Payload/J1ROXTV.app/Info.plist"):
+                  assert archive.getinfo(name).file_size > 0, f"Missing or empty IPA entry: {name}"
+              info = plistlib.loads(archive.read("Payload/J1ROXTV.app/Info.plist"))
+              assert info["CFBundleIdentifier"] == "com.jirox.jiroxtv", "Unexpected Bundle ID"
+              assert info["CFBundleExecutable"] == "J1ROXTV", "Unexpected executable"
+          print(f"Verified unsigned IPA: {ipa.resolve()} ({ipa.stat().st_size} bytes)")
+          PY
+    artifacts:
+      - J1ROX_TV_iOS/build/ipa/*.ipa
+      - J1ROX_TV_iOS/build/logs/**
+
   ios-testflight:
     name: J1ROX TV iOS - TestFlight
     instance_type: mac_mini_m2
