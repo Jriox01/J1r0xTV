@@ -1,0 +1,5 @@
+# Copy these values to local.properties. Never commit real credentials.
+REZKA_PROVIDER_ENABLED=false
+REZKA_PROVIDER_BASE_URL=
+REZKA_PROVIDER_API_KEY=
+

@@ -1,0 +1,73 @@
+# Python
+**/.venv/
+**/venv/
+**/__pycache__/
+**/.pytest_cache/
+*.py[cod]
+
+# PC build/runtime output
+/build/
+/build-validation/
+/dist/
+/installer/*.exe
+/tmp/
+/pc/build/
+/pc/dist/
+/pc/installer/*.exe
+*.log
+*_debug.json
+/pc/data/*.db
+
+# Android/Gradle
+/android/.gradle/
+/android/.idea/
+/android/.kotlin/
+/android/build/
+/android/app/build/
+/android/local.properties
+/android/local-publish.properties
+*.jks
+*.keystore
+keystore.properties
+
+# IDE/OS
+.agents/
+.codex/
+.tools/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Xcode / iOS signing and build output
+DerivedData/
+**/DerivedData/
+**/*.xcuserstate
+**/xcuserdata/
+**/build/
+*.xcarchive
+*.ipa
+*.p8
+*.p12
+*.cer
+*.mobileprovision
+*.provisionprofile
+
+# Secrets and temporary files
+.env
+.env.*
+*.pem
+*.key
+*.pfx
+*.crt
+id_rsa*
+id_ed25519*
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+**/tmp/
+**/temp/
+**/.cache/

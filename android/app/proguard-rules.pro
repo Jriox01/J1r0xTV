@@ -1,0 +1,3 @@
+-keepattributes Signature,*Annotation*
+-keep class tv.j1r0x.app.data.database.** { *; }
+-dontwarn org.conscrypt.**
