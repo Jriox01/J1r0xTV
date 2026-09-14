@@ -3,20 +3,28 @@ import Foundation
 struct CinemapProvider: VideoProvider {
     let id = "cinemap"
     let name = "Cinemap"
+
+    // Включаем провайдер для hls-debug.
     let availability = ProviderAvailability.available
 
-    // Временный разрешённый HLS для проверки всей цепочки плеера.
-    // Позже здесь будет источник, соответствующий конкретному фильму.
     private let streamURL: URL
 
     init() {
-        self.streamURL = URL(
+        guard let url = URL(
             string: "https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8"
-        )!
+        ) else {
+            fatalError("Invalid Cinemap debug HLS URL")
+        }
+
+        self.streamURL = url
     }
 
     init(streamURL: URL) {
         self.streamURL = streamURL
+    }
+
+    func canHandle(_ media: MediaItem) -> Bool {
+        true
     }
 
     func search(_ query: MediaQuery) async throws -> [MediaItem] {

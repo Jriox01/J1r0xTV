@@ -173,7 +173,7 @@ private actor FixtureProvider: VideoProvider {
             excluding: [], allowRenewal: false)
         try require(recovered.source.providerID == "second", "Runtime AVPlayer failure advances provider")
         let cinemap = CinemapProvider()
-        try require(cinemap.availability != .available, "Cinemap must remain unsupported")
+        try require(cinemap.availability == .available, "Cinemap debug provider must be available")
         do {
             _ = try await ProviderResolver(providers: [cinemap], checker: valid).resolve(request)
             throw TestFailure(message: "Unsupported provider accepted")
