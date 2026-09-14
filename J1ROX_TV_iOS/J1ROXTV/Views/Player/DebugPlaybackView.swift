@@ -12,6 +12,7 @@ import SwiftUI
         busy = true
         task = Task {
             defer { busy = false }
+            let inspection = PlaybackInspectionRecorder()
             do {
                 var fields: [String: String] = [:]
                 if !headers.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
@@ -24,14 +25,12 @@ import SwiftUI
                 let provider = try TestHLSProvider(url: url, headers: fields)
                 let media = MediaItem.parse(["id": .string("debug"), "title": .string("Debug HLS")])
                 let request = PlaybackRequest(media: media, sourceID: provider.id, providerID: provider.id)
-                // Inspect directly first so preflight failures retain their technical cause.
-                let input = try await provider.playback(for: request)
-                let validation = try await PlaybackSourceValidator().inspect(input)
+                let resolved = try await ProviderResolver(providers: [provider], checker: inspection).resolve(request)
+                guard let validation = await inspection.validation else { throw ProviderError.invalidResponse }
                 try Task.checkCancellation()
                 detail = "HTTP \(validation.probe.status) · \(validation.probe.mimeType) · \(validation.kind.rawValue)\n"
                     + "Preflight final: \(PlaybackDiagnostics.url(validation.probe.finalURL))\n"
                     + "Preflight redirects:\n" + (validation.probe.redirects.isEmpty ? "none" : validation.probe.redirects.joined(separator: "\n"))
-                let resolved = try await ProviderResolver(providers: [provider]).resolve(request)
                 try Task.checkCancellation()
                 let session = PlayerSession(source: resolved.source)
                 session.onFailure = { [weak self] _, error in
@@ -40,7 +39,8 @@ import SwiftUI
                 player = session
                 session.start()
             } catch {
-                if !Task.isCancelled { detail = error.localizedDescription + "\n" + PlaybackDiagnostics.error(error) }
+                let cause = await inspection.failure ?? PlaybackDiagnostics.error(error)
+                if !Task.isCancelled { detail = error.localizedDescription + "\n" + cause }
             }
         }
     }

@@ -37,4 +37,18 @@ struct TestHLSProvider: VideoProvider {
     }
     // A manually supplied URL has no refresh endpoint. Default: refreshUnsupported.
 }
+/// Captures the resolver's real preflight result without making a second request.
+actor PlaybackInspectionRecorder: PlaybackSourceChecking {
+    private(set) var validation: PlaybackValidation?
+    private(set) var failure: String?
+    func validate(_ source: PlaybackSource) async throws {
+        do {
+            validation = try await PlaybackSourceValidator().inspect(source)
+            failure = nil
+        } catch {
+            failure = PlaybackDiagnostics.error(error)
+            throw error
+        }
+    }
+}
 #endif

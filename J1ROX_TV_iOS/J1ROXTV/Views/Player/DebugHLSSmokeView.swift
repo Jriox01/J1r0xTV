@@ -105,9 +105,9 @@ import AVKit
             do {
                 let provider = try TestHLSProvider(url: url)
                 let request = PlaybackRequest(media: media, providerID: provider.id)
-                let input = try await provider.playback(for: request)
-                let validation = try await PlaybackSourceValidator().inspect(input)
-                let resolved = try await ProviderResolver(providers: [provider]).resolve(request)
+                let inspection = PlaybackInspectionRecorder()
+                let resolved = try await ProviderResolver(providers: [provider], checker: inspection).resolve(request)
+                guard let validation = await inspection.validation else { throw ProviderError.invalidResponse }
                 let player = PlayerSession(source: resolved.source)
                 session = player
                 player.start()

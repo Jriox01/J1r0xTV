@@ -35,6 +35,7 @@ LAUNCH_PID=$!
 CONTAINER=$(xcrun simctl get_app_container "$DEVICE" com.jirox.jiroxtv data)
 for i in {1..150}; do
   if test -f "$CONTAINER/Documents/hls-smoke-results.json"; then break; fi
+  kill -0 "$LAUNCH_PID" 2>/dev/null || break
   sleep 3
 done
 xcrun simctl spawn "$DEVICE" log show --last 8m --style compact --predicate 'process == "mediaserverd" OR process == "J1ROXTV"' >build/logs/hls-system.log 2>&1 || true
