@@ -13,7 +13,9 @@ import AVKit
         VStack {
             Text(message)
             if showSession, let session { PlayerView(session: session).frame(height: 300) }
-            if let rawPlayer { VideoPlayer(player: rawPlayer).frame(height: 300) }
+            if let rawPlayer {
+                VideoPlayer(player: rawPlayer).frame(height: 300).onAppear { rawPlayer.play() }
+            }
         }
         .task { await run() }
     }
@@ -28,7 +30,15 @@ import AVKit
             ("http-to-https-redirect", "http://127.0.0.1:18765/redirect.m3u8"),
             ("aes128-own-key", "http://127.0.0.1:18765/aes.m3u8")
         ]
-        var results: [[String: Any]] = []
+        var results: [[String: Any]] = [] {
+            didSet {
+                if let row = results.last { print("[Smoke] \(row["case"] ?? "unknown") \(row["status"] ?? "unknown")") }
+                if let data = try? JSONSerialization.data(withJSONObject: results, options: [.prettyPrinted, .sortedKeys]) {
+                    let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+                    try? data.write(to: directory.appendingPathComponent("hls-smoke-progress.json"), options: .atomic)
+                }
+            }
+        }
         // Raw AVFoundation control separates CI media-service failure from session logic.
         let control = AVPlayer(url: URL(string: base + "img_bipbop_adv_example_ts/v5/prog_index.m3u8")!)
         control.play()
@@ -90,6 +100,7 @@ import AVKit
             }
         } catch { results.append(["case": "preflight-isolation", "status": "FAIL", "error": PlaybackDiagnostics.error(error)]) }
         for (name, url) in cases {
+            print("[Smoke] starting \(name)")
             message = name
             do {
                 let provider = try TestHLSProvider(url: url)
@@ -119,11 +130,12 @@ import AVKit
                                 "events": player.events])
                 player.stop(); session = nil
             } catch {
+                print("[Smoke] caught \(name) \(PlaybackDiagnostics.error(error))")
                 results.append(["case": name, "status": "FAIL", "error": PlaybackDiagnostics.error(error),
                                 "reason": (error as? SmokeError)?.message ?? session?.lastError ?? "See error code",
                                 "itemStatus": session?.status ?? "preflight", "time": session?.currentTime ?? 0,
                                 "rawStatus": session?.player.currentItem?.status.rawValue ?? -1,
-                                "rawTime": session?.player.currentTime().seconds ?? 0,
+                                "rawTime": finiteTime(session?.player.currentTime().seconds),
                                 "events": session?.events ?? []])
                 session?.stop(); session = nil
             }
@@ -174,6 +186,10 @@ import AVKit
             try await Task.sleep(nanoseconds: 250_000_000)
         }
         throw SmokeError.failed("Timed out waiting for playback/resume")
+    }
+    private func finiteTime(_ value: Double?) -> Double {
+        guard let value, value.isFinite else { return 0 }
+        return value
     }
     private enum SmokeError: Error {
         case failed(String)

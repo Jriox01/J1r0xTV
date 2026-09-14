@@ -30,16 +30,20 @@ APP=build/DerivedData-debug/Build/Products/Debug-iphonesimulator/J1ROXTV.app
 /usr/libexec/PlistBuddy -c 'Add :NSAppTransportSecurity dict' "$APP/Info.plist"
 /usr/libexec/PlistBuddy -c 'Add :NSAppTransportSecurity:NSAllowsLocalNetworking bool true' "$APP/Info.plist"
 xcrun simctl install "$DEVICE" "$APP"
-xcrun simctl launch "$DEVICE" com.jirox.jiroxtv --hls-smoke-test
+xcrun simctl launch --console "$DEVICE" com.jirox.jiroxtv --hls-smoke-test >build/logs/hls-app.log 2>&1 &
+LAUNCH_PID=$!
 CONTAINER=$(xcrun simctl get_app_container "$DEVICE" com.jirox.jiroxtv data)
 for i in {1..150}; do
   if test -f "$CONTAINER/Documents/hls-smoke-results.json"; then break; fi
   sleep 3
 done
-cp "$CONTAINER/Documents/hls-smoke-results.json" build/logs/hls-smoke-results.json
 xcrun simctl spawn "$DEVICE" log show --last 8m --style compact --predicate 'process == "mediaserverd" OR process == "J1ROXTV"' >build/logs/hls-system.log 2>&1 || true
 xcrun simctl io "$DEVICE" screenshot build/logs/hls-smoke.png
 xcrun simctl terminate "$DEVICE" com.jirox.jiroxtv || true
+wait "$LAUNCH_PID" || true
+test ! -f "$CONTAINER/Documents/hls-smoke-progress.json" || cp "$CONTAINER/Documents/hls-smoke-progress.json" build/logs/
+find "$HOME/Library/Logs/DiagnosticReports" -maxdepth 1 -name 'J1ROXTV*.ips' -exec cp {} build/logs/ \; || true
+cp "$CONTAINER/Documents/hls-smoke-results.json" build/logs/hls-smoke-results.json
 python3 - <<'PY'
 import json
 rows=json.load(open('build/logs/hls-smoke-results.json'))
