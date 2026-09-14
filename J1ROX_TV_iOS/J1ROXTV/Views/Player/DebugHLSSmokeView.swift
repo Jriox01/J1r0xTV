@@ -67,6 +67,27 @@ import AVKit
                             "itemStatus": afterProbe.currentItem?.status.rawValue ?? -1,
                             "time": time.isFinite ? time : 0])
             afterProbe.pause(); afterProbe.replaceCurrentItem(with: nil)
+            let resolved = try await ProviderResolver(providers: [provider]).resolve(source.request)
+            for useSession in [false, true] {
+                let engine = PlayerSession(source: resolved.source)
+                let raw = AVPlayer(url: resolved.source.url)
+                let probe = useSession ? engine.player : raw
+                if useSession { engine.start() } else { raw.play() }
+                for _ in 0..<80 {
+                    if probe.currentItem?.status == .failed || probe.currentTime().seconds >= 2 { break }
+                    try? await Task.sleep(nanoseconds: 250_000_000)
+                }
+                let time = probe.currentTime().seconds
+                results.append(["case": useSession ? "session-after-resolver" : "raw-after-resolver",
+                                "status": time.isFinite && time >= 2 ? "PASS" : "FAIL",
+                                "itemStatus": probe.currentItem?.status.rawValue ?? -1,
+                                "time": time.isFinite ? time : 0,
+                                "sameURL": resolved.source.url == source.url,
+                                "sameHeaders": resolved.source.headers == source.headers,
+                                "resumeAt": resolved.source.request.resumeAt,
+                                "cancelled": Task.isCancelled, "events": engine.events])
+                engine.stop(); raw.pause(); raw.replaceCurrentItem(with: nil)
+            }
         } catch { results.append(["case": "preflight-isolation", "status": "FAIL", "error": PlaybackDiagnostics.error(error)]) }
         for (name, url) in cases {
             message = name
@@ -101,6 +122,8 @@ import AVKit
                 results.append(["case": name, "status": "FAIL", "error": PlaybackDiagnostics.error(error),
                                 "reason": (error as? SmokeError)?.message ?? session?.lastError ?? "See error code",
                                 "itemStatus": session?.status ?? "preflight", "time": session?.currentTime ?? 0,
+                                "rawStatus": session?.player.currentItem?.status.rawValue ?? -1,
+                                "rawTime": session?.player.currentTime().seconds ?? 0,
                                 "events": session?.events ?? []])
                 session?.stop(); session = nil
             }
