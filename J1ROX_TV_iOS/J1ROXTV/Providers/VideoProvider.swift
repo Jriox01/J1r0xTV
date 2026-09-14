@@ -21,6 +21,9 @@ struct PlaybackSource: Identifiable, Sendable {
     var headers: [String: String] = [:]
     var expiresAt: Date? = nil
     var quality: String? = nil
+    var subtitles: [SubtitleTrack] = []
+    var duration: Double? = nil
+    var resumeState: PlaybackSnapshot? = nil
     var translationName: String? { request.translationName }
     var season: String? { request.season }
     var episode: String? { request.episode }
@@ -36,6 +39,8 @@ protocol VideoProvider: Sendable {
     var id: String { get }
     var name: String { get }
     var availability: ProviderAvailability { get }
+    func canHandle(_ media: MediaItem) -> Bool
+    func refresh(source: PlaybackSource, request: PlaybackRequest) async throws -> PlaybackSource
     func search(_ query: MediaQuery) async throws -> [MediaItem]
     func sources(for item: MediaItem) async throws -> (MediaItem, [SourceOption])
     func content(for item: MediaItem, sourceID: String) async throws -> [String: JSONValue]
@@ -49,10 +54,17 @@ protocol VideoProvider: Sendable {
 }
 
 enum ProviderError: LocalizedError {
+    case mediaNotFound, refreshUnsupported, unauthorized, forbidden
+    case network(Error)
     case unsupported, unavailable, selectionUnavailable, expired, invalidResponse, invalidContentType, invalidPlaylist
     case http(Int)
     var errorDescription: String? {
         switch self {
+        case .mediaNotFound: return "???????? ?? ??????"
+        case .refreshUnsupported: return "???????? ?? ???????????? ?????????? ??????"
+        case .unauthorized: return "????????? ??????????? ?????????"
+        case .forbidden: return "???????? ??????? ? ???????"
+        case .network: return "??????? ?????? ?????????"
         case .unsupported: return "Провайдер пока не поддерживается"
         case .unavailable: return "Нет доступного видеоисточника"
         case .selectionUnavailable: return "Выбранная озвучка или серия недоступна у источника"
@@ -62,5 +74,13 @@ enum ProviderError: LocalizedError {
         case .invalidContentType: return "Видеоисточник вернул неподдерживаемый Content-Type"
         case .invalidPlaylist: return "Видеоисточник не вернул HLS-плейлист"
         }
+    }
+}
+
+// Catalog APIs stay intact; playback refresh is an explicit capability.
+extension VideoProvider {
+    func canHandle(_ media: MediaItem) -> Bool { availability == .available }
+    func refresh(source: PlaybackSource, request: PlaybackRequest) async throws -> PlaybackSource {
+        throw ProviderError.refreshUnsupported
     }
 }

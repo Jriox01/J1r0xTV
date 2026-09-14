@@ -4,6 +4,8 @@ struct PlaybackProbe: Sendable {
     let status: Int
     let mimeType: String
     let prefix: Data
+    var finalURL: URL? = nil
+    var redirects: [String] = []
 }
 
 protocol PlaybackProbing: Sendable {
@@ -13,9 +15,13 @@ protocol PlaybackProbing: Sendable {
 struct PlaybackSourceValidator: PlaybackSourceChecking {
     var transport: any PlaybackProbing = URLSessionPlaybackProbe()
 
-    func validate(_ source: PlaybackSource) async throws {
-        guard ["https", "http"].contains(source.url.scheme?.lowercased() ?? "") else {
-            throw ProviderError.invalidResponse
+    func validate(_ source: PlaybackSource) async throws { _ = try await inspect(source) }
+
+    func inspect(_ source: PlaybackSource) async throws -> PlaybackValidation {
+
+        guard ["https", "http"].contains(source.url.scheme?.lowercased() ?? ""),
+              source.url.host?.isEmpty == false, source.url.user == nil, source.url.password == nil else {
+            throw PlaybackError.invalidURL
         }
         guard source.expiresAt.map({ $0 > Date() }) ?? true else { throw ProviderError.expired }
         var request = URLRequest(url: source.url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 6)
@@ -25,7 +31,7 @@ struct PlaybackSourceValidator: PlaybackSourceChecking {
         let headUnsupported = head.status == 405 || head.status == 501
         if !headUnsupported { try Self.checkStatus(head.status) }
         let isHLS = source.url.pathExtension.lowercased() == "m3u8" || Self.hlsTypes.contains(head.mimeType)
-        if !headUnsupported && head.mimeType == "video/mp4" && !isHLS { return }
+        if !headUnsupported && head.mimeType == "video/mp4" && !isHLS { return .init(kind: .mp4, probe: head) }
         if !headUnsupported && !head.mimeType.isEmpty &&
             !Self.hlsTypes.contains(head.mimeType) && head.mimeType != "application/octet-stream" && !(isHLS && head.mimeType == "text/plain") {
             throw ProviderError.invalidContentType
@@ -35,14 +41,18 @@ struct PlaybackSourceValidator: PlaybackSourceChecking {
         // If Range is ignored, the transport still stops reading after 1024 bytes.
         let get = try await transport.probe(request, maxBytes: 1024)
         try Self.checkStatus(get.status)
-        if get.mimeType == "video/mp4" && !isHLS { return }
+        if get.mimeType == "video/mp4" && !isHLS { return .init(kind: .mp4, probe: get) }
         guard Self.hlsTypes.contains(get.mimeType) ||
               (["application/octet-stream", "text/plain"].contains(get.mimeType) && isHLS) else {
             throw ProviderError.invalidContentType
         }
         let prefix = String(decoding: get.prefix, as: UTF8.self)
             .trimmingCharacters(in: .whitespacesAndNewlines.union(CharacterSet(charactersIn: "\u{FEFF}")))
-        guard prefix.hasPrefix("#EXTM3U") else { throw ProviderError.invalidPlaylist }
+        guard prefix.components(separatedBy: .newlines).first == "#EXTM3U" else { throw ProviderError.invalidPlaylist }
+        let kind: PlaylistKind = prefix.contains("#EXT-X-STREAM-INF:") || prefix.contains("#EXT-X-I-FRAME-STREAM-INF:") ? .master :
+            (prefix.contains("#EXTINF:") || prefix.contains("#EXT-X-TARGETDURATION:") ? .media : .undetermined)
+        return .init(kind: kind, probe: get)
+
     }
 
     private static let hlsTypes: Set<String> = [
@@ -63,7 +73,8 @@ struct URLSessionPlaybackProbe: PlaybackProbing {
         config.urlCache = nil
         let session = URLSession(configuration: config)
         defer { session.invalidateAndCancel() }
-        let (bytes, response) = try await session.bytes(for: request, delegate: ProbeRedirectDelegate())
+        let delegate = ProbeRedirectDelegate()
+        let (bytes, response) = try await session.bytes(for: request, delegate: delegate)
         guard let response = response as? HTTPURLResponse else { throw ProviderError.invalidResponse }
         var prefix = Data()
         if maxBytes > 0 && (200..<300).contains(response.statusCode) {
@@ -74,14 +85,21 @@ struct URLSessionPlaybackProbe: PlaybackProbing {
             }
         }
         return PlaybackProbe(status: response.statusCode,
-                             mimeType: response.mimeType?.lowercased() ?? "", prefix: prefix)
+                             mimeType: response.mimeType?.lowercased() ?? "", prefix: prefix,
+                             finalURL: response.url, redirects: delegate.snapshot())
     }
 }
 
 private final class ProbeRedirectDelegate: NSObject, URLSessionTaskDelegate, @unchecked Sendable {
+    private let lock = NSLock()
+    private var chain: [String] = []
+    func snapshot() -> [String] { lock.lock(); defer { lock.unlock() }; return chain }
     func urlSession(_ session: URLSession, task: URLSessionTask,
                     willPerformHTTPRedirection response: HTTPURLResponse, newRequest request: URLRequest,
                     completionHandler: @escaping (URLRequest?) -> Void) {
+        lock.lock()
+        chain.append("HTTP \(response.statusCode) \(PlaybackDiagnostics.url(response.url)) ? \(PlaybackDiagnostics.url(request.url))")
+        lock.unlock()
         var redirected = request
         if response.url?.host != request.url?.host || response.url?.scheme != request.url?.scheme ||
             response.url?.port != request.url?.port {
@@ -92,4 +110,10 @@ private final class ProbeRedirectDelegate: NSObject, URLSessionTaskDelegate, @un
             completionHandler(nil)
         } else { completionHandler(redirected) }
     }
+}
+
+enum PlaylistKind: String, Sendable { case master, media, mp4, undetermined }
+struct PlaybackValidation: Sendable {
+    let kind: PlaylistKind
+    let probe: PlaybackProbe
 }

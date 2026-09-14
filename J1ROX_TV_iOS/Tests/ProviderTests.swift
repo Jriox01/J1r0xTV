@@ -93,7 +93,8 @@ private actor FixtureProvider: VideoProvider {
 }
 
 @main struct ProviderTests {
-    static func main() async throws {
+    @MainActor static func main() async throws {
+        try await runPlaybackTests()
         let media = MediaItem.parse(["id": .string("42"), "title": .string("Fixture"), "year": .string("2024")])
         let movie = AtodoProvider(client: FixtureAPI(series: false))
         let matches = try await movie.search(.init(tmdbID: "42", title: "Fixture", year: "2024", mediaType: "movie"))

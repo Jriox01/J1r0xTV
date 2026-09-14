@@ -25,7 +25,7 @@ struct ProviderResolver: Sendable {
         for provider in providers {
             try Task.checkCancellation()
             Self.log("trying \(provider.name)")
-            guard provider.availability == .available else {
+            guard provider.availability == .available, provider.canHandle(request.media) else {
                 Self.log("\(provider.name) FAILED (unsupported)")
                 continue
             }
@@ -73,9 +73,8 @@ struct ProviderResolver: Sendable {
            let provider = providers.first(where: { $0.id == failed.providerID && $0.availability == .available }) {
             do {
                 let renewed = try await withProviderTimeout(seconds: timeout) {
-                    let source = try await provider.playback(for: request)
+                    let source = try await provider.refresh(source: failed, request: request)
                     guard source.expiresAt.map({ $0 > Date() }) ?? true else { throw ProviderError.expired }
-                    guard source.url != failed.url else { throw ProviderError.expired }
                     try await checker.validate(source)
                     return source
                 }

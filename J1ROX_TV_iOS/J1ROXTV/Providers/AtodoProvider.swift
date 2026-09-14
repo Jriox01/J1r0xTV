@@ -190,3 +190,9 @@ final class AtodoProvider: VideoProvider, @unchecked Sendable {
 
 enum StreamingError: LocalizedError { case noCompatibleSource; var errorDescription: String? { "Нет совместимого видеоисточника" } }
 private extension String { var nilIfEmpty: String? { isEmpty ? nil : self } }
+
+extension AtodoProvider {
+    func refresh(source: PlaybackSource, request: PlaybackRequest) async throws -> PlaybackSource {
+        try await playback(for: request)
+    }
+}

@@ -8,7 +8,8 @@ import Combine
     @Published private(set) var error: String?
     private let resolver: ProviderResolver
     private var excluded: Set<ProviderCandidate> = []
-    private var renewed: Set<ProviderCandidate> = []
+    private var retries: [ProviderCandidate: PlaybackRetryBudget] = [:]
+    @Published private(set) var diagnostic: String?
     private var recovery: Task<Void, Never>?
 
     init(selection: PlaybackSelection, resolver: ProviderResolver = ProviderResolver()) {
@@ -17,12 +18,16 @@ import Combine
         switched = selection.switched
     }
 
-    func failed(sourceID: UUID, position: Double) {
+    func failed(sourceID: UUID, snapshot: PlaybackSnapshot, failure: PlaybackError) {
+        let position = snapshot.position
         guard selection.source.id == sourceID, !switching, error == nil else { return }
         let failed = selection.source
         var request = failed.request
         if position.isFinite && position > 0 { request.resumeAt = position }
-        let allowRenewal = renewed.insert(failed.candidate).inserted
+        diagnostic = PlaybackDiagnostics.error(failure)
+        var budget = retries[failed.candidate] ?? PlaybackRetryBudget()
+        let allowRenewal = budget.consume()
+        retries[failed.candidate] = budget
         switching = true
         recovery = Task {
             defer { switching = false }
@@ -32,7 +37,9 @@ import Combine
                 try Task.checkCancellation()
                 if result.source.candidate != failed.candidate { excluded.insert(failed.candidate) }
                 switched = switched || result.switched || result.source.candidate != failed.candidate
-                selection = PlaybackSelection(source: result.source, switched: switched)
+                var restored = result.source
+                restored.resumeState = snapshot
+                selection = PlaybackSelection(source: restored, switched: switched)
             } catch {
                 if !Task.isCancelled { self.error = "Не удалось воспроизвести видео: доступные источники исчерпаны" }
             }

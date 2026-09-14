@@ -36,6 +36,17 @@ workflows:
           test -f "$XCODE_PROJECT/project.pbxproj"
           test -f "$XCODE_PROJECT/xcshareddata/xcschemes/$XCODE_SCHEME.xcscheme"
           xcodebuild -project "$XCODE_PROJECT" -scheme "$XCODE_SCHEME" -list
+      - name: Debug simulator compile check
+        script: |
+          #!/bin/bash
+          set -euo pipefail
+          cd "$CM_BUILD_DIR/J1ROX_TV_iOS"
+          mkdir -p build/logs
+          xcodebuild -project "$XCODE_PROJECT" -scheme "$XCODE_SCHEME" \
+            -configuration Debug -sdk iphonesimulator -destination "generic/platform=iOS Simulator" \
+            -derivedDataPath build/DerivedData-debug CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
+            build 2>&1 | tee build/logs/debug-build.log
       - name: Unsigned Release compile check
         script: |
           #!/bin/bash
