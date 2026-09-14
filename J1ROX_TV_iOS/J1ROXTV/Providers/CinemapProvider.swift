@@ -3,28 +3,26 @@ import Foundation
 struct CinemapProvider: VideoProvider {
     let id = "cinemap"
     let name = "Cinemap"
-
-    // Включаем провайдер для hls-debug.
     let availability = ProviderAvailability.available
 
-    private let streamURL: URL
+    private let streams: [String: URL]
 
     init() {
-        guard let url = URL(
-            string: "https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8"
-        ) else {
-            fatalError("Invalid Cinemap debug HLS URL")
-        }
-
-        self.streamURL = url
+        self.streams = [
+            // Тестовый MediaItem с id = "42".
+            // Нужен пока только для regression-тестов.
+            "42": URL(
+                string: "https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8"
+            )!
+        ]
     }
 
-    init(streamURL: URL) {
-        self.streamURL = streamURL
+    init(streams: [String: URL]) {
+        self.streams = streams
     }
 
     func canHandle(_ media: MediaItem) -> Bool {
-        true
+        streams[media.id] != nil
     }
 
     func search(_ query: MediaQuery) async throws -> [MediaItem] {
@@ -34,7 +32,11 @@ struct CinemapProvider: VideoProvider {
     func sources(
         for item: MediaItem
     ) async throws -> (MediaItem, [SourceOption]) {
-        (
+        guard streams[item.id] != nil else {
+            throw ProviderError.unavailable
+        }
+
+        return (
             item,
             [
                 SourceOption(
@@ -49,7 +51,11 @@ struct CinemapProvider: VideoProvider {
         for item: MediaItem,
         sourceID: String
     ) async throws -> [String: JSONValue] {
-        [:]
+        guard streams[item.id] != nil else {
+            throw ProviderError.unavailable
+        }
+
+        return [:]
     }
 
     func translations(
@@ -73,8 +79,11 @@ struct CinemapProvider: VideoProvider {
     func requests(
         for request: PlaybackRequest
     ) async throws -> [PlaybackRequest] {
-        var updated = request
+        guard streams[request.media.id] != nil else {
+            throw ProviderError.unavailable
+        }
 
+        var updated = request
         updated.providerID = id
         updated.sourceID = id
 
@@ -84,9 +93,13 @@ struct CinemapProvider: VideoProvider {
     func playback(
         for request: PlaybackRequest
     ) async throws -> PlaybackSource {
-        PlaybackSource(
+        guard let url = streams[request.media.id] else {
+            throw ProviderError.unavailable
+        }
+
+        return PlaybackSource(
             request: request,
-            url: streamURL,
+            url: url,
             providerID: id,
             providerName: name,
             headers: [:],
