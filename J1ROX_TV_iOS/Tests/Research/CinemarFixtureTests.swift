@@ -70,8 +70,8 @@ enum CinemarFixtureTests {
         let track = SubtitleTrack(id: "en", name: "English", language: "en", url: URL(string: "https://example.invalid/test.vtt")!)
         let withTrack = try decoded.playback(request: request, subtitles: [track])
         try require(withTrack.subtitles.first?.id == "en", "Explicit subtitle metadata mapping")
-        try require(CinemapProvider().availability != .available, "Production Cinemap must remain unsupported")
-        print("PASS Playlist response decoding; unknown fields; PlaybackSource mapping; Cinemap remains UNSUPPORTED")
+        try require(CinemapProvider().availability == .available, "Debug Cinemap must be available")
+        print("PASS Playlist response decoding; unknown fields; PlaybackSource mapping; Cinemap debug provider available")
         print("NOT TESTED Cinemar series / seasons / episodes / translations: saved fixtures missing")
     }
 }
