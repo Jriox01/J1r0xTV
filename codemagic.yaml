@@ -23,6 +23,11 @@ workflows:
           - "J1ROX_TV_iOS/**"
           - "codemagic.yaml"
     scripts:
+      - name: Provider regression tests
+        script: |
+          #!/bin/bash
+          set -euo pipefail
+          bash "$CM_BUILD_DIR/J1ROX_TV_iOS/Tests/run-provider-tests.sh"
       - name: Verify project and shared scheme
         script: |
           #!/bin/bash
@@ -58,6 +63,11 @@ workflows:
     environment:
       xcode: latest
     scripts:
+      - name: Provider regression tests
+        script: |
+          #!/bin/bash
+          set -euo pipefail
+          bash "$CM_BUILD_DIR/J1ROX_TV_iOS/Tests/run-provider-tests.sh"
       - name: Build unsigned Release app
         script: |
           #!/bin/bash

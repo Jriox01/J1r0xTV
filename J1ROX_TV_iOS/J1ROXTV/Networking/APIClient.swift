@@ -8,7 +8,14 @@ enum APIError: LocalizedError {
     }
 }
 
-actor APIClient {
+protocol ProviderAPI: Sendable {
+    func get(path: String, query: [String: String]) async throws -> JSONValue
+}
+extension ProviderAPI {
+    func get(path: String) async throws -> JSONValue { try await get(path: path, query: [:]) }
+}
+
+actor APIClient: ProviderAPI {
     static let shared = APIClient()
     private let session: URLSession
     private let logger = Logger(subsystem: "com.jirox.jiroxtv", category: "API")
@@ -36,10 +43,10 @@ actor APIClient {
             guard (200..<300).contains(http.statusCode) else { throw APIError.http(http.statusCode) }
             guard !data.isEmpty else { throw APIError.emptyResponse }
             do { return try JSONDecoder().decode(JSONValue.self, from: data) }
-            catch { logger.error("JSON decode failed: \(error.localizedDescription, privacy: .public)"); throw APIError.invalidJSON }
+            catch { logger.error("JSON decode failed"); throw APIError.invalidJSON }
         } catch is CancellationError { throw APIError.cancelled }
         catch let error as APIError { throw error }
         catch let error as URLError where [.notConnectedToInternet, .networkConnectionLost, .cannotFindHost, .cannotConnectToHost].contains(error.code) { throw APIError.noConnection }
-        catch { logger.error("Network error: \(error.localizedDescription, privacy: .public)"); throw error }
+        catch { logger.error("Network request failed"); throw error }
     }
 }

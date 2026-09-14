@@ -1,4 +1,4 @@
-﻿import SwiftUI
+import SwiftUI
 
 struct DetailsView: View {
     @EnvironmentObject private var app: AppViewModel

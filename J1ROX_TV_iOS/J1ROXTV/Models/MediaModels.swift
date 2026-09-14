@@ -38,8 +38,13 @@ struct SourceOption: Identifiable, Hashable, Sendable { let id: String; let name
 struct TranslationOption: Identifiable, Hashable, Sendable { let id: String; let name: String; let payload: [String: JSONValue] }
 struct SeasonOption: Identifiable, Hashable, Sendable { let id: String; let number: String; let name: String; let payload: [String: JSONValue] }
 struct EpisodeOption: Identifiable, Hashable, Sendable { let id: String; let number: String; let name: String; let imageURL: String; let payload: [String: JSONValue] }
-struct PlaybackRequest: Sendable { let media: MediaItem; var sourceID: String?; var translationID: String?; var season: String?; var episode: String?; var resumeAt: Double = 0 }
-struct PlaybackSelection: Identifiable, Sendable { let id = UUID(); let request: PlaybackRequest; let url: URL; let headers: [String: String] }
+struct PlaybackRequest: Sendable { let media: MediaItem; var sourceID: String?; var translationID: String?; var season: String?; var episode: String?; var resumeAt: Double = 0; var translationName: String? = nil; var providerID: String = "atodo" }
+struct PlaybackSelection: Identifiable, Sendable {
+    let id = UUID()
+    let source: PlaybackSource
+    var switched = false
+    var request: PlaybackRequest { source.request }
+}
 
 private func imageURL(_ value: String) -> String {
     if value.hasPrefix("//") { return "https:" + value }
