@@ -47,6 +47,11 @@ workflows:
             -derivedDataPath build/DerivedData-debug CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
             build 2>&1 | tee build/logs/debug-build.log
+      - name: HLS playback on iPhone Simulator
+        script: |
+          #!/bin/bash
+          set -euo pipefail
+          bash "$CM_BUILD_DIR/J1ROX_TV_iOS/Tests/run-hls-simulator.sh" 2>&1 | tee "$CM_BUILD_DIR/J1ROX_TV_iOS/build/logs/hls-simulator.log"
       - name: Unsigned Release compile check
         script: |
           #!/bin/bash
@@ -64,7 +69,7 @@ workflows:
             CODE_SIGNING_REQUIRED=NO \
             build 2>&1 | tee build/logs/unsigned-build.log
     artifacts:
-      - J1ROX_TV_iOS/build/logs/*.log
+      - J1ROX_TV_iOS/build/logs/**
       - J1ROX_TV_iOS/build/DerivedData-check/Logs/**/*.xcactivitylog
 
   ios-ipa:

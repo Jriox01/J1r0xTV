@@ -41,7 +41,11 @@ import Combine
                 restored.resumeState = snapshot
                 selection = PlaybackSelection(source: restored, switched: switched)
             } catch {
-                if !Task.isCancelled { self.error = "Не удалось воспроизвести видео: доступные источники исчерпаны" }
+                if !Task.isCancelled {
+                    self.error = "Не удалось воспроизвести видео: доступные источники исчерпаны"
+                    self.diagnostic = PlaybackDiagnostics.error(PlaybackError.refreshFailed(error))
+                    PlaybackDiagnostics.log(self.diagnostic ?? "refresh failed")
+                }
             }
         }
     }
