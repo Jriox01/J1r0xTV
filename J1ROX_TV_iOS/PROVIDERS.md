@@ -28,6 +28,9 @@ provider name and hostname only, never full playback URLs or HTTP credentials.
 
 ## Cinemap status (2026-09-14)
 
+See [CINEMAP-RESEARCH.md](CINEMAP-RESEARCH.md) for reproducible network observations,
+public-code findings and the missing integration contract.
+
 Cinemap is unsupported. Repository search found no Cinemap/Kinogo integration.
 Searches for official cinemap.cc API/embed documentation did not establish an
 allowed integration, and the public site could not be retrieved in this environment.

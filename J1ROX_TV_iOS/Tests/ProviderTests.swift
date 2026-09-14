@@ -4,6 +4,12 @@ private func require(_ condition: Bool, _ message: String) throws {
     if !condition { throw TestFailure(message: message) }
 }
 private struct TestFailure: Error { let message: String }
+private func expectUnsupported(_ operation: () async throws -> Void) async throws {
+    do {
+        try await operation()
+        throw TestFailure(message: "Unsupported Cinemap operation unexpectedly succeeded")
+    } catch ProviderError.unsupported {}
+}
 
 private actor FixtureAPI: ProviderAPI {
     let series: Bool
@@ -170,7 +176,18 @@ private actor FixtureProvider: VideoProvider {
             _ = try await ProviderResolver(providers: [cinemap], checker: valid).resolve(request)
             throw TestFailure(message: "Unsupported provider accepted")
         } catch ProviderError.unavailable {}
-        print("PASS runtime fallback and unsupported Cinemap")
+        try await expectUnsupported { _ = try await cinemap.search(.init(tmdbID: "42", title: "Fixture", year: "2024", mediaType: "movie")) }
+        try await expectUnsupported { _ = try await cinemap.sources(for: media) }
+        try await expectUnsupported { _ = try await cinemap.content(for: media, sourceID: "fixture") }
+        try await expectUnsupported { _ = try await cinemap.requests(for: request) }
+        try await expectUnsupported { _ = try await cinemap.playback(for: request) }
+        let movieRequest = PlaybackRequest(media: media, sourceID: "one", translationID: "a")
+        let orders: [[any VideoProvider]] = [[cinemap, movie], [movie, cinemap]]
+        for order in orders {
+            let result = try await ProviderResolver(providers: order, checker: valid).resolve(movieRequest)
+            try require(result.source.providerID == "atodo", "Unsupported Cinemap must not block Atodo in either priority order")
+        }
+        print("PASS runtime fallback, all unsupported Cinemap operations, both priority orders")
         print("ALL PROVIDER TESTS PASSED (fixtures; no third-party streams requested)")
     }
 }
