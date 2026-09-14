@@ -58,7 +58,6 @@ import UIKit
         }
         let asset = AVURLAsset(url: source.url, options: options)
         let item = AVPlayerItem(asset: asset)
-        player.replaceCurrentItem(with: item)
         status = "loading"
         observations.append(item.observe(\.status, options: [.initial, .new]) { [weak self] item, _ in
             Task { @MainActor [weak self] in
@@ -101,6 +100,8 @@ import UIKit
                 }
             })
         }
+        // Install item observers before association starts asynchronous media loading.
+        player.replaceCurrentItem(with: item)
         timer = player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 1, preferredTimescale: 600), queue: .main) { [weak self] _ in
             Task { @MainActor [weak self] in self?.sample() }
         }

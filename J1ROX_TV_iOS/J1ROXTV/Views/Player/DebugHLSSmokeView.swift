@@ -58,6 +58,32 @@ import AVFoundation
             probe.pause(); probe.replaceCurrentItem(with: nil)
         }
         let media = MediaItem.parse(["id": .string("smoke"), "title": .string("Apple Bip Bop test")])
+        do {
+            let provider = try TestHLSProvider(url: base + "img_bipbop_adv_example_ts/v5/prog_index.m3u8")
+            let source = try await provider.playback(for: .init(media: media))
+            let direct = PlayerSession(source: source)
+            direct.start()
+            for _ in 0..<80 {
+                if direct.status == "failed" || direct.currentTime >= 2 { break }
+                try? await Task.sleep(nanoseconds: 250_000_000)
+            }
+            results.append(["case": "session-without-preflight", "status": direct.currentTime >= 2 ? "PASS" : "FAIL",
+                            "itemStatus": direct.player.currentItem?.status.rawValue ?? -1,
+                            "time": direct.player.currentTime().seconds, "events": direct.events])
+            direct.stop()
+            try await PlaybackSourceValidator().validate(source)
+            let afterProbe = AVPlayer(url: source.url)
+            afterProbe.play()
+            for _ in 0..<80 {
+                if afterProbe.currentItem?.status == .failed || afterProbe.currentTime().seconds >= 2 { break }
+                try? await Task.sleep(nanoseconds: 250_000_000)
+            }
+            let time = afterProbe.currentTime().seconds
+            results.append(["case": "raw-after-preflight", "status": time.isFinite && time >= 2 ? "PASS" : "FAIL",
+                            "itemStatus": afterProbe.currentItem?.status.rawValue ?? -1,
+                            "time": time.isFinite ? time : 0])
+            afterProbe.pause(); afterProbe.replaceCurrentItem(with: nil)
+        } catch { results.append(["case": "preflight-isolation", "status": "FAIL", "error": PlaybackDiagnostics.error(error)]) }
         for (name, url) in cases {
             message = name
             do {
@@ -68,7 +94,7 @@ import AVFoundation
                 let resolved = try await ProviderResolver(providers: [provider]).resolve(request)
                 let player = PlayerSession(source: resolved.source)
                 // The first media case isolates AVFoundation/session from AVKit presentation.
-                if name != "media-ts" { session = player }
+                session = player
                 player.start()
                 try await waitFor(player) { player.status == "readyToPlay" && player.currentTime >= 2 }
                 let playedTime = player.currentTime
