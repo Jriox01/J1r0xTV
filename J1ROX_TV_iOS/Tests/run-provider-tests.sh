@@ -10,6 +10,7 @@ swiftc -D DEBUG -target "$(uname -m)-apple-macos13.0" -swift-version 5 -parse-as
   J1ROXTV/Providers/*.swift \
   J1ROXTV/ViewModels/PlayerSession.swift \
   J1ROXTV/ViewModels/PlaybackSession.swift \
+  Tests/Research/*.swift \
   Tests/PlaybackTests.swift \
   Tests/ProviderTests.swift \
   -o build/provider-tests 2>&1 | tee build/logs/provider-tests-compile.log

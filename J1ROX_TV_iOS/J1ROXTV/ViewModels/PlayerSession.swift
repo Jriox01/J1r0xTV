@@ -11,6 +11,7 @@ import UIKit
     @Published private(set) var currentTime: Double = 0
     @Published private(set) var duration: Double = 0
     @Published private(set) var buffer = "unknown"
+    @Published private(set) var loadedTimeRanges = "[]"
     @Published private(set) var bitrate: Double = 0
     @Published private(set) var resolution = "unknown"
     @Published private(set) var cdnHost = "unknown"
@@ -25,6 +26,8 @@ import UIKit
     private var failed = false
     private var active = false
     private var restoring = false
+    private var groups: [AVMediaCharacteristic: AVMediaSelectionGroup] = [:]
+    private var lastSavedAt = Date.distantPast
     private var wantsPlayback = true
     private var restoreTask: Task<Void, Never>?
 
@@ -111,6 +114,9 @@ import UIKit
         let state = source.resumeState ?? PlaybackSnapshot(position: source.request.resumeAt)
         restoreTask = Task { [weak self] in
             guard let self else { return }
+            if let playable = try? await item.asset.load(.isPlayable) {
+                self.log("asset isPlayable=\(playable)")
+            }
             await self.restoreTracks(item, state: state)
             guard !Task.isCancelled, self.active, self.player.currentItem === item else { return }
             if state.position.isFinite && state.position > 0 {
@@ -126,7 +132,8 @@ import UIKit
 
     private func restoreTracks(_ item: AVPlayerItem, state: PlaybackSnapshot) async {
         for characteristic in [AVMediaCharacteristic.audible, .legible] {
-            guard let group = try? await item.asset.loadMediaSelectionGroup(for: characteristic), !Task.isCancelled else { continue }
+            guard let group = try? await item.asset.loadMediaSelectionGroup(for: characteristic), !Task.isCancelled, player.currentItem === item else { continue }
+            groups[characteristic] = group
             if characteristic == .legible && state.subtitlesOff { item.select(nil, in: group); continue }
             let name = characteristic == .audible ? state.audioName : state.subtitleName
             let language = characteristic == .audible ? state.audioLanguage : state.subtitleLanguage
@@ -145,7 +152,7 @@ import UIKit
         if let item = player.currentItem {
             for characteristic in [AVMediaCharacteristic.audible, .legible] {
                 // Cached groups are populated during readyToPlay restoration.
-                guard let group = item.asset.mediaSelectionGroup(forMediaCharacteristic: characteristic) else { continue }
+                guard let group = groups[characteristic] else { continue }
                 let option = item.currentMediaSelection.selectedMediaOption(in: group)
                 if characteristic == .audible { result.audioName = option?.displayName; result.audioLanguage = option?.extendedLanguageTag }
                 else { result.subtitleName = option?.displayName; result.subtitleLanguage = option?.extendedLanguageTag; result.subtitlesOff = option == nil }
@@ -160,10 +167,21 @@ import UIKit
         if time.isFinite { currentTime = max(0, time) }
         let length = player.currentItem?.duration.seconds ?? source.duration ?? 0
         duration = length.isFinite ? length : 0
+        let ranges = player.currentItem?.loadedTimeRanges.map { value in
+            let range = value.timeRangeValue
+            return "\(range.start.seconds)..\(CMTimeRangeGetEnd(range).seconds)"
+        }.joined(separator: ", ") ?? ""
+        if ranges != loadedTimeRanges {
+            loadedTimeRanges = ranges
+            log("loadedTimeRanges=[\(ranges)] duration=\(duration)")
+        }
         if let size = player.currentItem?.presentationSize, size.width.isFinite, size.height.isFinite {
             resolution = "\(Int(size.width))×\(Int(size.height))"
         }
-        onProgress?(currentTime, duration)
+        if Date().timeIntervalSince(lastSavedAt) >= 10 {
+            onProgress?(currentTime, duration)
+            lastSavedAt = Date()
+        }
         if source.expiresAt.map({ $0 <= Date() }) ?? false, !failed { fail(.refreshFailed(ProviderError.expired)) }
     }
 
@@ -212,6 +230,7 @@ import UIKit
         notifications.forEach { NotificationCenter.default.removeObserver($0) }; notifications.removeAll()
         player.pause()
         player.replaceCurrentItem(with: nil)
+        groups.removeAll()
         status = "stopped"
     }
 }

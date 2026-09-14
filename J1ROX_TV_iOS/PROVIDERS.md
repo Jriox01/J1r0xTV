@@ -12,9 +12,9 @@ Playback URLs are not persisted. Resuming history repeats provider resolution.
 Known `expires_at` and quality metadata are propagated; unknown values stay nil.
 
 The detail screen discovers choices using the first available provider. AVPlayer
-receives a provider-independent `PlaybackSource`; `PlaybackSession` handles item
-failure/end-failure notifications, fresh resolution and bounded fallback. A candidate
-is renewed at most once during runtime recovery, then excluded for that session.
+receives a provider-independent `PlaybackSource`; `PlayerSession` owns AVFoundation observations and accepts only PlaybackSource.
+`PlaybackSession` handles recovery through ProviderResolver. A candidate is refreshed
+at most twice during runtime recovery, then excluded for that session.
 Selected episode/season and resume time survive fallback. Named translations must
 match at the replacement source; a different episode is never silently substituted.
 
@@ -61,3 +61,34 @@ Content-Type/playlist, expiry renewal, timeout, provider fallback and unsupporte
 Cinemap. They never request real third-party media. Live Atodo/iPhone playback
 remains a separate manual integration check; fixture success must not be reported
 as confirmation of real content availability.
+
+## Debug playback and research tests
+
+The DEBUG-only HLS Test tab accepts an explicitly supplied permitted URL and optional
+headers. TestHLSProvider never joins the production provider list; a manual URL has
+no refresh endpoint and returns refreshUnsupported. PlayerView only hosts the
+PlayerSession AVPlayer. The explicit `refresh(source:request:)` provider capability
+has a default unsupported implementation; Atodo reuses its existing fresh resolution.
+Snapshots preserve time, play/pause and matching in-manifest audio/subtitle selections.
+External subtitle URLs are metadata, not an implemented sidecar-subtitle renderer.
+
+Arbitrary AVURLAssetHTTPHeaderFieldsKey headers retain the existing compatibility
+path. Apple documents AVURLAssetHTTPUserAgentKey, but not a universal custom-header
+contract. Child-segment/cross-origin header propagation is NOT GUARANTEED. Preflight
+redirects strip credentials on origin changes and reject HTTPS downgrades; ATS stays
+unchanged in production. Debug diagnostics redact URL paths/query/credentials.
+
+Tests/Research contains offline Kinogo/Cinemar fixture parsers, not a scraper or a
+production provider. See Tests/Fixtures/README.md for provenance and missing snapshots.
+Cinemap remains UNSUPPORTED pending a permitted fresh PlaybackSource interface.
+The architecture report is ../CINEMAR-ARCHITECTURE.md.
+
+ios-check now compiles Debug for Simulator, runs an explicit simulator smoke launch,
+and compiles unsigned Release. Smoke tests use Apple's public Bip Bop test streams
+and two locally AES-128-encrypted sample segments with a locally generated test key.
+No protected content or third-party encryption key is used. Local-network permission
+is added only to the built simulator app, not the source Info.plist or unsigned IPA.
+The simulator reports readyToPlay, advancing time and paused resume to seven seconds;
+logs/results are in build/logs/hls-smoke-results.json. External test CDN availability
+can independently fail this integration step even when fixture unit tests pass.
+The Release IPA deliberately has no Debug tab or automated smoke launch.

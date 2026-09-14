@@ -1,0 +1,16 @@
+{
+  "movie_source_sha256": "c1c672b6c98d3867bcac04efd999bd088331f68f193df86b7a2247b554454574",
+  "movie_projection": "JSON-LD, canonical link, li[data-src], iframe[src]; executable scripts and unrelated page content omitted; opaque suffix redacted equally in all locations",
+  "response_source": "provided captured-response example in attachment ac434a14-07d4-42b8-b4e5-7284ee920433",
+  "response_redactions": [
+    "file replaced with reserved example.invalid URL",
+    "download replaced with marker",
+    "thumbnails path anonymized"
+  ],
+  "not_available": [
+    "kinogo_search_kolobok.html",
+    "kinogo_movie_second.html",
+    "cinemar_embed.html",
+    "series fixture"
+  ]
+}

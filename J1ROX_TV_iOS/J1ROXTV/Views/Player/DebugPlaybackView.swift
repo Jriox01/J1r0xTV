@@ -83,6 +83,7 @@ import SwiftUI
         VStack(alignment: .leading, spacing: 12) {
             PlayerView(session: session).frame(height: 240)
             Text("status: \(session.status)\ntime: \(session.currentTime) / \(session.duration)\nbuffer: \(session.buffer)\nbitrate: \(session.bitrate)\nresolution: \(session.resolution)\nCDN host (access log): \(session.cdnHost)")
+            Text("loadedTimeRanges: [\(session.loadedTimeRanges)]")
             if let error = session.lastError { Text(error).foregroundStyle(.red) }
             Text("AVFoundation не публикует полную цепочку redirect: выше показана цепочка отдельного preflight.")
             Text(session.events.joined(separator: "\n"))
