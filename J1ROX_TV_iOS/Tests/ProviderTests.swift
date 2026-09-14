@@ -16,6 +16,13 @@ private actor FixtureAPI: ProviderAPI {
         if path == "api/source/list" {
             return .object(["balancers": .array([.object(["id": .string("one"), "name": .string("One")])])])
         }
+        if path == "api/source/one", let encoded = query["data"] {
+            guard let data = Data(base64Encoded: encoded),
+                  let object = try JSONSerialization.jsonObject(with: data) as? [String: String],
+                  let voice = object["voice"] else { throw ProviderError.invalidResponse }
+            return .object(["url": .string("https://fixture.invalid/\(voice)/movie.m3u8"),
+                "quality": .string("1080p"), "expires_at": .number(Date().addingTimeInterval(60).timeIntervalSince1970)])
+        }
         if path == "api/source/one" {
             return .object(["translations": .array(["a", "b"].map { voice in
                 var payload: [String: JSONValue] = ["id": .string(voice), "name": .string("Voice \(voice)")]
@@ -25,6 +32,8 @@ private actor FixtureAPI: ProviderAPI {
                             .object(["id": .string(episode), "episode_number": .string(episode),
                                      "url": .string("https://fixture.invalid/\(voice)/\(episode).m3u8")])
                         })])])
+                } else if voice == "b" {
+                    payload["data"] = .object(["voice": .string(voice)])
                 } else { payload["url"] = .string("https://fixture.invalid/\(voice)/movie.m3u8") }
                 return .object(payload)
             })])
@@ -91,6 +100,9 @@ private actor FixtureProvider: VideoProvider {
             let result = try await movie.playback(for: .init(media: media, sourceID: "one", translationID: voice))
             try require(result.url.path == "/\(voice)/movie.m3u8", "Movie translation mapping")
             try require(result.translationName == "Voice \(voice)", "Translation metadata")
+            if voice == "b" {
+                try require(result.quality == "1080p" && result.expiresAt != nil, "Deferred source metadata")
+            }
         }
         print("PASS movie, TMDB/title/year search, multiple translations")
 

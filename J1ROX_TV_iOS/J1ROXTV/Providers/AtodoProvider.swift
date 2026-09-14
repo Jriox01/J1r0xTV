@@ -82,7 +82,7 @@ final class AtodoProvider: VideoProvider, @unchecked Sendable {
         let options = translations(in: content)
         let translation: TranslationOption?
         if let name = request.translationName {
-            translation = options.first { $0.name == name }
+            translation = options.first { $0.id == request.translationID && $0.name == name } ?? options.first { $0.name == name }
         } else {
             translation = options.first { $0.id == request.translationID } ?? options.first
         }
