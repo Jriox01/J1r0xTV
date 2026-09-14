@@ -53,14 +53,14 @@ struct ProviderResolver: Sendable {
                             return ResolvedPlayback(source: source, switched: switched)
                         } catch {
                             try Task.checkCancellation()
-                            Self.log("\(provider.name) FAILED")
+                            Self.log("\(provider.name) FAILED " + PlaybackDiagnostics.error(error))
                             guard attempt == 0 && Self.needsRenewal(error) else { break }
                         }
                     }
                 }
             } catch {
                 try Task.checkCancellation()
-                Self.log("\(provider.name) FAILED")
+                Self.log("\(provider.name) FAILED " + PlaybackDiagnostics.error(error))
             }
         }
         throw ProviderError.unavailable
@@ -81,7 +81,10 @@ struct ProviderResolver: Sendable {
                 Self.log("selected provider=\(provider.name)")
                 Self.log("playback host=\(renewed.url.host ?? "unknown")")
                 return ResolvedPlayback(source: renewed, switched: false)
-            } catch { try Task.checkCancellation() }
+            } catch {
+                try Task.checkCancellation()
+                Self.log("\(provider.name) refresh FAILED " + PlaybackDiagnostics.error(error))
+            }
         }
         return try await resolve(request, excluding: excluding.union([failed.candidate]))
     }

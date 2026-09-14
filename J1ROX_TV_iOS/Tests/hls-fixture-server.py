@@ -28,7 +28,7 @@ for index in range(2):
 class Handler(http.server.SimpleHTTPRequestHandler):
     extensions_map = {**http.server.SimpleHTTPRequestHandler.extensions_map, '.m3u8': 'application/vnd.apple.mpegurl', '.ts': 'video/mp2t'}
     def log_message(self, *args):
-        pass
+        print(self.command, self.path.split('?')[0], flush=True)
     def do_HEAD(self):
         if self.special(): return
         super().do_HEAD()

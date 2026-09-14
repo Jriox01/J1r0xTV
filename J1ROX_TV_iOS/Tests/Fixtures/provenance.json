@@ -12,5 +12,11 @@
     "kinogo_movie_second.html",
     "cinemar_embed.html",
     "series fixture"
+  ],
+  "originalEmbedLocationsAgree": true,
+  "originalEmbedLocationsChecked": [
+    "jsonLD",
+    "dataSrc",
+    "iframe"
   ]
 }

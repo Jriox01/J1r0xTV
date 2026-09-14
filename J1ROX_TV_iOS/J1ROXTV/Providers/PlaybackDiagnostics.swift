@@ -42,7 +42,17 @@ enum PlaybackDiagnostics {
         guard depth < 5 else { return "underlying depth limit" }
         let ns = error as NSError
         var text = "domain=\(ns.domain) code=\(ns.code)"
-        if let p = error as? ProviderError, case .http(let status) = p { text += " HTTP=\(status)" }
+        if let p = error as? ProviderError {
+            switch p {
+            case .http(let status): text += " HTTP=\(status)"
+            case .unauthorized: text += " HTTP=401"
+            case .forbidden: text += " HTTP=403"
+            case .expired: text += " sourceExpired"
+            case .refreshUnsupported: text += " refreshUnsupported"
+            case .network(let underlying): text += " underlying={\(self.error(underlying, depth: depth + 1))}"
+            default: break
+            }
+        }
         if let p = error as? PlaybackError {
             switch p {
             case .httpStatus(let status): text += " HTTP=\(status)"

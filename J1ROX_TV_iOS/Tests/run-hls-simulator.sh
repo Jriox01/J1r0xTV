@@ -22,6 +22,7 @@ PY
 )
 xcrun simctl boot "$DEVICE" || true
 xcrun simctl bootstatus "$DEVICE" -b
+open -a Simulator --args -CurrentDeviceUDID "$DEVICE"
 APP=build/DerivedData-debug/Build/Products/Debug-iphonesimulator/J1ROXTV.app
 # Local test networking exception applies only to the built simulator app, never source/Release.
 /usr/libexec/PlistBuddy -c 'Add :NSAppTransportSecurity dict' "$APP/Info.plist"
@@ -34,6 +35,7 @@ for i in {1..150}; do
   sleep 3
 done
 cp "$CONTAINER/Documents/hls-smoke-results.json" build/logs/hls-smoke-results.json
+xcrun simctl spawn "$DEVICE" log show --last 8m --style compact --predicate 'process == "mediaserverd" OR process == "J1ROXTV"' >build/logs/hls-system.log 2>&1 || true
 xcrun simctl io "$DEVICE" screenshot build/logs/hls-smoke.png
 xcrun simctl terminate "$DEVICE" com.jirox.jiroxtv || true
 python3 - <<'PY'
@@ -41,5 +43,5 @@ import json
 rows=json.load(open('build/logs/hls-smoke-results.json'))
 for row in rows:
     print(row['status'], row['case'], row.get('error',''), 'playedTime=',row.get('playedTime'), 'resumedTime=',row.get('resumedTime'))
-assert len(rows)==9 and all(row['status']=='PASS' for row in rows), 'HLS simulator tests failed; inspect hls-smoke-results.json'
+assert len(rows)==10 and all(row['status']=='PASS' for row in rows), 'HLS simulator tests failed; inspect hls-smoke-results.json'
 PY

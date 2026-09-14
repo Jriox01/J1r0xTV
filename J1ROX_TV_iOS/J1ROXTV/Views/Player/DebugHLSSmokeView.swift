@@ -25,6 +25,18 @@ import AVFoundation
             ("aes128-own-key", "http://127.0.0.1:18765/aes.m3u8")
         ]
         var results: [[String: Any]] = []
+        // Raw AVFoundation control separates CI media-service failure from session logic.
+        let control = AVPlayer(url: URL(string: base + "img_bipbop_adv_example_ts/v5/prog_index.m3u8")!)
+        control.play()
+        for _ in 0..<80 {
+            if control.currentItem?.status == .failed || control.currentTime().seconds >= 2 { break }
+            try? await Task.sleep(nanoseconds: 250_000_000)
+        }
+        let controlTime = control.currentTime().seconds
+        results.append(["case": "raw-avplayer-control", "status": controlTime.isFinite && controlTime >= 2 ? "PASS" : "FAIL",
+                        "time": controlTime.isFinite ? controlTime : 0, "itemStatus": control.currentItem?.status.rawValue ?? -1,
+                        "error": control.currentItem?.error.map { PlaybackDiagnostics.error($0) } ?? "none"])
+        control.pause(); control.replaceCurrentItem(with: nil)
         let media = MediaItem.parse(["id": .string("smoke"), "title": .string("Apple Bip Bop test")])
         for (name, url) in cases {
             message = name
