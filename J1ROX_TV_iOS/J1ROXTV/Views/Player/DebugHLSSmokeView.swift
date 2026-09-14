@@ -37,6 +37,26 @@ import AVFoundation
                         "time": controlTime.isFinite ? controlTime : 0, "itemStatus": control.currentItem?.status.rawValue ?? -1,
                         "error": control.currentItem?.error.map { PlaybackDiagnostics.error($0) } ?? "none"])
         control.pause(); control.replaceCurrentItem(with: nil)
+        for mode in [AVAudioSession.Mode.moviePlayback, .default] {
+            do {
+                try AVAudioSession.sharedInstance().setCategory(.playback, mode: mode)
+                try AVAudioSession.sharedInstance().setActive(true)
+            } catch { }
+            let asset = AVURLAsset(url: URL(string: base + "img_bipbop_adv_example_ts/v5/prog_index.m3u8")!, options: [:])
+            let probe = AVPlayer(playerItem: AVPlayerItem(asset: asset))
+            probe.play()
+            for _ in 0..<80 {
+                if probe.currentItem?.status == .failed || probe.currentTime().seconds >= 2 { break }
+                try? await Task.sleep(nanoseconds: 250_000_000)
+            }
+            let time = probe.currentTime().seconds
+            results.append(["case": "raw-asset-audio-" + mode.rawValue,
+                            "status": time.isFinite && time >= 2 ? "PASS" : "FAIL",
+                            "time": time.isFinite ? time : 0,
+                            "itemStatus": probe.currentItem?.status.rawValue ?? -1,
+                            "error": probe.currentItem?.error.map { PlaybackDiagnostics.error($0) } ?? "none"])
+            probe.pause(); probe.replaceCurrentItem(with: nil)
+        }
         let media = MediaItem.parse(["id": .string("smoke"), "title": .string("Apple Bip Bop test")])
         for (name, url) in cases {
             message = name
@@ -47,7 +67,8 @@ import AVFoundation
                 let validation = try await PlaybackSourceValidator().inspect(input)
                 let resolved = try await ProviderResolver(providers: [provider]).resolve(request)
                 let player = PlayerSession(source: resolved.source)
-                session = player
+                // The first media case isolates AVFoundation/session from AVKit presentation.
+                if name != "media-ts" { session = player }
                 player.start()
                 try await waitFor(player) { player.status == "readyToPlay" && player.currentTime >= 2 }
                 let playedTime = player.currentTime

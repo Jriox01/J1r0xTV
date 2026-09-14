@@ -43,5 +43,5 @@ import json
 rows=json.load(open('build/logs/hls-smoke-results.json'))
 for row in rows:
     print(row['status'], row['case'], row.get('error',''), 'playedTime=',row.get('playedTime'), 'resumedTime=',row.get('resumedTime'))
-assert len(rows)==10 and all(row['status']=='PASS' for row in rows), 'HLS simulator tests failed; inspect hls-smoke-results.json'
+assert len(rows)==12 and all(row['status']=='PASS' for row in rows), 'HLS simulator tests failed; inspect hls-smoke-results.json'
 PY
