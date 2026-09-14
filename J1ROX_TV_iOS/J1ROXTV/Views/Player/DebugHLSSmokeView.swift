@@ -1,15 +1,19 @@
 #if DEBUG
 import SwiftUI
 import AVFoundation
+import AVKit
 
 /// Only selected by an explicit simulator launch argument; never runs on normal launch.
 @MainActor struct DebugHLSSmokeView: View {
     @State private var session: PlayerSession?
+    @State private var rawPlayer: AVPlayer?
+    @State private var showSession = false
     @State private var message = "HLS simulator smoke tests"
     var body: some View {
         VStack {
             Text(message)
-            if let session { PlayerView(session: session).frame(height: 300) }
+            if showSession, let session { PlayerView(session: session).frame(height: 300) }
+            if let rawPlayer { VideoPlayer(player: rawPlayer).frame(height: 300) }
         }
         .task { await run() }
     }
@@ -37,26 +41,6 @@ import AVFoundation
                         "time": controlTime.isFinite ? controlTime : 0, "itemStatus": control.currentItem?.status.rawValue ?? -1,
                         "error": control.currentItem?.error.map { PlaybackDiagnostics.error($0) } ?? "none"])
         control.pause(); control.replaceCurrentItem(with: nil)
-        for mode in [AVAudioSession.Mode.moviePlayback, .default] {
-            do {
-                try AVAudioSession.sharedInstance().setCategory(.playback, mode: mode)
-                try AVAudioSession.sharedInstance().setActive(true)
-            } catch { }
-            let asset = AVURLAsset(url: URL(string: base + "img_bipbop_adv_example_ts/v5/prog_index.m3u8")!, options: [:])
-            let probe = AVPlayer(playerItem: AVPlayerItem(asset: asset))
-            probe.play()
-            for _ in 0..<80 {
-                if probe.currentItem?.status == .failed || probe.currentTime().seconds >= 2 { break }
-                try? await Task.sleep(nanoseconds: 250_000_000)
-            }
-            let time = probe.currentTime().seconds
-            results.append(["case": "raw-asset-audio-" + mode.rawValue,
-                            "status": time.isFinite && time >= 2 ? "PASS" : "FAIL",
-                            "time": time.isFinite ? time : 0,
-                            "itemStatus": probe.currentItem?.status.rawValue ?? -1,
-                            "error": probe.currentItem?.error.map { PlaybackDiagnostics.error($0) } ?? "none"])
-            probe.pause(); probe.replaceCurrentItem(with: nil)
-        }
         let media = MediaItem.parse(["id": .string("smoke"), "title": .string("Apple Bip Bop test")])
         do {
             let provider = try TestHLSProvider(url: base + "img_bipbop_adv_example_ts/v5/prog_index.m3u8")
@@ -110,7 +94,7 @@ import AVFoundation
                       restored.subtitlesOff == saved.subtitlesOff else { throw SmokeError.failed("media selection not restored") }
                 results.append(["case": name, "status": "PASS", "playedTime": playedTime,
                                 "resumedTime": player.currentTime, "paused": player.player.rate == 0,
-                                "kind": validation.kind.rawValue, "redirects": validation.probe.redirects,
+                                "kind": validation.kind.rawValue, "presentation": "headless", "redirects": validation.probe.redirects,
                                 "events": player.events])
                 player.stop(); session = nil
             } catch {
@@ -120,6 +104,28 @@ import AVFoundation
                                 "events": session?.events ?? []])
                 session?.stop(); session = nil
             }
+        }
+        for custom in [false, true] {
+            let url = URL(string: base + "img_bipbop_adv_example_ts/v5/prog_index.m3u8")!
+            let source = PlaybackSource(request: .init(media: media), url: url, providerID: "test", providerName: "Test")
+            let engine = PlayerSession(source: source)
+            let raw = AVPlayer(url: url)
+            if custom { session = engine; showSession = true; engine.start() }
+            else { rawPlayer = raw; raw.play() }
+            let probe = custom ? engine.player : raw
+            for _ in 0..<80 {
+                if probe.currentItem?.status == .failed || probe.currentTime().seconds >= 2 { break }
+                try? await Task.sleep(nanoseconds: 250_000_000)
+            }
+            let time = probe.currentTime().seconds
+            results.append(["case": custom ? "session-avkit-presentation" : "raw-swiftui-video-presentation",
+                            "status": time.isFinite && time >= 2 ? "PASS" : "FAIL",
+                            "itemStatus": probe.currentItem?.status.rawValue ?? -1,
+                            "time": time.isFinite ? time : 0,
+                            "error": probe.currentItem?.error.map { PlaybackDiagnostics.error($0) } ?? "none"])
+            engine.stop(); raw.pause(); raw.replaceCurrentItem(with: nil)
+            session = nil; rawPlayer = nil; showSession = false
+            try? await Task.sleep(nanoseconds: 500_000_000)
         }
         for code in [403, 404, 410] {
             do {

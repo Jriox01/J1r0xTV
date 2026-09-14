@@ -12,6 +12,8 @@ for i in {1..60}; do
 done
 test -f build/hls-fixtures/ready.json
 xcrun simctl list devices available -j >build/simulator-devices.json
+cp build/simulator-devices.json build/logs/simulator-devices.json
+system_profiler SPDisplaysDataType >build/logs/simulator-display.txt
 DEVICE=$(python3 - <<'PY'
 import json
 data=json.load(open('build/simulator-devices.json'))
