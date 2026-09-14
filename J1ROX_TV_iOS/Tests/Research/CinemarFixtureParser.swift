@@ -174,7 +174,10 @@ private final class HTMLNode {
                         node.rawText = String(token[token.index(after: begin)..<end.lowerBound])
                     }
                 } else if !["img", "meta", "link", "input", "br", "hr", "source", "area", "base", "wbr"].contains(tag), !token.hasSuffix("/>") { stack.append(node) }
-            } else { stack.last?.rawText += token }
+            } else {
+                let text = HTMLNode("#text"); text.rawText = token
+                text.parent = stack.last; stack.last?.children.append(text)
+            }
         }
         return root
     }

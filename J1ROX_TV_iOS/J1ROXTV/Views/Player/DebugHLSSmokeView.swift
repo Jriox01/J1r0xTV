@@ -57,6 +57,8 @@ import AVFoundation
                 player.stop(); session = nil
             } catch {
                 results.append(["case": name, "status": "FAIL", "error": PlaybackDiagnostics.error(error),
+                                "reason": (error as? SmokeError)?.message ?? session?.lastError ?? "See error code",
+                                "itemStatus": session?.status ?? "preflight", "time": session?.currentTime ?? 0,
                                 "events": session?.events ?? []])
                 session?.stop(); session = nil
             }
@@ -86,6 +88,9 @@ import AVFoundation
         }
         throw SmokeError.failed("Timed out waiting for playback/resume")
     }
-    private enum SmokeError: Error { case failed(String) }
+    private enum SmokeError: Error {
+        case failed(String)
+        var message: String { switch self { case .failed(let message): return message } }
+    }
 }
 #endif

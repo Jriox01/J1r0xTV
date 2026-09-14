@@ -15,12 +15,12 @@ private struct ProbeStub: PlaybackProbing {
     }
 }
 private actor RefreshFixture: VideoProvider {
-    nonisolated let id = "fixture-refresh"
+    nonisolated let id: String
     nonisolated let name = "Fixture"
     nonisolated let availability = ProviderAvailability.available
     let failRefresh: Bool
     var refreshes = 0
-    init(failRefresh: Bool = false) { self.failRefresh = failRefresh }
+    init(failRefresh: Bool = false, id: String = "fixture-refresh") { self.failRefresh = failRefresh; self.id = id }
     func search(_ query: MediaQuery) async throws -> [MediaItem] { [] }
     func sources(for item: MediaItem) async throws -> (MediaItem, [SourceOption]) { (item, []) }
     func content(for item: MediaItem, sourceID: String) async throws -> [String: JSONValue] { [:] }
@@ -99,6 +99,14 @@ enum ProviderResolverTests {
         let failedSource = try await failureResolver.resolve(request)
         do { _ = try await failureResolver.recover(failedSource.source, request: failedSource.source.request, excluding: []); throw CheckFailure(message: "failed refresh accepted") }
         catch ProviderError.unavailable {}
+        let backup = RefreshFixture(id: "backup")
+        let fallbackResolver = ProviderResolver(providers: [failing, backup], checker: PlaybackSourceValidator(transport: ProbeStub()))
+        let fallback = try await fallbackResolver.recover(failedSource.source, request: failedSource.source.request, excluding: [])
+        try check(fallback.source.providerID == "backup" && fallback.switched, "refresh failure uses fallback provider")
+        var expired = initial.source
+        expired.expiresAt = Date(timeIntervalSinceNow: -1)
+        let refreshedExpiry = try await resolver.recover(expired, request: expired.request, excluding: [])
+        try check(refreshedExpiry.source.id != expired.id && refreshedExpiry.source.expiresAt == nil, "expired source uses explicit refresh")
         let session = PlaybackSession(selection: .init(source: initial.source, switched: false), resolver: resolver)
         let saved = PlaybackSnapshot(position: 47, isPlaying: false, audioLanguage: "ru", audioName: "Voice", subtitleLanguage: "en", subtitleName: "English")
         for _ in 0..<2 {
@@ -111,7 +119,7 @@ enum ProviderResolverTests {
         session.failed(sourceID: session.selection.source.id, snapshot: saved, failure: .httpStatus(410))
         for _ in 0..<100 where session.switching { try await Task.sleep(nanoseconds: 10_000_000) }
         try check(session.error != nil, "retry limit terminates")
-        try check(await provider.refreshes == 3, "two session refreshes plus direct resolver test")
+        try check(await provider.refreshes == 4, "two session refreshes plus direct and expired resolver tests")
         session.cancel()
         print("PASS ProviderResolverTests: explicit refresh, same URL, refresh failure, retry limit, resume state")
     }

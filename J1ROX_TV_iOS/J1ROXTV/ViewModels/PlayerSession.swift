@@ -81,9 +81,10 @@ import UIKit
         }
         observations.append(player.observe(\.timeControlStatus, options: [.new]) { [weak self] player, _ in
             Task { @MainActor [weak self] in
-                guard let self, self.active, !self.failed, !self.restoring else { return }
-                self.wantsPlayback = player.timeControlStatus != .paused
+                guard let self, self.active else { return }
                 self.log("timeControlStatus=\(player.timeControlStatus.rawValue) waiting=\(player.reasonForWaitingToPlay?.rawValue ?? "none")")
+                guard !self.failed, !self.restoring, player.currentItem?.status == .readyToPlay else { return }
+                self.wantsPlayback = player.timeControlStatus != .paused
             }
         })
         for name in [Notification.Name.AVPlayerItemFailedToPlayToEndTime, .AVPlayerItemNewErrorLogEntry,
@@ -104,6 +105,9 @@ import UIKit
             Task { @MainActor [weak self] in self?.sample() }
         }
         log("asset=" + PlaybackDiagnostics.url(source.url))
+        // Kick off AVPlayer's media loading. Waiting for readyToPlay before ever
+        // requesting playback can leave a fresh HLS item indefinitely unknown.
+        player.play()
     }
 
     private func ready(_ item: AVPlayerItem) {
@@ -111,6 +115,7 @@ import UIKit
         status = "readyToPlay"
         log("readyToPlay")
         restoring = true
+        player.pause()
         let state = source.resumeState ?? PlaybackSnapshot(position: source.request.resumeAt)
         restoreTask = Task { [weak self] in
             guard let self else { return }
