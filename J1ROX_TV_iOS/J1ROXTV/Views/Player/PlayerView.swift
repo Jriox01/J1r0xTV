@@ -2,17 +2,17 @@ import AVKit
 import SwiftUI
 
 @MainActor struct PlayerView: UIViewControllerRepresentable {
-    @ObservedObject var session: PlayerSession
+    // AVPlayer owns its item changes. Metric publications must not rebind AVKit.
+    let session: PlayerSession
     func makeUIViewController(context: Context) -> AVPlayerViewController {
         let controller = AVPlayerViewController()
         controller.allowsPictureInPicturePlayback = true
         controller.canStartPictureInPictureAutomaticallyFromInline = true
-        controller.entersFullScreenWhenPlaybackBegins = true
         controller.player = session.player
         return controller
     }
     func updateUIViewController(_ controller: AVPlayerViewController, context: Context) {
-        controller.player = session.player
+        if controller.player !== session.player { controller.player = session.player }
     }
 }
 

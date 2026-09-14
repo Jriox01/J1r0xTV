@@ -93,7 +93,6 @@ import AVFoundation
                 let validation = try await PlaybackSourceValidator().inspect(input)
                 let resolved = try await ProviderResolver(providers: [provider]).resolve(request)
                 let player = PlayerSession(source: resolved.source)
-                // The first media case isolates AVFoundation/session from AVKit presentation.
                 session = player
                 player.start()
                 try await waitFor(player) { player.status == "readyToPlay" && player.currentTime >= 2 }
