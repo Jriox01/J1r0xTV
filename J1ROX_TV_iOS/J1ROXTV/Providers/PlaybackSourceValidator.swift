@@ -32,7 +32,7 @@ struct PlaybackSourceValidator: PlaybackSourceChecking {
         if !headUnsupported { try Self.checkStatus(head.status) }
         let isHLS = source.url.pathExtension.lowercased() == "m3u8" || Self.hlsTypes.contains(head.mimeType)
         if !headUnsupported && head.mimeType == "video/mp4" && !isHLS { return .init(kind: .mp4, probe: head) }
-        if !headUnsupported && !head.mimeType.isEmpty &&
+        if !isHLS && !headUnsupported && !head.mimeType.isEmpty &&
             !Self.hlsTypes.contains(head.mimeType) && head.mimeType != "application/octet-stream" && !(isHLS && head.mimeType == "text/plain") {
             throw ProviderError.invalidContentType
         }
@@ -42,6 +42,18 @@ struct PlaybackSourceValidator: PlaybackSourceChecking {
         let get = try await transport.probe(request, maxBytes: 1024)
         try Self.checkStatus(get.status)
         if get.mimeType == "video/mp4" && !isHLS { return .init(kind: .mp4, probe: get) }
+        // ATODO's CDN serves valid .m3u8 manifests as text/html. Trust the
+        // manifest signature, not a mislabeled MIME; actual HTML/JSON still fails.
+        if isHLS {
+            let firstLine = String(decoding: get.prefix, as: UTF8.self)
+                .trimmingCharacters(in: .whitespacesAndNewlines.union(CharacterSet(charactersIn: "\u{FEFF}")))
+                .components(separatedBy: .newlines).first
+            if firstLine == "#EXTM3U" {
+                let text = String(decoding: get.prefix, as: UTF8.self)
+                return .init(kind: text.contains("#EXT-X-STREAM-INF:") || text.contains("#EXT-X-I-FRAME-STREAM-INF:") ? .master :
+                    (text.contains("#EXTINF:") || text.contains("#EXT-X-TARGETDURATION:") ? .media : .undetermined), probe: get)
+            }
+        }
         guard Self.hlsTypes.contains(get.mimeType) ||
               (["application/octet-stream", "text/plain"].contains(get.mimeType) && isHLS) else {
             throw ProviderError.invalidContentType

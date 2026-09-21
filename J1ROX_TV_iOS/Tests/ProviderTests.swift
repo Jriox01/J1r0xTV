@@ -58,9 +58,9 @@ private actor FixtureAPI: ProviderAPI {
             }
 
             return .object([
-                "url": .string(
-                    "https://fixture.invalid/\(voice)/movie.m3u8"
-                ),
+                "streams": .object(["video": .object(["hls": .object([
+                    "master": .string("https://fixture.invalid/\(voice)/movie.m3u8")
+                ])])]),
                 "quality": .string("1080p"),
                 "expires_at": .number(
                     Date()
@@ -82,13 +82,11 @@ private actor FixtureAPI: ProviderAPI {
                         if series {
                             payload["seasons"] = .array([
                                 .object([
-                                    "id": .string("1"),
-                                    "season_number": .string("1"),
+                                    "season_id": .number(1),
                                     "episodes": .array(
                                         ["1", "2", "3"].map { episode in
                                             .object([
-                                                "id": .string(episode),
-                                                "episode_number": .string(episode),
+                                                "episode_id": .string(episode),
                                                 "url": .string(
                                                     "https://fixture.invalid/\(voice)/\(episode).m3u8"
                                                 )
@@ -287,6 +285,15 @@ struct ProviderTests {
         )
         let movieSources = try await movie.sources(for: media)
         try require(movieSources.1.map(\.id) == ["one"], "Movie sources use ATODO source/list")
+        // Same response structure as ATODO streams.video.http.qualities;
+        // signed endpoints have no file extension. Credentials stay in fixtures.
+        let signedURL = "https://fixture.invalid/?expires=9999999999&token=fixture"
+        let extensionless = try await movie.resolve(.init(media: media, sourceID: "one"), container: [
+            "streams": .object(["video": .object(["http": .object([
+                "qualities": .object(["720": .string(signedURL), "144": .string(signedURL + "&low=1")])
+            ])])])
+        ])
+        try require(extensionless.url.absoluteString == signedURL, "ATODO extensionless MP4 preserves signature and selects highest quality")
 
         let matches = try await movie.search(
             .init(

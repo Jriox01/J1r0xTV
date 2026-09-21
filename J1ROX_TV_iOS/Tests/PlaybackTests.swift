@@ -47,6 +47,10 @@ enum PlaybackSourceValidatorTests {
         try check(media.kind == .media, "media classification")
         let master = try await PlaybackSourceValidator(transport: ProbeStub(body: "#EXTM3U\n#EXT-X-STREAM-INF:BANDWIDTH=100\na.m3u8\n")).inspect(source)
         try check(master.kind == .master, "master classification")
+        let mislabeledMaster = try await PlaybackSourceValidator(transport: ProbeStub(body: "#EXTM3U\n#EXT-X-STREAM-INF:BANDWIDTH=100\na.m3u8\n", mime: "text/html")).inspect(source)
+        try check(mislabeledMaster.kind == .master, "ATODO HLS signature overrides incorrect HTML MIME")
+        let mislabeledMedia = try await PlaybackSourceValidator(transport: ProbeStub(mime: "text/html")).inspect(source)
+        try check(mislabeledMedia.kind == .media, "ATODO media playlist overrides incorrect HTML MIME")
         try check(master.probe.redirects.count == 1 && master.probe.finalURL?.host == "cdn.example.invalid", "redirect metadata")
         for status in [401, 403, 404, 410, 500] {
             do { try await PlaybackSourceValidator(transport: ProbeStub(status: status)).validate(source); throw CheckFailure(message: "HTTP accepted") }

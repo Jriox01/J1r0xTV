@@ -146,15 +146,15 @@ final class AtodoProvider: VideoProvider, @unchecked Sendable {
         }
     }
     func seasons(in translation: TranslationOption) -> [SeasonOption] {
-        collection(translation.payload["seasons"], keys: ["season_number", "season", "number", "id"]).map {
-            let number = $0.value.text("season_number", "season", "number").nilIfEmpty ?? $0.key
-            return SeasonOption(id: $0.value.text("id", "season_id").nilIfEmpty ?? number, number: number, name: $0.value.text("name", "title", "label").nilIfEmpty ?? "Сезон \(number)", payload: $0.value)
+        collection(translation.payload["seasons"], keys: ["season_number", "season", "number", "season_id", "id"]).map {
+            let number = $0.value.text("season_number", "season", "number", "season_id").nilIfEmpty ?? $0.key
+            return SeasonOption(id: $0.value.text("id", "season_id").nilIfEmpty ?? number, number: number, name: $0.value.text("season_name", "name", "title", "label").nilIfEmpty ?? "Сезон \(number)", payload: $0.value)
         }
     }
     func episodes(in season: SeasonOption) -> [EpisodeOption] {
-        collection(season.payload["episodes"], keys: ["episode_number", "episode", "number", "id"]).map {
-            let number = $0.value.text("episode_number", "episode", "number").nilIfEmpty ?? $0.key
-            return EpisodeOption(id: $0.value.text("id", "episode_id").nilIfEmpty ?? number, number: number, name: $0.value.text("name", "title", "label").nilIfEmpty ?? "Серия \(number)", imageURL: $0.value.text("image", "still", "poster"), payload: $0.value)
+        collection(season.payload["episodes"], keys: ["episode_number", "episode", "number", "episode_id", "id"]).map {
+            let number = $0.value.text("episode_number", "episode", "number", "episode_id").nilIfEmpty ?? $0.key
+            return EpisodeOption(id: $0.value.text("id", "episode_id").nilIfEmpty ?? number, number: number, name: $0.value.text("episode_name", "name", "title", "label").nilIfEmpty ?? "Серия \(number)", imageURL: $0.value.text("image", "still", "poster"), payload: $0.value)
         }
     }
 
@@ -168,7 +168,9 @@ final class AtodoProvider: VideoProvider, @unchecked Sendable {
             urls = streamURLs(in: resolved)
             metadata = resolved.object ?? container
         }
-        guard let url = urls.first(where: { $0.absoluteString.lowercased().contains(".m3u8") }) ?? urls.first(where: { $0.absoluteString.lowercased().contains(".mp4") }) else { throw StreamingError.noCompatibleSource }
+        // ATODO also returns signed MP4 endpoints without a filename/extension.
+        // PlaybackSourceValidator checks their actual HTTP response before AVPlayer starts.
+        guard let url = urls.first(where: { $0.pathExtension.lowercased() == "m3u8" }) ?? urls.first(where: { $0.pathExtension.lowercased() == "mp4" }) ?? urls.first else { throw StreamingError.noCompatibleSource }
         return PlaybackSource(request: request, url: url, providerID: id, providerName: name, headers: ["Referer": APIConfig.headers["Referer"]!, "Origin": APIConfig.headers["Origin"]!, "User-Agent": APIConfig.headers["User-Agent"]!],
             expiresAt: Self.expiration(metadata["expires_at"]), quality: metadata.text("quality").nilIfEmpty)
     }
@@ -196,6 +198,18 @@ final class AtodoProvider: VideoProvider, @unchecked Sendable {
     }
     private func streamURLs(in value: JSONValue) -> [URL] {
         var result: [URL] = []
+        if let video = value.object?["streams"]?.object?["video"]?.object {
+            for transport in ["hls", "http"] {
+                guard let stream = video[transport]?.object else { continue }
+                var values = [stream.text("master")]
+                if let qualities = stream["qualities"]?.object {
+                    values += qualities.keys.sorted { (Int($0) ?? 0) > (Int($1) ?? 0) }.compactMap { qualities[$0]?.text }
+                }
+                for text in values {
+                    if let url = URL(string: text), ["https", "http"].contains(url.scheme), url.host != nil { result.append(url) }
+                }
+            }
+        }
         func walk(_ node: JSONValue, key: String = "") {
             if let object = node.object { object.forEach { walk($0.value, key: $0.key.lowercased()) } }
             else if let array = node.array { array.forEach { walk($0, key: key) } }
