@@ -27,17 +27,11 @@ import SwiftUI
     }
 
     var body: some View {
-        let current = session.selection
         ZStack(alignment: .topTrailing) {
             PlayerView(session: playerSession)
             .ignoresSafeArea()
             VStack(alignment: .leading, spacing: 8) {
                 HStack(alignment: .top) {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Источник: \(current.source.providerName)")
-                        if session.switched { Text("Источник переключён").foregroundStyle(.secondary) }
-                    }
-                    .font(.caption)
                     Spacer()
                     Button { app.playback = nil } label: {
                         Image(systemName: "xmark.circle.fill")
@@ -52,7 +46,6 @@ import SwiftUI
             }
             .foregroundStyle(.white)
             .padding(16)
-            .background(.ultraThinMaterial)
         }
         .background(.black)
         .onAppear {

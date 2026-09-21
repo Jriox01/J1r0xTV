@@ -1,4 +1,5 @@
 import Foundation
+import CoreData
 
 @MainActor func runDownloadTests() throws {
     func check(_ condition: Bool, _ message: String) throws {
@@ -48,7 +49,8 @@ import Foundation
     try first.save([record])
     let second = try DownloadStore(storeURL: url)
     let loaded = try second.load()
-    try check(loaded == [record], "durable Core Data round-trip including poster/resumeData/episode")
+    record.resumeData = nil
+    try check(loaded == [record], "durable Core Data round-trip; opaque resume data discarded")
     try second.save([])
     try check(try second.load().isEmpty, "deletion persists")
     for name in ["../escape.mp4", ".", "..", "/absolute.mp4", "..\\escape.mp4"] {
@@ -57,5 +59,70 @@ import Foundation
     }
     do { try DownloadFiles.checkSpace(required: Int64.max); throw NSError(domain: "Disk overflow accepted", code: 1) }
     catch DownloadError.noSpace { }
+    let hls = DownloadVariant(url: URL(string: "https://fixture.invalid/master.m3u8")!, quality: "Original",
+                              expectedBytes: nil, headers: [:], expiresAt: nil)
+    let qualities = hls.hlsVariants(manifest: """
+    #EXTM3U
+    #EXT-X-STREAM-INF:BANDWIDTH=800000,RESOLUTION=640x360,AUDIO="audio"
+    low.m3u8
+    #EXT-X-STREAM-INF:BANDWIDTH=2400000,RESOLUTION=1280x720,AUDIO="audio"
+    high.m3u8
+    #EXT-X-STREAM-INF:BANDWIDTH=nan,RESOLUTION=1280x720
+    invalid.m3u8
+    """)
+    try check(qualities.map(\.quality) == ["360p", "720p"] && qualities.allSatisfy { $0.url == hls.url },
+              "quality choices preserve master and external audio")
+    try check(qualities.last?.minimumBitrate == 2400000, "selected HLS bitrate")
+    var interrupted = record
+    interrupted.id = UUID(); interrupted.variant = hls; interrupted.state = .downloading
+    interrupted.recoveryVersion = nil; interrupted.resumeData = Data([0, 1, 2])
+    interrupted.received = Int64.min; interrupted.total = Int64.min; interrupted.hlsProgress = 100000
+    let oldKey = interrupted.taskKey
+    var finished = record
+    finished.id = UUID(); finished.state = .completed; finished.recoveryVersion = nil
+    finished.localFilename = "completed.mp4"
+    var invalid = record
+    invalid.id = UUID(); invalid.state = .queued
+    invalid.variant = DownloadVariant(url: URL(string: "file:///tmp/broken.m3u8")!, quality: "bad",
+                                      expectedBytes: nil, headers: [:], expiresAt: nil)
+    invalid.localPackagePath = "../outside.movpkg"
+    try second.save([interrupted, finished, invalid])
+
+    // Inject a broken row and a completed record with malformed optional data into
+    // the actual SQLite store, as left by an older installation.
+    let model = NSManagedObjectModel()
+    let entity = NSEntityDescription(); entity.name = "DownloadEntry"; entity.managedObjectClassName = "NSManagedObject"
+    let idAttribute = NSAttributeDescription(); idAttribute.name = "id"; idAttribute.attributeType = .UUIDAttributeType
+    let payloadAttribute = NSAttributeDescription(); payloadAttribute.name = "payload"; payloadAttribute.attributeType = .binaryDataAttributeType
+    payloadAttribute.allowsExternalBinaryDataStorage = true
+    entity.properties = [idAttribute, payloadAttribute]; entity.uniquenessConstraints = [["id"]]; model.entities = [entity]
+    let coordinator = NSPersistentStoreCoordinator(managedObjectModel: model)
+    try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: nil)
+    let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType); context.persistentStoreCoordinator = coordinator
+    let broken = NSEntityDescription.insertNewObject(forEntityName: "DownloadEntry", into: context)
+    broken.setValue(UUID(), forKey: "id"); broken.setValue(Data("{broken".utf8), forKey: "payload")
+    let entries = try context.fetch(NSFetchRequest<NSManagedObject>(entityName: "DownloadEntry"))
+    guard let completedEntry = entries.first(where: { $0.value(forKey: "id") as? UUID == finished.id }),
+          var json = try JSONSerialization.jsonObject(with: JSONEncoder().encode(finished)) as? [String: Any]
+    else { throw NSError(domain: "Missing completed fixture", code: 1) }
+    json["resumeData"] = "not valid base64!"
+    completedEntry.setValue(try JSONSerialization.data(withJSONObject: json), forKey: "payload")
+    try context.save()
+
+    let recoveredStore = try DownloadStore(storeURL: url)
+    let recovered = try recoveredStore.load()
+    try check(recovered.count == 3, "one corrupt row cannot hide healthy downloads")
+    let failedHLS = recovered.first { $0.id == interrupted.id }
+    try check(failedHLS?.state == .failed && failedHLS?.taskKey != oldKey && failedHLS?.resumeData == nil,
+              "legacy HLS quarantined; old background task cannot reattach")
+    try check(failedHLS?.received == 0 && failedHLS?.total == 0 && failedHLS?.progress == 1, "unsafe numeric state clamped")
+    try check(recovered.first { $0.id == finished.id }?.state == .completed, "completed record salvaged, not deleted")
+    try check(recovered.first { $0.id == invalid.id }?.state == .failed, "invalid URL and path quarantined")
+    try check(try recoveredStore.load().count == 3, "recovery persists across launches")
+    do { try recoveredStore.save([record, record]); throw NSError(domain: "Duplicate IDs accepted", code: 1) }
+    catch DownloadError.invalidFile { }
+    try check(!DownloadFiles.isSafePackagePath("../a.movpkg") && !DownloadFiles.isSafePackagePath("/a.movpkg"), "package traversal")
+    var nonFinite = record; nonFinite.hlsProgress = .infinity
+    try check(nonFinite.progress == record.progress, "non-finite progress never reaches integer conversion")
     print("PASS download permissions, DRM, direct-file formats, Core Data restoration/deletion, sandbox, disk capacity")
 }

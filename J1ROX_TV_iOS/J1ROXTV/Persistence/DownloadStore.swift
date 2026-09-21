@@ -25,14 +25,43 @@ import CoreData
             options: [NSMigratePersistentStoresAutomaticallyOption: true, NSInferMappingModelAutomaticallyOption: true])
     }
     func load() throws -> [DownloadRecord] {
-        try container.viewContext.fetch(NSFetchRequest<NSManagedObject>(entityName: "DownloadEntry")).map {
-            guard let data = $0.value(forKey: "payload") as? Data else { throw DownloadError.invalidFile }
-            return try JSONDecoder().decode(DownloadRecord.self, from: data)
-        }.sorted { $0.createdAt < $1.createdAt }
+        let context = container.viewContext
+        let entries = try context.fetch(NSFetchRequest<NSManagedObject>(entityName: "DownloadEntry"))
+        var recovered: [UUID: DownloadRecord] = [:]
+        for entry in entries {
+            guard let id = entry.value(forKey: "id") as? UUID,
+                  let data = entry.value(forKey: "payload") as? Data,
+                  var record = Self.decode(data, id: id), record.id == id else {
+                context.delete(entry) // Delete only the unreadable row, never downloaded files.
+                continue
+            }
+            record.recoverPersistedState()
+            if let previous = recovered[id], previous.state == .completed { continue }
+            recovered[id] = record
+        }
+        if context.hasChanges { try context.save() }
+        let records = recovered.values.sorted { $0.createdAt < $1.createdAt }
+        try save(records) // Persist recovery before any background session is reattached.
+        return records
+    }
+    private static func decode(_ data: Data, id: UUID) -> DownloadRecord? {
+        if let record = try? JSONDecoder().decode(DownloadRecord.self, from: data) { return record }
+        // Salvage old/completed records with damaged optional blobs instead of losing the library.
+        guard var json = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any] else { return nil }
+        for key in ["resumeData", "posterData", "hlsProgress"] { json.removeValue(forKey: key) }
+        if json["id"] == nil { json["id"] = id.uuidString }
+        if json["generation"] == nil { json["generation"] = UUID().uuidString }
+        if json["createdAt"] == nil { json["createdAt"] = Date().timeIntervalSinceReferenceDate }
+        if json["received"] == nil { json["received"] = 0 }
+        if json["total"] == nil { json["total"] = 0 }
+        if json["state"] as? String != DownloadState.completed.rawValue { json["state"] = DownloadState.failed.rawValue }
+        guard let repaired = try? JSONSerialization.data(withJSONObject: json) else { return nil }
+        return try? JSONDecoder().decode(DownloadRecord.self, from: repaired)
     }
     func save(_ records: [DownloadRecord]) throws {
         let context = container.viewContext
         do {
+            guard Set(records.map(\.id)).count == records.count else { throw DownloadError.invalidFile }
             let entries = try context.fetch(NSFetchRequest<NSManagedObject>(entityName: "DownloadEntry"))
             let ids = Set(records.map(\.id))
             for entry in entries where (entry.value(forKey: "id") as? UUID).map({ !ids.contains($0) }) ?? true { context.delete(entry) }
@@ -44,12 +73,20 @@ import CoreData
                 entry.setValue(try JSONEncoder().encode(record), forKey: "payload")
             }
             try context.save()
-            saved = Dictionary(uniqueKeysWithValues: records.map { ($0.id, $0) })
+            saved = Dictionary(records.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
         } catch { context.rollback(); throw error }
     }
 }
 
 enum DownloadFiles {
+    static func isSafeFilename(_ filename: String) -> Bool {
+        filename == (filename as NSString).lastPathComponent && !filename.isEmpty &&
+        filename != "." && filename != ".." && !filename.contains("\\") && !filename.contains("\0")
+    }
+    static func isSafePackagePath(_ path: String) -> Bool {
+        !path.isEmpty && !path.hasPrefix("/") && !path.contains("\\") && !path.contains("\0") &&
+        !path.split(separator: "/").contains("..") && (path as NSString).pathExtension == "movpkg"
+    }
     static func root() throws -> URL {
         var name = "Downloads"
         #if DEBUG && targetEnvironment(simulator)
@@ -63,9 +100,11 @@ enum DownloadFiles {
         return url
     }
     static func file(_ filename: String) throws -> URL {
-        guard filename == (filename as NSString).lastPathComponent, !filename.isEmpty,
-              filename != ".", filename != "..", !filename.contains("\\") else { throw DownloadError.missingFile }
-        return try root().appendingPathComponent(filename)
+        guard isSafeFilename(filename) else { throw DownloadError.missingFile }
+        let directory = try root().resolvingSymlinksInPath()
+        let url = directory.appendingPathComponent(filename).resolvingSymlinksInPath()
+        guard url.deletingLastPathComponent().path == directory.path else { throw DownloadError.missingFile }
+        return url
     }
     static func checkSpace(required: Int64) throws {
         let values = try root().resourceValues(forKeys: [.volumeAvailableCapacityForImportantUsageKey, .volumeAvailableCapacityKey])

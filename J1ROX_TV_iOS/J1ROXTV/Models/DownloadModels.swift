@@ -20,8 +20,38 @@ struct DownloadVariant: Codable, Hashable, Identifiable, Sendable {
     let expectedBytes: Int64?
     let headers: [String: String]
     let expiresAt: Date?
+    var minimumBitrate: Double? = nil
     var id: String { quality + "|" + url.absoluteString }
     var isHLS: Bool { url.pathExtension.lowercased() == "m3u8" }
+    var isValid: Bool {
+        ["https", "http"].contains(url.scheme?.lowercased() ?? "") &&
+        url.host?.isEmpty == false && url.user == nil && url.password == nil &&
+        (isHLS || Self.isDirectFile(url)) &&
+        (minimumBitrate.map { $0.isFinite && $0 > 0 } ?? true) &&
+        (expectedBytes.map { $0 >= 0 } ?? true) &&
+        headers.allSatisfy { !$0.key.isEmpty && !$0.key.contains(where: { $0.isNewline }) && !$0.value.contains(where: { $0.isNewline }) }
+    }
+
+    // Keep the master URL: downloading a child playlist can lose external audio.
+    func hlsVariants(manifest: String) -> [Self] {
+        guard isHLS, manifest.trimmingCharacters(in: .whitespacesAndNewlines).hasPrefix("#EXTM3U") else { return [self] }
+        var choices: [Self] = []
+        var seen: Set<String> = []
+        for line in manifest.components(separatedBy: .newlines) where line.hasPrefix("#EXT-X-STREAM-INF:") {
+            let fields = line.dropFirst("#EXT-X-STREAM-INF:".count).split(separator: ",")
+            func field(_ name: String) -> String? {
+                fields.first(where: { $0.hasPrefix(name + "=") }).map { String($0.dropFirst(name.count + 1)) }
+            }
+            guard let size = field("RESOLUTION")?.split(separator: "x"), size.count == 2,
+                  let height = Int(size[1]), height > 0, height <= 16384,
+                  let bitrate = field("BANDWIDTH").flatMap(Double.init), bitrate.isFinite, bitrate > 0 else { continue }
+            let quality = "\(height)p"
+            guard seen.insert(quality).inserted else { continue }
+            choices.append(Self(url: url, quality: quality, expectedBytes: nil, headers: headers,
+                                expiresAt: expiresAt, minimumBitrate: bitrate))
+        }
+        return choices.isEmpty ? [self] : choices.sorted { ($0.minimumBitrate ?? 0) < ($1.minimumBitrate ?? 0) }
+    }
 
     static func parse(_ metadata: [String: JSONValue]) -> [Self] {
         guard metadata["download_allowed"] == .bool(true), metadata["drm"] == .bool(false) else { return [] }
@@ -103,13 +133,33 @@ struct DownloadRecord: Codable, Equatable, Identifiable, Sendable {
     var resumeData: Data?
     var generation = UUID()
     var failure: String?
+    // Missing in older payloads. Quarantine their unfinished HLS work on upgrade.
+    var recoveryVersion: Int? = 2
+
+    mutating func recoverPersistedState() {
+        resumeData = nil // Opaque data may be corrupt or reference a previous sandbox; restart MP4 safely.
+        received = max(0, received); total = max(0, total)
+        if let value = hlsProgress { hlsProgress = value.isFinite ? min(1, max(0, value)) : nil }
+        let invalidLocal = localFilename.map { !DownloadFiles.isSafeFilename($0) } == true ||
+            localPackagePath.map { !DownloadFiles.isSafePackagePath($0) } == true
+        if invalidLocal { localFilename = nil; localPackagePath = nil }
+        if state != .completed && (!variant.isValid || invalidLocal || (variant.isHLS && recoveryVersion != 2)) {
+            state = .failed
+            failure = "Незавершённая или повреждённая загрузка сброшена. Повторите загрузку."
+            generation = UUID()
+        }
+        recoveryVersion = 2
+    }
 
     var request: PlaybackRequest {
         .init(media: media, sourceID: sourceID, translationID: translationID, season: season,
               episode: episode, translationName: translationName, providerID: providerID)
     }
     var taskKey: String { id.uuidString + ":" + generation.uuidString }
-    var progress: Double? { hlsProgress ?? (total > 0 ? min(1, max(0, Double(received) / Double(total))) : nil) }
+    var progress: Double? {
+        if let hlsProgress, hlsProgress.isFinite { return min(1, max(0, hlsProgress)) }
+        return total > 0 ? min(1, max(0, Double(received) / Double(total))) : nil
+    }
     var episodeLabel: String { episode.map { "Сезон \(season ?? "—") · Серия \($0)" } ?? "Фильм" }
 }
 

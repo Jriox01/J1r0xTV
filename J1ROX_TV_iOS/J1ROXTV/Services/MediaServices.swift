@@ -38,9 +38,9 @@ import AVFoundation
     func downloads(_ request: PlaybackRequest) async throws -> (PlaybackRequest, [DownloadVariant]) {
         // Resolve exactly as playback does, preserving the actual fallback provider/episode.
         let source = try await resolve(request).source
-        let variant = DownloadVariant(url: source.url, quality: source.quality ?? "????????",
+        let variant = DownloadVariant(url: source.url, quality: source.quality ?? "Оригинал",
             expectedBytes: nil, headers: source.headers, expiresAt: source.expiresAt)
-        guard variant.isHLS || DownloadVariant.isDirectFile(source.url) else { throw DownloadError.unavailable }
+        guard variant.isValid else { throw DownloadError.unavailable }
         var options: [String: Any] = [:]
         if !source.headers.isEmpty { options["AVURLAssetHTTPHeaderFieldsKey"] = source.headers }
         if let agent = source.headers.first(where: { $0.key.lowercased() == "user-agent" })?.value {
@@ -48,6 +48,15 @@ import AVFoundation
         }
         let asset = AVURLAsset(url: source.url, options: options)
         guard try await asset.load(.hasProtectedContent) == false else { throw DownloadError.unavailable }
-        return (source.request, [variant.isHLS ? variant : try await variant.inspectingSize()])
+        if variant.isHLS {
+            var request = URLRequest(url: source.url, timeoutInterval: 15)
+            request.allHTTPHeaderFields = source.headers
+            let (data, response) = try await URLSession.shared.data(for: request)
+            guard let http = response as? HTTPURLResponse, http.statusCode == 200,
+                  let manifest = String(data: data, encoding: .utf8),
+                  manifest.trimmingCharacters(in: .whitespacesAndNewlines).hasPrefix("#EXTM3U") else { throw DownloadError.invalidFile }
+            return (source.request, variant.hlsVariants(manifest: manifest))
+        }
+        return (source.request, [try await variant.inspectingSize()])
     }
 }

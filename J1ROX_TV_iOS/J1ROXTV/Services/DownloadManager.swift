@@ -72,7 +72,7 @@ import AVFoundation
             $0.season == request.season && $0.episode == request.episode &&
             $0.translationID == request.translationID && $0.providerID == request.providerID && $0.sourceID == request.sourceID }
     }
-    var usedBytes: Int64 { records.filter { $0.state == .completed }.reduce(0) { $0 + $1.received } }
+    var usedBytes: Int64 { records.filter { $0.state == .completed }.reduce(0) { Self.addBytes($0, max(0, $1.received)) } }
     var ready: Bool { restored && store != nil }
     func speed(_ id: UUID, at date: Date) -> Double {
         guard let sample = samples[id], date.timeIntervalSince(sample.0) < 3 else { return 0 }
@@ -82,7 +82,7 @@ import AVFoundation
     func enqueue(_ request: PlaybackRequest, variant: DownloadVariant, episodeID: String?) {
         guard ready, existing(request) == nil else { return }
         do {
-            guard variant.isHLS || DownloadVariant.isDirectFile(variant.url) else { throw DownloadError.unavailable }
+            guard variant.isValid else { throw DownloadError.unavailable }
             guard variant.expiresAt.map({ $0 > Date() }) ?? true else { throw DownloadError.expired }
             try DownloadFiles.checkSpace(required: Self.addBytes(variant.expectedBytes ?? 0, reservedBytes()))
             var entry = DownloadRecord(media: request.media, sourceID: request.sourceID, providerID: request.providerID,
@@ -116,18 +116,17 @@ import AVFoundation
         guard let task = task as? URLSessionDownloadTask else { return }
         pausing.insert(id)
         let key = task.taskDescription
-        task.cancel { [weak self] data in
+        task.cancel { [weak self] _ in
             DispatchQueue.main.async {
                 guard let self else { return }
                 guard let index = self.index(id), self.records[index].taskKey == key else {
                     self.pausing.remove(id); self.pump(); return
                 }
-                self.records[index].resumeData = data ?? self.records[index].resumeData
+                self.records[index].resumeData = nil
                 if self.tasks[id] === task { self.tasks[id] = nil }
                 self.pausing.remove(id)
                 if self.restartAfterPause.remove(id) != nil {
-                    // Opaque resume data can contain the old request's cellular policy.
-                    // Start fresh when changing session policy instead of rewriting resume data.
+                    // MP4 resumes from a fresh request; never replay an opaque saved archive.
                     if self.discardResumeAfterPause.remove(id) != nil { self.records[index].resumeData = nil }
                     self.records[index].state = .queued
                 }
@@ -137,7 +136,7 @@ import AVFoundation
     }
 
     func resume(_ id: UUID) {
-        guard let index = index(id), [.paused, .failed].contains(records[index].state), !pausing.contains(id) else { return }
+        guard ready, let index = index(id), [.paused, .failed].contains(records[index].state), !pausing.contains(id) else { return }
         records[index].state = .queued; records[index].failure = nil
         if persist() { pump() }
     }
@@ -182,7 +181,10 @@ import AVFoundation
             let all = await session.allTasks
             for task in all where task is URLSessionDownloadTask || task is AVAssetDownloadTask {
                 guard let index = records.firstIndex(where: { $0.taskKey == task.taskDescription }),
-                      records[index].state != .completed, records[index].state != .failed else { task.cancel(); continue }
+                      records[index].state != .completed, records[index].state != .failed,
+                      records[index].variant.isValid,
+                      records[index].variant.isHLS == (task is AVAssetDownloadTask),
+                      task.state != .canceling, task.state != .completed else { task.cancel(); continue }
                 let id = records[index].id
                 guard tasks[id] == nil else { task.cancel(); continue }
                 tasks[id] = task
@@ -206,8 +208,11 @@ import AVFoundation
                 records[index].received = size; records[index].total = size
             } else if entry.state == .completed {
                 records[index].state = .failed; records[index].failure = DownloadError.missingFile.localizedDescription
-            } else if entry.state == .downloading && tasks[entry.id] == nil {
-                records[index].state = .queued
+            } else if tasks[entry.id] == nil &&
+                        (entry.state == .downloading || (entry.variant.isHLS && entry.state == .paused)) {
+                records[index].state = .failed
+                records[index].resumeData = nil
+                records[index].failure = "Загрузка прервана. Нажмите «Повторить», чтобы начать заново."
             }
         }
         restored = true
@@ -243,9 +248,14 @@ import AVFoundation
             guard tasks[id] == nil, !pausing.contains(id), let index = index(id) else { continue }
             do {
                 let entry = records[index]
+                guard entry.variant.isValid else { throw DownloadError.unavailable }
                 guard entry.variant.expiresAt.map({ $0 > Date() }) ?? true else { throw DownloadError.expired }
                 try DownloadFiles.checkSpace(required: Self.addBytes(max(0, entry.total - entry.received), reservedBytes(excluding: id)))
-                let session = sessions[settings.wifiOnly ? 0 : 1]
+                // Commit the attempt first: a process interruption must not replay task creation at startup.
+                records[index].generation = UUID()
+                records[index].state = .downloading
+                records[index].resumeData = nil
+                guard persist() else { records[index].state = .failed; return }
                 let task: URLSessionTask
                 if entry.variant.isHLS {
                     if entry.localPackagePath != nil, let old = try? localURL(entry), FileManager.default.fileExists(atPath: old.path) {
@@ -257,13 +267,20 @@ import AVFoundation
                         options[AVURLAssetHTTPUserAgentKey] = agent
                     }
                     let asset = AVURLAsset(url: entry.variant.url, options: options)
-                    let hlsSession = sessions[settings.wifiOnly ? 2 : 3] as! AVAssetDownloadURLSession
-                    guard let download = hlsSession.makeAssetDownloadTask(asset: asset, assetTitle: entry.media.title,
-                        assetArtworkData: entry.posterData, options: nil) else { throw DownloadError.unavailable }
+                    let identifier = Self.sessionPrefix + (settings.wifiOnly ? "hls.wifi" : "hls.any")
+                    guard let hlsSession = sessions.first(where: { $0.configuration.identifier == identifier }) as? AVAssetDownloadURLSession
+                    else { throw DownloadError.unavailable }
+                    var downloadOptions: [String: Any] = [:]
+                    if let bitrate = entry.variant.minimumBitrate {
+                        downloadOptions[AVAssetDownloadTaskMinimumRequiredMediaBitrateKey] = NSNumber(value: bitrate)
+                    }
+                    let title = entry.media.title.isEmpty ? "Видео" : entry.media.title
+                    guard let download = hlsSession.makeAssetDownloadTask(asset: asset, assetTitle: title,
+                        assetArtworkData: nil, options: downloadOptions) else { throw DownloadError.unavailable }
                     task = download
-                } else if let data = entry.resumeData {
-                    task = session.downloadTask(withResumeData: data)
                 } else {
+                    let identifier = Self.sessionPrefix + (settings.wifiOnly ? "wifi" : "any")
+                    guard let session = sessions.first(where: { $0.configuration.identifier == identifier }) else { throw DownloadError.unavailable }
                     var request = URLRequest(url: entry.variant.url)
                     request.allHTTPHeaderFields = entry.variant.headers
                     // The session enforces policy, including tasks restored from resumeData.
@@ -271,11 +288,10 @@ import AVFoundation
                     task = session.downloadTask(with: request)
                     records[index].received = 0
                 }
-                records[index].generation = UUID()
                 records[index].localFilename = entry.variant.isHLS ? nil : id.uuidString + "-" + records[index].generation.uuidString + "." + entry.variant.url.pathExtension.lowercased()
                 records[index].state = .downloading
                 records[index].failure = nil
-                // The live task now owns the resume material. Only fresh cancellation/error data is reusable.
+                // HLS resumes through its asset task; MP4 restarts without opaque resume data.
                 records[index].resumeData = nil
                 task.taskDescription = records[index].taskKey
                 tasks[id] = task
@@ -283,7 +299,8 @@ import AVFoundation
                 samples[id] = (Date(), records[index].received)
                 task.resume()
             } catch {
-                records[index].state = .failed; records[index].failure = Self.describe(error); _ = persist()
+                records[index].state = .failed; records[index].failure = Self.describe(error)
+                message = Self.describe(error); _ = persist()
             }
         }
     }
@@ -341,7 +358,8 @@ import AVFoundation
     fileprivate func completed(_ task: URLSessionTask, error: Error?) {
         let ownedID = tasks.first { $0.value === task }?.key
         if let index = taskIndex(task) {
-            if task is AVAssetDownloadTask, error == nil {
+            if task is AVAssetDownloadTask, error == nil,
+               records[index].state != .completed, records[index].state != .failed {
                 do {
                     let url = try localURL(records[index])
                     guard AVURLAsset(url: url).assetCache?.isPlayableOffline == true else { throw DownloadError.invalidFile }
@@ -350,21 +368,20 @@ import AVFoundation
                     let files = FileManager.default.enumerator(at: url, includingPropertiesForKeys: [.fileSizeKey])
                     var size: Int64 = 0
                     while let file = files?.nextObject() as? URL {
-                        size += Int64((try? file.resourceValues(forKeys: [.fileSizeKey]).fileSize) ?? 0)
+                        size = Self.addBytes(size, Int64((try? file.resourceValues(forKeys: [.fileSizeKey]).fileSize) ?? 0))
                     }
                     records[index].received = size; records[index].total = size
-                } catch { records[index].state = .failed; records[index].failure = error.localizedDescription }
+                } catch {
+                    records[index].state = .failed; records[index].failure = error.localizedDescription
+                    message = error.localizedDescription
+                }
             }
             let id = records[index].id
             if let error, records[index].state != .completed {
-                let nsError = error as NSError
-                let resumeData = nsError.userInfo[NSURLSessionDownloadTaskResumeData] as? Data
-                // cancel(byProducingResumeData:) and didComplete can arrive in either order.
-                // Do not erase material already delivered by the pause callback.
-                records[index].resumeData = records[index].state == .paused
-                    ? (resumeData ?? records[index].resumeData) : resumeData
+                records[index].resumeData = nil
                 if records[index].state == .downloading {
                     records[index].state = .failed; records[index].failure = Self.describe(error)
+                    message = Self.describe(error)
                 }
             }
             speeds[id] = nil; samples[id] = nil
@@ -376,6 +393,7 @@ import AVFoundation
 
     private func localURL(_ entry: DownloadRecord) throws -> URL {
         if let path = entry.localPackagePath {
+            guard DownloadFiles.isSafePackagePath(path) else { throw DownloadError.missingFile }
             let home = URL(fileURLWithPath: NSHomeDirectory()).resolvingSymlinksInPath()
             let url = home.appendingPathComponent(path).standardizedFileURL.resolvingSymlinksInPath()
             guard url.path.hasPrefix(home.path + "/"), url.pathExtension == "movpkg" else { throw DownloadError.missingFile }
@@ -389,9 +407,9 @@ import AVFoundation
         let home = URL(fileURLWithPath: NSHomeDirectory()).resolvingSymlinksInPath().path + "/"
         let path = location.resolvingSymlinksInPath().path
         guard path.hasPrefix(home), location.pathExtension == "movpkg" else { task.cancel(); return }
-        guard let index = taskIndex(task) else {
-            try? FileManager.default.removeItem(at: location); return
-        }
+        // Stale/cancelled callbacks must never replace or remove a completed package.
+        guard let index = taskIndex(task), records[index].state != .completed,
+              records[index].state != .failed else { return }
         records[index].localPackagePath = String(path.dropFirst(home.count))
         _ = persist()
     }
