@@ -31,6 +31,9 @@ import AVFoundation
     private var store: DownloadStore?
     private let delegate = DownloadSessionDelegate()
     private var sessions: [URLSession] = []
+    // Keep the initializer's static type: Foundation's background-session class
+    // cluster cannot reliably be downcast from URLSession to AVAssetDownloadURLSession.
+    private var assetSessions: [AVAssetDownloadURLSession] = []
     private var tasks: [UUID: URLSessionTask] = [:]
     @Published private var restored = false
     private var removingAll = false
@@ -56,13 +59,14 @@ import AVFoundation
             config.timeoutIntervalForResource = 7 * 24 * 3600
             return URLSession(configuration: config, delegate: delegate, delegateQueue: .main)
         }
-        sessions += [true, false].map { wifi in
+        assetSessions = [true, false].map { wifi in
             let config = URLSessionConfiguration.background(withIdentifier: Self.sessionPrefix + (wifi ? "hls.wifi" : "hls.any"))
             config.sessionSendsLaunchEvents = true
             config.allowsCellularAccess = !wifi
             config.allowsExpensiveNetworkAccess = !wifi
             return AVAssetDownloadURLSession(configuration: config, assetDownloadDelegate: delegate, delegateQueue: .main)
         }
+        sessions += assetSessions
         Task { await restore() }
     }
 
@@ -268,7 +272,7 @@ import AVFoundation
                     }
                     let asset = AVURLAsset(url: entry.variant.url, options: options)
                     let identifier = Self.sessionPrefix + (settings.wifiOnly ? "hls.wifi" : "hls.any")
-                    guard let hlsSession = sessions.first(where: { $0.configuration.identifier == identifier }) as? AVAssetDownloadURLSession
+                    guard let hlsSession = assetSessions.first(where: { $0.configuration.identifier == identifier })
                     else { throw DownloadError.unavailable }
                     var downloadOptions: [String: Any] = [:]
                     if let bitrate = entry.variant.minimumBitrate {

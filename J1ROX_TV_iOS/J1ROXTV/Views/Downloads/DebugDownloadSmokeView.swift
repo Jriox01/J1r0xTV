@@ -15,6 +15,17 @@ import SwiftUI
             if phase == "prepare" {
                 manager.removeAll()
                 manager.settings = DownloadSettings(quality: "720p", askQuality: false, wifiOnly: false, simultaneous: 2)
+                // Exercise the actual HLS session factory, not an unsafe downcast from URLSession.
+                // The local server returns 404; this must become a visible error, never a crash.
+                guard let hlsURL = URL(string: "http://127.0.0.1:18766/missing.m3u8") else { throw Failure("HLS fixture URL") }
+                let hlsRequest = PlaybackRequest(media: MediaItem.parse(["id": .string("hls-error"), "title": .string("HLS error fixture")]))
+                manager.enqueue(hlsRequest, variant: .init(url: hlsURL, quality: "720p", expectedBytes: nil,
+                    headers: [:], expiresAt: nil, minimumBitrate: 2400000), episodeID: nil)
+                guard let hlsEntry = manager.existing(hlsRequest) else { throw Failure("HLS enqueue failed") }
+                try require(hlsEntry.state == .downloading, "HLS asset task created")
+                try await wait { manager.record(hlsEntry.id)?.state == .failed }
+                try require(manager.record(hlsEntry.id)?.failure != nil && manager.message != nil, "HLS error presented")
+                manager.remove(hlsEntry.id); manager.message = nil
                 let (bytes, _) = try await URLSession.shared.data(from: URL(string: "http://127.0.0.1:18766/metadata")!)
                 let size = try JSONDecoder().decode([String: Int64].self, from: bytes)["size"]!
                 for index in 0..<3 { enqueue(manager, name: "movie-\(index)", size: size) }
