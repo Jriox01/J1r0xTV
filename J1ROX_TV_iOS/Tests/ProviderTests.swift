@@ -270,6 +270,7 @@ struct ProviderTests {
     static func main() async throws {
         try CinemarFixtureTests.run()
         try await runPlaybackTests()
+        try await runDownloadTests()
 
         let media = MediaItem.parse([
             "id": .string("42"),
@@ -580,129 +581,22 @@ struct ProviderTests {
             "Runtime AVPlayer failure advances provider"
         )
 
-        // MARK: - Cinemap debug provider
-
+        // Cinemap now uses the configured authorized Video API, not a built-in debug stream.
         let cinemap = CinemapProvider()
-
-        try require(
-            cinemap.availability == .available,
-            "Cinemap debug provider must be available"
-        )
-
-        let cinemapSearch = try await cinemap.search(
-            .init(
-                tmdbID: "42",
-                title: "Fixture",
-                year: "2024",
-                mediaType: "movie"
-            )
-        )
-
-        try require(
-            cinemapSearch.isEmpty,
-            "Cinemap debug search must currently return an empty list"
-        )
-
-        let cinemapSources = try await cinemap.sources(
-            for: media
-        )
-
-        try require(
-            cinemapSources.1.count == 1,
-            "Cinemap debug provider must expose one source"
-        )
-
-        try require(
-            cinemapSources.1.first?.id == "cinemap",
-            "Cinemap debug source ID"
-        )
-
-        let cinemapContent = try await cinemap.content(
-            for: media,
-            sourceID: "cinemap"
-        )
-
-        try require(
-            cinemapContent.isEmpty,
-            "Cinemap debug content must currently be empty"
-        )
-
-        let cinemapRequests = try await cinemap.requests(
-            for: request
-        )
-
-        try require(
-            cinemapRequests.count == 1,
-            "Cinemap debug provider must create one playback request"
-        )
-
-        try require(
-            cinemapRequests.first?.providerID == "cinemap",
-            "Cinemap request provider ID"
-        )
-
-        try require(
-            cinemapRequests.first?.sourceID == "cinemap",
-            "Cinemap request source ID"
-        )
-
-        let cinemapPlayback = try await cinemap.playback(
-            for: request
-        )
-
-        try require(
-            cinemapPlayback.providerID == "cinemap",
-            "Cinemap playback provider ID"
-        )
-
-        try require(
-            cinemapPlayback.url.absoluteString ==
-                "https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8",
-            "Cinemap debug HLS URL"
-        )
-
-        let cinemapResolved = try await ProviderResolver(
-            providers: [cinemap],
-            checker: valid
-        ).resolve(request)
-
-        try require(
-            cinemapResolved.source.providerID == "cinemap",
-            "Cinemap debug provider must resolve playback"
-        )
-
-        let movieRequest = PlaybackRequest(
-            media: media,
-            sourceID: "one",
-            translationID: "a"
-        )
-
-        let cinemapFirst = try await ProviderResolver(
-            providers: [cinemap, movie],
-            checker: valid
-        ).resolve(movieRequest)
-
-        try require(
-            cinemapFirst.source.providerID == "cinemap",
-            "First available provider must win when Cinemap is first"
-        )
-
-        let atodoFirst = try await ProviderResolver(
-            providers: [movie, cinemap],
-            checker: valid
-        ).resolve(movieRequest)
-
-        try require(
-            atodoFirst.source.providerID == "atodo",
-            "Atodo must win when it is first and playback succeeds"
-        )
-
-        print(
-            "PASS runtime fallback, Cinemap debug playback, provider priority order"
-        )
-
-        print(
-            "ALL PROVIDER TESTS PASSED (fixtures + permitted Apple debug HLS)"
-        )
+        if case .unsupported = cinemap.availability { } else {
+            throw TestFailure(message: "Unconfigured Cinemap must be unavailable")
+        }
+        let configured = CinemapProvider(baseURL: URL(string: "https://fixture.invalid/video")!)
+        try require(configured.availability == .available, "Configured Cinemap available")
+        let configuredSources = try await configured.sources(for: media)
+        try require(configuredSources.1.first?.id == "cinemap", "Configured Cinemap source")
+        let configuredRequests = try await configured.requests(for: request)
+        try require(configuredRequests.first?.providerID == "cinemap", "Cinemap request identity")
+        let downloads = try await good.downloads(for: request)
+        try require(downloads.isEmpty, "Streaming provider does not imply download permission")
+        let priority = try await ProviderResolver(providers: [first, good], checker: valid).resolve(request)
+        let reversedPriority = try await ProviderResolver(providers: [good, first], checker: valid).resolve(request)
+        try require(priority.source.providerID == "first" && reversedPriority.source.providerID == "second", "Provider priority order")
+        print("ALL PROVIDER TESTS PASSED (fixtures, download policy and persistence)")
     }
 }

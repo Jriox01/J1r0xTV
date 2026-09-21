@@ -51,6 +51,8 @@ protocol VideoProvider: Sendable {
     func requests(for request: PlaybackRequest) async throws -> [PlaybackRequest]
     /// Must obtain a fresh URL from the provider for every call, including renewal.
     func playback(for request: PlaybackRequest) async throws -> PlaybackSource
+    /// Download permission is independent from the ability to stream a URL.
+    func downloads(for request: PlaybackRequest) async throws -> [DownloadVariant]
 }
 
 enum ProviderError: LocalizedError {
@@ -79,6 +81,7 @@ enum ProviderError: LocalizedError {
 
 // Catalog APIs stay intact; playback refresh is an explicit capability.
 extension VideoProvider {
+    func downloads(for request: PlaybackRequest) async throws -> [DownloadVariant] { [] }
     func canHandle(_ media: MediaItem) -> Bool { availability == .available }
     func refresh(source: PlaybackSource, request: PlaybackRequest) async throws -> PlaybackSource {
         throw ProviderError.refreshUnsupported

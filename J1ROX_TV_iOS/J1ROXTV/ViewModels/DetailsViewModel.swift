@@ -12,6 +12,14 @@ import Combine
     func prepare() async { loading=true;error=nil;do{let(full,values)=try await streaming.sources(for:item);item=full;sources=values;providerName=streaming.providerName;guard !values.isEmpty else{throw StreamingError.noCompatibleSource};var lastError:Error?;for source in values{do{try await select(source:source);lastError=nil;break}catch{lastError=error}};if let lastError{throw lastError}}catch{self.error=error.localizedDescription};loading=false }
     func select(source:SourceOption) async throws { let content=try await streaming.content(for:item,sourceID:source.id);translations=streaming.translations(in:content);guard let first=translations.first else{throw StreamingError.noCompatibleSource};select(translation:first);activeSource=source.id }
     private(set) var activeSource:String=""
+    func downloadRequest(episode: EpisodeOption? = nil) -> PlaybackRequest {
+        .init(media: item, sourceID: activeSource, translationID: selectedTranslation?.id,
+              season: episode == nil ? nil : selectedSeason?.number, episode: episode?.number,
+              translationName: selectedTranslation?.name, providerID: streaming.providerID)
+    }
+    func downloadVariants(for request: PlaybackRequest) async throws -> (PlaybackRequest, [DownloadVariant]) {
+        try await streaming.downloads(request)
+    }
     func select(translation:TranslationOption){selectedTranslation=translation;seasons=streaming.seasons(in:translation);selectedSeason=nil;episodes=[]}
     func select(season:SeasonOption){selectedSeason=season;episodes=streaming.episodes(in:season)}
     func play(episode: EpisodeOption? = nil, resume: Double = 0) async throws -> PlaybackSelection {

@@ -1,4 +1,5 @@
 import Foundation
+import AVFoundation
 
 // Detail selectors use the first available provider; playback is always resolved afresh.
 @MainActor final class StreamingService {
@@ -33,5 +34,20 @@ import Foundation
     func resolve(_ request: PlaybackRequest) async throws -> PlaybackSelection {
         let result = try await resolver.resolve(request)
         return PlaybackSelection(source: result.source, switched: result.switched)
+    }
+    func downloads(_ request: PlaybackRequest) async throws -> (PlaybackRequest, [DownloadVariant]) {
+        // Resolve exactly as playback does, preserving the actual fallback provider/episode.
+        let source = try await resolve(request).source
+        let variant = DownloadVariant(url: source.url, quality: source.quality ?? "????????",
+            expectedBytes: nil, headers: source.headers, expiresAt: source.expiresAt)
+        guard variant.isHLS || DownloadVariant.isDirectFile(source.url) else { throw DownloadError.unavailable }
+        var options: [String: Any] = [:]
+        if !source.headers.isEmpty { options["AVURLAssetHTTPHeaderFieldsKey"] = source.headers }
+        if let agent = source.headers.first(where: { $0.key.lowercased() == "user-agent" })?.value {
+            options[AVURLAssetHTTPUserAgentKey] = agent
+        }
+        let asset = AVURLAsset(url: source.url, options: options)
+        guard try await asset.load(.hasProtectedContent) == false else { throw DownloadError.unavailable }
+        return (source.request, [variant.isHLS ? variant : try await variant.inspectingSize()])
     }
 }

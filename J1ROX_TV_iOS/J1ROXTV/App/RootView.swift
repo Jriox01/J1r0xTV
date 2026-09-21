@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct RootView:View{
+    @EnvironmentObject private var downloads: DownloadManager
     @EnvironmentObject var app:AppViewModel;@State private var splash=true
     var body: some View {
         ZStack {
@@ -11,6 +12,7 @@ struct RootView:View{
                     SearchView().tabItem { Label("Поиск", systemImage: "magnifyingglass") }
                     FavoritesView().tabItem { Label("Избранное", systemImage: "heart.fill") }
                     HistoryView().tabItem { Label("История", systemImage: "clock.fill") }
+                    DownloadsView().tabItem { Label("Загрузки", systemImage: "arrow.down.circle.fill") }
                     #if DEBUG
                     DebugPlaybackView().tabItem { Label("HLS Test", systemImage: "stethoscope") }
                     #endif
@@ -18,6 +20,9 @@ struct RootView:View{
             }
         }
         .preferredColorScheme(.dark)
+        .alert("Загрузки", isPresented: Binding(get: { downloads.message != nil }, set: { if !$0 { downloads.message = nil } })) {
+            Button("OK") { downloads.message = nil }
+        } message: { Text(downloads.message ?? "") }
         .task {
             try? await Task.sleep(for: .seconds(2))
             withAnimation(.easeInOut(duration: 0.6)) { splash = false }

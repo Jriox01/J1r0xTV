@@ -11,6 +11,14 @@ import Combine
     func search(_ query:String){ searchTask?.cancel(); guard !query.trimmingCharacters(in:.whitespaces).isEmpty else {searchResults=[];return}; searchTask=Task { try? await Task.sleep(for:.milliseconds(450)); guard !Task.isCancelled else{return}; isLoading=true; do{searchResults=try await searchService.search(query)}catch is CancellationError{}catch{errorMessage="Не удалось выполнить поиск";debugPrint(error)};isLoading=false } }
     func continueWatching(_ entry: WatchProgressEntity) async {
         guard let media = library.media(from: entry.rawJSON) else { return }
+        if let local = DownloadManager.shared.records.first(where: {
+            $0.state == .completed && $0.media.id == media.id && $0.media.mediaType == media.mediaType &&
+            ($0.season ?? "") == entry.season && ($0.episode ?? "") == entry.episode &&
+            ($0.translationID ?? "") == entry.translationID && ($0.sourceID ?? "") == entry.sourceID
+        }) {
+            playback = DownloadManager.shared.playback(local.id, resumeAt: entry.position)
+            return
+        }
         do {
             playback = try await streaming.resolve(.init(media: media, sourceID: entry.sourceID,
                 translationID: entry.translationID, season: entry.season.isEmpty ? nil : entry.season,

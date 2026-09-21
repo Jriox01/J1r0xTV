@@ -97,6 +97,7 @@ struct DetailsView: View {
             }
             .buttonStyle(DetailsControlStyle(selected: true))
             DetailsFavoriteButton(library: app.library, item: model.item)
+            if model.item.mediaType != "tv" { DownloadButton(model: model) }
         }
     }
 
@@ -171,6 +172,7 @@ struct DetailsView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                         }
                         .buttonStyle(DetailsControlStyle())
+                        DownloadButton(model: model, episode: episode)
                     }
                 }
             }

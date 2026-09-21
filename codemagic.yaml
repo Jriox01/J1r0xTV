@@ -66,8 +66,13 @@ workflows:
             -destination "generic/platform=iOS" \
             -derivedDataPath build/DerivedData-check \
             CODE_SIGNING_ALLOWED=NO \
-            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_REQUIRED=NO SWIFT_STRICT_CONCURRENCY=complete \
             build 2>&1 | tee build/logs/unsigned-build.log
+      - name: Download lifecycle on iPhone Simulator
+        script: |
+          #!/bin/bash
+          set -euo pipefail
+          bash "$CM_BUILD_DIR/J1ROX_TV_iOS/Tests/run-download-simulator.sh" 2>&1 | tee "$CM_BUILD_DIR/J1ROX_TV_iOS/build/logs/download-simulator.log"
     artifacts:
       - J1ROX_TV_iOS/build/logs/**
       - J1ROX_TV_iOS/build/DerivedData-check/Logs/**/*.xcactivitylog

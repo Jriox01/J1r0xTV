@@ -22,6 +22,11 @@ import Combine
         let position = snapshot.position
         guard selection.source.id == sourceID, !switching, error == nil else { return }
         let failed = selection.source
+        if failed.url.isFileURL {
+            error = "Не удалось открыть скачанный файл. Удалите его и скачайте заново."
+            diagnostic = PlaybackDiagnostics.error(failure)
+            return
+        }
         var request = failed.request
         if position.isFinite && position > 0 { request.resumeAt = position }
         diagnostic = PlaybackDiagnostics.error(failure)

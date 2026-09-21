@@ -76,6 +76,23 @@ final class AtodoProvider: VideoProvider, @unchecked Sendable {
     }
 
     func playback(for request: PlaybackRequest) async throws -> PlaybackSource {
+        let (selected, container) = try await selectedContainer(for: request)
+        return try await resolve(selected, container: container)
+    }
+
+    func downloads(for request: PlaybackRequest) async throws -> [DownloadVariant] {
+        let (selected, container) = try await selectedContainer(for: request)
+        guard selected.translationID == request.translationID else { throw ProviderError.selectionUnavailable }
+        var metadata = container
+        if metadata["downloads"] == nil, let data = container["data"]?.object {
+            let bytes = try JSONSerialization.data(withJSONObject: data.mapValues(\.jsonObject))
+            metadata = unwrapObject(try await client.get(path: "api/source/\(request.sourceID ?? "")",
+                query: ["data": bytes.base64EncodedString()]))
+        }
+        return DownloadVariant.parse(metadata)
+    }
+
+    private func selectedContainer(for request: PlaybackRequest) async throws -> (PlaybackRequest, [String: JSONValue]) {
         guard let sourceID = request.sourceID else { throw ProviderError.selectionUnavailable }
         let full = try await details.details(type: request.media.mediaType, id: request.media.id)
         let content = try await content(for: full, sourceID: sourceID)
@@ -104,7 +121,7 @@ final class AtodoProvider: VideoProvider, @unchecked Sendable {
         selected.translationID = translation.id
         selected.translationName = translation.name
         selected.providerID = id
-        return try await resolve(selected, container: container)
+        return (selected, container)
     }
 
     func sources(for input: MediaItem) async throws -> (MediaItem, [SourceOption]) {
