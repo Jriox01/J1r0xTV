@@ -124,5 +124,33 @@ import CoreData
     try check(!DownloadFiles.isSafePackagePath("../a.movpkg") && !DownloadFiles.isSafePackagePath("/a.movpkg"), "package traversal")
     var nonFinite = record; nonFinite.hlsProgress = .infinity
     try check(nonFinite.progress == record.progress, "non-finite progress never reaches integer conversion")
+    // Preserve AVFoundation's exact relative location, independent of extension,
+    // percent escapes, or a different sandbox UUID after an app update.
+    let oldHome = directory.appendingPathComponent("old-sandbox", isDirectory: true)
+    let newHome = directory.appendingPathComponent("new-sandbox", isDirectory: true)
+    let package = oldHome.appendingPathComponent("Library/Caches/HLS movie.asset", isDirectory: true)
+    let relative = try DownloadFiles.packagePath(for: package, home: oldHome)
+    try check(relative == "Library/Caches/HLS movie.asset", "HLS location does not assume movpkg suffix")
+    let relocated = try DownloadFiles.packageURL(relative, home: newHome)
+    try check(relocated.path == newHome.appendingPathComponent(relative).path, "sandbox-relative URL survives update")
+    for path in ["../escape.movpkg", "tmp/temporary.movpkg", ".", "Library/../escape", "Library"] {
+        try check(!DownloadFiles.isSafePackagePath(path), "unsafe HLS package path " + path)
+    }
+    var missingHLS = finished
+    missingHLS.id = UUID(); missingHLS.variant = hls
+    missingHLS.localPackagePath = "Library/" + UUID().uuidString + ".movpkg"
+    missingHLS.hlsProgress = 1; missingHLS.completedAt = Date()
+    try recoveredStore.save([finished, missingHLS])
+    let repaired = try recoveredStore.load()
+    let missing = repaired.first { $0.id == missingHLS.id }
+    try check(missing?.state == .failed && missing?.completedAt == nil && missing?.hlsProgress == nil,
+              "old completed HLS without local asset is failed before display")
+    try check(repaired.first { $0.id == finished.id }?.state == .completed, "unrelated completed MP4 retained")
+    let emptyPackage = try DownloadFiles.packageURL("Library/Caches/" + UUID().uuidString + ".movpkg")
+    try FileManager.default.createDirectory(at: emptyPackage, withIntermediateDirectories: true)
+    defer { try? FileManager.default.removeItem(at: emptyPackage) }
+    missingHLS.localPackagePath = try DownloadFiles.packagePath(for: emptyPackage)
+    missingHLS.recoverPersistedState()
+    try check(missingHLS.state == .failed, "existing empty HLS directory is not completed/offline playable")
     print("PASS download permissions, DRM, direct-file formats, Core Data restoration/deletion, sandbox, disk capacity")
 }

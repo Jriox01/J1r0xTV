@@ -64,18 +64,22 @@ private struct DownloadRow: View {
                     Text(entry.episodeLabel).font(.subheadline)
                     if let voice = entry.translationName { Text(voice).font(.caption).foregroundStyle(.secondary) }
                     Text("\(entry.variant.quality) · \(entry.state.title)").font(.caption).foregroundStyle(.secondary)
-                    Text("\(downloadBytes(entry.received)) / \(entry.total > 0 ? downloadBytes(entry.total) : "неизвестно")")
-                        .font(.caption).monospacedDigit()
+                    if !entry.variant.isHLS || entry.total > 0 {
+                        Text("\(downloadBytes(entry.received)) / \(entry.total > 0 ? downloadBytes(entry.total) : "неизвестно")")
+                            .font(.caption).monospacedDigit()
+                    }
                 }
             }
             if entry.state != .completed {
                 ProgressView(value: entry.progress).tint(.red)
                 HStack {
-                    Text(entry.progress.map { "\(Int($0 * 100))%" } ?? "Размер неизвестен")
+                    Text(entry.progress.map { "\(Int($0 * 100))%" } ?? (entry.variant.isHLS ? entry.state.title : "Размер неизвестен"))
                     Spacer()
-                    TimelineView(.periodic(from: .now, by: 1)) { context in
-                        let speed = downloads.speed(entry.id, at: context.date)
-                        Text(speed > 0 ? "\(downloadBytes(Int64(speed)))/с · \(remaining(speed))" : "— /с · время неизвестно")
+                    if !entry.variant.isHLS {
+                        TimelineView(.periodic(from: .now, by: 1)) { context in
+                            let speed = downloads.speed(entry.id, at: context.date)
+                            Text(speed > 0 ? "\(downloadBytes(Int64(speed)))/с · \(remaining(speed))" : "— /с · время неизвестно")
+                        }
                     }
                 }.font(.caption).foregroundStyle(.secondary).monospacedDigit()
                 if entry.state == .downloading && downloads.settings.wifiOnly {
@@ -106,7 +110,7 @@ private struct DownloadRow: View {
                     Text(entry.media.title).font(.headline)
                     if !entry.media.originalTitle.isEmpty { Text(entry.media.originalTitle) }
                     Text(entry.media.year + " · " + entry.episodeLabel)
-                    Text(entry.variant.quality + " · " + downloadBytes(entry.received))
+                    Text(entry.variant.quality + " · " + (entry.variant.isHLS && entry.total <= 0 ? entry.state.title : downloadBytes(entry.received)))
                     if let date = entry.completedAt { Text("Скачано: " + date.formatted(date: .abbreviated, time: .shortened)) }
                     Text(entry.media.overview)
                 }.navigationTitle("Информация")

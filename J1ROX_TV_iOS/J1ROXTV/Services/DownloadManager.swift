@@ -149,9 +149,12 @@ import AVFoundation
     func remove(_ id: UUID) {
         guard let entry = record(id) else { return }
         do {
-            if entry.localFilename != nil || entry.localPackagePath != nil {
+            if entry.variant.isHLS ? entry.localPackagePath != nil : entry.localFilename != nil {
                 let url = try localURL(entry)
-                if FileManager.default.fileExists(atPath: url.path) { try FileManager.default.removeItem(at: url) }
+                if FileManager.default.fileExists(atPath: url.path),
+                   !entry.variant.isHLS || AVURLAsset(url: url).assetCache != nil {
+                    try FileManager.default.removeItem(at: url)
+                }
             }
             records.removeAll { $0.id == id }
             tasks[id]?.cancel() // Keep its slot until didComplete, avoiding transient overbooking.
@@ -171,11 +174,19 @@ import AVFoundation
         do {
             let url = try localURL(entry)
             guard FileManager.default.fileExists(atPath: url.path) else { throw DownloadError.missingFile }
+            if entry.variant.isHLS {
+                guard let path = entry.localPackagePath else { throw DownloadError.missingFile }
+                _ = try DownloadFiles.playablePackageURL(path)
+            }
             var request = entry.request; request.resumeAt = resumeAt
             return PlaybackSelection(source: PlaybackSource(request: request, url: url,
                 providerID: entry.providerID, providerName: "Скачанные", quality: entry.variant.quality))
         } catch {
-            if let index = index(id) { records[index].state = .failed; records[index].failure = error.localizedDescription; _ = persist() }
+            if let index = index(id) {
+                records[index].state = .failed; records[index].failure = error.localizedDescription
+                records[index].completedAt = nil; records[index].hlsProgress = nil
+                _ = persist()
+            }
             message = error.localizedDescription; return nil
         }
     }
@@ -203,17 +214,24 @@ import AVFoundation
         }
         for index in records.indices {
             let entry = records[index]
-            if let url = try? localURL(entry), FileManager.default.fileExists(atPath: url.path),
-               !entry.variant.isHLS || entry.state == .completed {
+            if entry.variant.isHLS {
+                // Never infer HLS completion from a directory or progress alone.
+                records[index].recoverPersistedState()
+                if tasks[entry.id] == nil && [.downloading, .paused].contains(records[index].state) {
+                    records[index].state = .failed
+                    records[index].failure = "Загрузка прервана. Нажмите «Повторить», чтобы начать заново."
+                }
+                continue
+            }
+            if let url = try? localURL(entry), FileManager.default.fileExists(atPath: url.path) {
                 // File is only installed after validation; recover a crash between move and metadata commit.
                 records[index].state = .completed; records[index].resumeData = nil
                 records[index].completedAt = entry.completedAt ?? Date()
-                let size = entry.variant.isHLS ? entry.received : (try? url.resourceValues(forKeys: [.fileSizeKey]).fileSize).map(Int64.init) ?? entry.received
+                let size = (try? url.resourceValues(forKeys: [.fileSizeKey]).fileSize).map(Int64.init) ?? entry.received
                 records[index].received = size; records[index].total = size
             } else if entry.state == .completed {
                 records[index].state = .failed; records[index].failure = DownloadError.missingFile.localizedDescription
-            } else if tasks[entry.id] == nil &&
-                        (entry.state == .downloading || (entry.variant.isHLS && entry.state == .paused)) {
+            } else if tasks[entry.id] == nil && entry.state == .downloading {
                 records[index].state = .failed
                 records[index].resumeData = nil
                 records[index].failure = "Загрузка прервана. Нажмите «Повторить», чтобы начать заново."
@@ -262,7 +280,8 @@ import AVFoundation
                 guard persist() else { records[index].state = .failed; return }
                 let task: URLSessionTask
                 if entry.variant.isHLS {
-                    if entry.localPackagePath != nil, let old = try? localURL(entry), FileManager.default.fileExists(atPath: old.path) {
+                    if entry.localPackagePath != nil, let old = try? localURL(entry),
+                       FileManager.default.fileExists(atPath: old.path), AVURLAsset(url: old).assetCache != nil {
                         try FileManager.default.removeItem(at: old)
                     }
                     records[index].localPackagePath = nil; records[index].hlsProgress = 0
@@ -365,18 +384,21 @@ import AVFoundation
             if task is AVAssetDownloadTask, error == nil,
                records[index].state != .completed, records[index].state != .failed {
                 do {
-                    let url = try localURL(records[index])
-                    guard AVURLAsset(url: url).assetCache?.isPlayableOffline == true else { throw DownloadError.invalidFile }
-                    records[index].state = .completed; records[index].completedAt = Date()
-                    records[index].hlsProgress = 1
+                    guard let path = records[index].localPackagePath else { throw DownloadError.missingFile }
+                    let url = try DownloadFiles.playablePackageURL(path)
                     let files = FileManager.default.enumerator(at: url, includingPropertiesForKeys: [.fileSizeKey])
                     var size: Int64 = 0
                     while let file = files?.nextObject() as? URL {
                         size = Self.addBytes(size, Int64((try? file.resourceValues(forKeys: [.fileSizeKey]).fileSize) ?? 0))
                     }
                     records[index].received = size; records[index].total = size
+                    // didFinishDownloadingTo saved the location; didComplete succeeded,
+                    // and the package now exists and supports offline playback.
+                    records[index].state = .completed; records[index].completedAt = Date()
+                    records[index].hlsProgress = 1; records[index].failure = nil
                 } catch {
                     records[index].state = .failed; records[index].failure = error.localizedDescription
+                    records[index].completedAt = nil; records[index].hlsProgress = nil
                     message = error.localizedDescription
                 }
             }
@@ -396,25 +418,30 @@ import AVFoundation
     }
 
     private func localURL(_ entry: DownloadRecord) throws -> URL {
-        if let path = entry.localPackagePath {
-            guard DownloadFiles.isSafePackagePath(path) else { throw DownloadError.missingFile }
-            let home = URL(fileURLWithPath: NSHomeDirectory()).resolvingSymlinksInPath()
-            let url = home.appendingPathComponent(path).standardizedFileURL.resolvingSymlinksInPath()
-            guard url.path.hasPrefix(home.path + "/"), url.pathExtension == "movpkg" else { throw DownloadError.missingFile }
-            return url
+        if entry.variant.isHLS {
+            guard let path = entry.localPackagePath else { throw DownloadError.missingFile }
+            return try DownloadFiles.packageURL(path)
         }
         guard let name = entry.localFilename else { throw DownloadError.missingFile }
         return try DownloadFiles.file(name)
     }
 
     fileprivate func hlsLocation(_ task: AVAssetDownloadTask, location: URL) {
-        let home = URL(fileURLWithPath: NSHomeDirectory()).resolvingSymlinksInPath().path + "/"
-        let path = location.resolvingSymlinksInPath().path
-        guard path.hasPrefix(home), location.pathExtension == "movpkg" else { task.cancel(); return }
         // Stale/cancelled callbacks must never replace or remove a completed package.
         guard let index = taskIndex(task), records[index].state != .completed,
               records[index].state != .failed else { return }
-        records[index].localPackagePath = String(path.dropFirst(home.count))
+        do {
+            let path = try DownloadFiles.packagePath(for: location)
+            let url = try DownloadFiles.packageURL(path)
+            guard FileManager.default.fileExists(atPath: url.path) else { throw DownloadError.missingFile }
+            records[index].localPackagePath = path
+            records[index].localFilename = nil
+        } catch {
+            records[index].state = .failed; records[index].failure = error.localizedDescription
+            records[index].completedAt = nil; records[index].hlsProgress = nil
+            message = error.localizedDescription
+            task.cancel()
+        }
         _ = persist()
     }
 

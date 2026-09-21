@@ -1,4 +1,5 @@
 import CoreData
+import AVFoundation
 
 /// A separate Core Data store keeps the existing favorites/history schema untouched.
 /// The Codable payload retains the complete catalogue snapshot offline.
@@ -85,7 +86,31 @@ enum DownloadFiles {
     }
     static func isSafePackagePath(_ path: String) -> Bool {
         !path.isEmpty && !path.hasPrefix("/") && !path.contains("\\") && !path.contains("\0") &&
-        !path.split(separator: "/").contains("..") && (path as NSString).pathExtension == "movpkg"
+        !path.split(separator: "/").contains("..") && !path.split(separator: "/").contains(".") &&
+        path.split(separator: "/").count >= 2 && !path.hasPrefix("tmp/")
+    }
+    // AVFoundation owns this location. Store the path relative to the sandbox,
+    // whose absolute UUID can change on an app update. Never move/rename the asset.
+    static func packagePath(for location: URL, home: URL = URL(fileURLWithPath: NSHomeDirectory())) throws -> String {
+        guard location.isFileURL else { throw DownloadError.missingFile }
+        let prefix = home.standardizedFileURL.resolvingSymlinksInPath().path + "/"
+        let path = location.standardizedFileURL.resolvingSymlinksInPath().path
+        guard path.hasPrefix(prefix) else { throw DownloadError.missingFile }
+        let relative = String(path.dropFirst(prefix.count))
+        guard isSafePackagePath(relative) else { throw DownloadError.missingFile }
+        return relative
+    }
+    static func packageURL(_ path: String, home: URL = URL(fileURLWithPath: NSHomeDirectory())) throws -> URL {
+        guard isSafePackagePath(path) else { throw DownloadError.missingFile }
+        let url = home.appendingPathComponent(path).standardizedFileURL.resolvingSymlinksInPath()
+        _ = try packagePath(for: url, home: home)
+        return url
+    }
+    static func playablePackageURL(_ path: String) throws -> URL {
+        let url = try packageURL(path)
+        guard FileManager.default.fileExists(atPath: url.path) else { throw DownloadError.missingFile }
+        guard AVURLAsset(url: url).assetCache?.isPlayableOffline == true else { throw DownloadError.invalidFile }
+        return url
     }
     static func root() throws -> URL {
         var name = "Downloads"

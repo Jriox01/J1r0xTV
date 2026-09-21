@@ -149,6 +149,15 @@ struct DownloadRecord: Codable, Equatable, Identifiable, Sendable {
             generation = UUID()
         }
         recoveryVersion = 2
+        if variant.isHLS && state == .completed {
+            do {
+                guard let path = localPackagePath else { throw DownloadError.missingFile }
+                _ = try DownloadFiles.playablePackageURL(path)
+            } catch {
+                state = .failed; completedAt = nil; hlsProgress = nil
+                failure = error.localizedDescription
+            }
+        }
     }
 
     var request: PlaybackRequest {
