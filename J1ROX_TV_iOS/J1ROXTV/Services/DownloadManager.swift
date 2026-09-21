@@ -175,8 +175,8 @@ import AVFoundation
             let url = try localURL(entry)
             guard FileManager.default.fileExists(atPath: url.path) else { throw DownloadError.missingFile }
             if entry.variant.isHLS {
-                guard let path = entry.localPackagePath else { throw DownloadError.missingFile }
-                _ = try DownloadFiles.playablePackageURL(path)
+                guard let path = entry.localPackagePath else { throw DownloadError.invalidLocation }
+                _ = try DownloadFiles.existingPackageURL(path, bookmark: entry.localPackageBookmark)
             }
             var request = entry.request; request.resumeAt = resumeAt
             return PlaybackSelection(source: PlaybackSource(request: request, url: url,
@@ -193,7 +193,7 @@ import AVFoundation
 
     private func restore() async {
         for session in sessions {
-            let all = await session.allTasks
+            let all = await session.allTasks // Async getAllTasks, including AVAssetDownloadTask.
             for task in all where task is URLSessionDownloadTask || task is AVAssetDownloadTask {
                 guard let index = records.firstIndex(where: { $0.taskKey == task.taskDescription }),
                       records[index].state != .completed, records[index].state != .failed,
@@ -284,7 +284,8 @@ import AVFoundation
                        FileManager.default.fileExists(atPath: old.path), AVURLAsset(url: old).assetCache != nil {
                         try FileManager.default.removeItem(at: old)
                     }
-                    records[index].localPackagePath = nil; records[index].hlsProgress = 0
+                    records[index].localPackagePath = nil; records[index].localPackageBookmark = nil
+                    records[index].hlsLocationIsSystemProvided = nil; records[index].hlsProgress = 0
                     var options: [String: Any] = ["AVURLAssetHTTPHeaderFieldsKey": entry.variant.headers]
                     if let agent = entry.variant.headers.first(where: { $0.key.lowercased() == "user-agent" })?.value {
                         options[AVURLAssetHTTPUserAgentKey] = agent
@@ -348,7 +349,8 @@ import AVFoundation
     }
 
     fileprivate func downloaded(_ task: URLSessionDownloadTask, location: URL) {
-        guard let index = taskIndex(task), records[index].state == .downloading else { return }
+        guard let index = taskIndex(task), records[index].state == .downloading,
+              !records[index].variant.isHLS else { return }
         do {
             guard let response = task.response as? HTTPURLResponse else { throw DownloadError.invalidFile }
             guard [200, 206].contains(response.statusCode) else { throw ProviderError.http(response.statusCode) }
@@ -379,21 +381,19 @@ import AVFoundation
     }
 
     fileprivate func completed(_ task: URLSessionTask, error: Error?) {
+        #if DEBUG
+        if task is AVAssetDownloadTask { print("TASK ERROR: \(error?.localizedDescription ?? "none")") }
+        #endif
         let ownedID = tasks.first { $0.value === task }?.key
         if let index = taskIndex(task) {
             if task is AVAssetDownloadTask, error == nil,
                records[index].state != .completed, records[index].state != .failed {
                 do {
-                    guard let path = records[index].localPackagePath else { throw DownloadError.missingFile }
-                    let url = try DownloadFiles.playablePackageURL(path)
-                    let files = FileManager.default.enumerator(at: url, includingPropertiesForKeys: [.fileSizeKey])
-                    var size: Int64 = 0
-                    while let file = files?.nextObject() as? URL {
-                        size = Self.addBytes(size, Int64((try? file.resourceValues(forKeys: [.fileSizeKey]).fileSize) ?? 0))
-                    }
-                    records[index].received = size; records[index].total = size
-                    // didFinishDownloadingTo saved the location; didComplete succeeded,
-                    // and the package now exists and supports offline playback.
+                    guard let path = records[index].localPackagePath else { throw DownloadError.invalidLocation }
+                    _ = try DownloadFiles.existingPackageURL(path, bookmark: records[index].localPackageBookmark)
+                    // didFinishDownloadingTo supplied the URL; didComplete succeeded.
+                    // Do not inspect the bundle or invent a byte count for HLS.
+                    records[index].received = 0; records[index].total = 0
                     records[index].state = .completed; records[index].completedAt = Date()
                     records[index].hlsProgress = 1; records[index].failure = nil
                 } catch {
@@ -419,22 +419,31 @@ import AVFoundation
 
     private func localURL(_ entry: DownloadRecord) throws -> URL {
         if entry.variant.isHLS {
-            guard let path = entry.localPackagePath else { throw DownloadError.missingFile }
-            return try DownloadFiles.packageURL(path)
+            guard let path = entry.localPackagePath else { throw DownloadError.invalidLocation }
+            return try DownloadFiles.packageURL(path, bookmark: entry.localPackageBookmark)
         }
         guard let name = entry.localFilename else { throw DownloadError.missingFile }
         return try DownloadFiles.file(name)
     }
 
     fileprivate func hlsLocation(_ task: AVAssetDownloadTask, location: URL) {
+        #if DEBUG
+        print("DOWNLOAD LOCATION: \(location.absoluteString)")
+        print("LOCATION EXISTS: \(FileManager.default.fileExists(atPath: location.path))")
+        #endif
         // Stale/cancelled callbacks must never replace or remove a completed package.
         guard let index = taskIndex(task), records[index].state != .completed,
               records[index].state != .failed else { return }
         do {
             let path = try DownloadFiles.packagePath(for: location)
-            let url = try DownloadFiles.packageURL(path)
-            guard FileManager.default.fileExists(atPath: url.path) else { throw DownloadError.missingFile }
             records[index].localPackagePath = path
+            records[index].hlsLocationIsSystemProvided = true
+            records[index].localPackageBookmark = try? location.bookmarkData(options: .minimalBookmark,
+                includingResourceValuesForKeys: nil, relativeTo: nil)
+            #if DEBUG
+            print("SAVED LOCAL URL: \(path)")
+            #endif
+            guard FileManager.default.fileExists(atPath: location.path) else { throw DownloadError.missingFile }
             records[index].localFilename = nil
         } catch {
             records[index].state = .failed; records[index].failure = error.localizedDescription

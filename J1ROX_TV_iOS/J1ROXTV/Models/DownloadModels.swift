@@ -128,6 +128,8 @@ struct DownloadRecord: Codable, Equatable, Identifiable, Sendable {
     var total: Int64 = 0
     var localFilename: String?
     var localPackagePath: String?
+    var localPackageBookmark: Data?
+    var hlsLocationIsSystemProvided: Bool?
     var hlsProgress: Double?
     var posterData: Data?
     var resumeData: Data?
@@ -149,10 +151,24 @@ struct DownloadRecord: Codable, Equatable, Identifiable, Sendable {
             generation = UUID()
         }
         recoveryVersion = 2
+        // Old versions invented a package path in the MP4 directory. Do not
+        // search for files there or treat that fabricated path as an HLS asset.
+        if variant.isHLS, hlsLocationIsSystemProvided != true,
+           (localPackagePath.map {
+                let path = (try? DownloadFiles.packageURL($0).path) ?? $0
+                return path.contains("Application Support/Downloads/") && path.hasSuffix(".movpkg")
+            } == true ||
+            (localPackagePath == nil && localFilename?.hasSuffix(".movpkg") == true)) {
+            state = .failed; completedAt = nil; hlsProgress = nil
+            localPackagePath = nil; localPackageBookmark = nil; localFilename = nil
+            failure = DownloadError.invalidLocation.localizedDescription
+            generation = UUID()
+        }
         if variant.isHLS && state == .completed {
             do {
-                guard let path = localPackagePath else { throw DownloadError.missingFile }
-                _ = try DownloadFiles.playablePackageURL(path)
+                guard let path = localPackagePath else { throw DownloadError.invalidLocation }
+                let url = try DownloadFiles.existingPackageURL(path, bookmark: localPackageBookmark)
+                localPackagePath = try DownloadFiles.packagePath(for: url)
             } catch {
                 state = .failed; completedAt = nil; hlsProgress = nil
                 failure = error.localizedDescription
@@ -180,9 +196,10 @@ struct DownloadSettings: Codable, Equatable, Sendable {
 }
 
 enum DownloadError: LocalizedError {
-    case unavailable, noSpace, missingFile, invalidFile, expired
+    case unavailable, noSpace, missingFile, invalidFile, expired, invalidLocation
     var errorDescription: String? {
         switch self {
+        case .invalidLocation: return "Системное расположение HLS-загрузки не сохранено. Удалите запись и скачайте видео заново."
         case .unavailable: return "Источник не поддерживает скачивание этого видео. Защищённое видео не поддерживается."
         case .noSpace: return "Недостаточно свободного места. Удалите ненужные загрузки и повторите попытку."
         case .missingFile: return "Скачанный файл отсутствует. Удалите запись и скачайте видео заново."

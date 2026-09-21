@@ -1,5 +1,4 @@
 import CoreData
-import AVFoundation
 
 /// A separate Core Data store keeps the existing favorites/history schema untouched.
 /// The Codable payload retains the complete catalogue snapshot offline.
@@ -49,7 +48,7 @@ import AVFoundation
         if let record = try? JSONDecoder().decode(DownloadRecord.self, from: data) { return record }
         // Salvage old/completed records with damaged optional blobs instead of losing the library.
         guard var json = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any] else { return nil }
-        for key in ["resumeData", "posterData", "hlsProgress"] { json.removeValue(forKey: key) }
+        for key in ["resumeData", "posterData", "hlsProgress", "localPackageBookmark"] { json.removeValue(forKey: key) }
         if json["id"] == nil { json["id"] = id.uuidString }
         if json["generation"] == nil { json["generation"] = UUID().uuidString }
         if json["createdAt"] == nil { json["createdAt"] = Date().timeIntervalSinceReferenceDate }
@@ -85,31 +84,34 @@ enum DownloadFiles {
         filename != "." && filename != ".." && !filename.contains("\\") && !filename.contains("\0")
     }
     static func isSafePackagePath(_ path: String) -> Bool {
-        !path.isEmpty && !path.hasPrefix("/") && !path.contains("\\") && !path.contains("\0") &&
-        !path.split(separator: "/").contains("..") && !path.split(separator: "/").contains(".") &&
-        path.split(separator: "/").count >= 2 && !path.hasPrefix("tmp/")
+        guard !path.isEmpty, !path.contains("\0") else { return false }
+        if path.hasPrefix("file:") { return URL(string: path)?.isFileURL == true }
+        return !path.contains("://") && !path.split(separator: "/").contains("..") && path != "."
     }
-    // AVFoundation owns this location. Store the path relative to the sandbox,
-    // whose absolute UUID can change on an app update. Never move/rename the asset.
-    static func packagePath(for location: URL, home: URL = URL(fileURLWithPath: NSHomeDirectory())) throws -> String {
-        guard location.isFileURL else { throw DownloadError.missingFile }
-        let prefix = home.standardizedFileURL.resolvingSymlinksInPath().path + "/"
-        let path = location.standardizedFileURL.resolvingSymlinksInPath().path
-        guard path.hasPrefix(prefix) else { throw DownloadError.missingFile }
-        let relative = String(path.dropFirst(prefix.count))
-        guard isSafePackagePath(relative) else { throw DownloadError.missingFile }
-        return relative
+    // Persist the exact URL supplied by AVFoundation, including locations outside
+    // the app's home directory. No extension, bundle-layout or directory assumptions.
+    static func packagePath(for location: URL) throws -> String {
+        guard location.isFileURL else { throw DownloadError.invalidLocation }
+        return location.absoluteURL.absoluteString
     }
-    static func packageURL(_ path: String, home: URL = URL(fileURLWithPath: NSHomeDirectory())) throws -> URL {
-        guard isSafePackagePath(path) else { throw DownloadError.missingFile }
-        let url = home.appendingPathComponent(path).standardizedFileURL.resolvingSymlinksInPath()
-        _ = try packagePath(for: url, home: home)
+    static func packageURL(_ path: String, home: URL = URL(fileURLWithPath: NSHomeDirectory()), bookmark: Data? = nil) throws -> URL {
+        guard isSafePackagePath(path) else { throw DownloadError.invalidLocation }
+        let url: URL
+        if path.hasPrefix("file:"), let saved = URL(string: path) { url = saved }
+        else if path.hasPrefix("/") { url = URL(fileURLWithPath: path) }
+        else { url = home.appendingPathComponent(path) } // Legacy sandbox-relative records only.
+        if FileManager.default.fileExists(atPath: url.path) { return url }
+        if let bookmark {
+            var stale = false
+            if let resolved = try? URL(resolvingBookmarkData: bookmark, options: .withoutUI,
+                                       relativeTo: nil, bookmarkDataIsStale: &stale), resolved.isFileURL,
+               FileManager.default.fileExists(atPath: resolved.path) { return resolved }
+        }
         return url
     }
-    static func playablePackageURL(_ path: String) throws -> URL {
-        let url = try packageURL(path)
+    static func existingPackageURL(_ path: String, bookmark: Data? = nil) throws -> URL {
+        let url = try packageURL(path, bookmark: bookmark)
         guard FileManager.default.fileExists(atPath: url.path) else { throw DownloadError.missingFile }
-        guard AVURLAsset(url: url).assetCache?.isPlayableOffline == true else { throw DownloadError.invalidFile }
         return url
     }
     static func root() throws -> URL {

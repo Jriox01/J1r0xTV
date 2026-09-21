@@ -56,7 +56,11 @@ import UIKit
         if let agent = source.headers.first(where: { $0.key.lowercased() == "user-agent" })?.value {
             options[AVURLAssetHTTPUserAgentKey] = agent
         }
-        let asset = AVURLAsset(url: source.url, options: options)
+        // Offline assets use the system local URL, without network headers/resolution.
+        let asset = source.url.isFileURL ? AVURLAsset(url: source.url) : AVURLAsset(url: source.url, options: options)
+        #if DEBUG
+        if source.url.isFileURL { print("PLAYBACK LOCAL URL: \(source.url.absoluteString)") }
+        #endif
         let item = AVPlayerItem(asset: asset)
         status = "loading"
         observations.append(item.observe(\.status, options: [.initial, .new]) { [weak self] item, _ in

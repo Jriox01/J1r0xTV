@@ -121,21 +121,26 @@ import CoreData
     try check(try recoveredStore.load().count == 3, "recovery persists across launches")
     do { try recoveredStore.save([record, record]); throw NSError(domain: "Duplicate IDs accepted", code: 1) }
     catch DownloadError.invalidFile { }
-    try check(!DownloadFiles.isSafePackagePath("../a.movpkg") && !DownloadFiles.isSafePackagePath("/a.movpkg"), "package traversal")
+    try check(!DownloadFiles.isSafePackagePath("../a.movpkg") && !DownloadFiles.isSafePackagePath("https://fixture.invalid/a.movpkg"), "package traversal")
     var nonFinite = record; nonFinite.hlsProgress = .infinity
     try check(nonFinite.progress == record.progress, "non-finite progress never reaches integer conversion")
-    // Preserve AVFoundation's exact relative location, independent of extension,
-    // percent escapes, or a different sandbox UUID after an app update.
+    // The system location is opaque: outside-home and unusual names are valid.
     let oldHome = directory.appendingPathComponent("old-sandbox", isDirectory: true)
     let newHome = directory.appendingPathComponent("new-sandbox", isDirectory: true)
-    let package = oldHome.appendingPathComponent("Library/Caches/HLS movie.asset", isDirectory: true)
-    let relative = try DownloadFiles.packagePath(for: package, home: oldHome)
-    try check(relative == "Library/Caches/HLS movie.asset", "HLS location does not assume movpkg suffix")
-    let relocated = try DownloadFiles.packageURL(relative, home: newHome)
-    try check(relocated.path == newHome.appendingPathComponent(relative).path, "sandbox-relative URL survives update")
-    for path in ["../escape.movpkg", "tmp/temporary.movpkg", ".", "Library/../escape", "Library"] {
-        try check(!DownloadFiles.isSafePackagePath(path), "unsafe HLS package path " + path)
+    let package = directory.appendingPathComponent("system HLS % asset", isDirectory: true)
+    try FileManager.default.createDirectory(at: package, withIntermediateDirectories: true)
+    let savedLocation = try DownloadFiles.packagePath(for: package)
+    try check(savedLocation == package.absoluteURL.absoluteString, "exact system URL preserved")
+    let resolved = try DownloadFiles.packageURL(savedLocation, home: oldHome)
+    try check(resolved == package, "system asset outside home is not rewritten")
+    let legacy = "Library/Caches/HLS movie.asset"
+    let relocated = try DownloadFiles.packageURL(legacy, home: newHome)
+    try check(relocated.path == newHome.appendingPathComponent(legacy).path, "legacy relative path remains readable")
+    for path in ["../escape.movpkg", ".", "Library/../escape"] {
+        try check(!DownloadFiles.isSafePackagePath(path), "unsafe legacy HLS path " + path)
     }
+    try check(DownloadFiles.isSafePackagePath("tmp/temporary") && DownloadFiles.isSafePackagePath("unusual-name"),
+              "no directory or extension requirements for HLS")
     var missingHLS = finished
     missingHLS.id = UUID(); missingHLS.variant = hls
     missingHLS.localPackagePath = "Library/" + UUID().uuidString + ".movpkg"
@@ -146,11 +151,30 @@ import CoreData
     try check(missing?.state == .failed && missing?.completedAt == nil && missing?.hlsProgress == nil,
               "old completed HLS without local asset is failed before display")
     try check(repaired.first { $0.id == finished.id }?.state == .completed, "unrelated completed MP4 retained")
-    let emptyPackage = try DownloadFiles.packageURL("Library/Caches/" + UUID().uuidString + ".movpkg")
-    try FileManager.default.createDirectory(at: emptyPackage, withIntermediateDirectories: true)
-    defer { try? FileManager.default.removeItem(at: emptyPackage) }
-    missingHLS.localPackagePath = try DownloadFiles.packagePath(for: emptyPackage)
-    missingHLS.recoverPersistedState()
-    try check(missingHLS.state == .failed, "existing empty HLS directory is not completed/offline playable")
+    var existingHLS = finished
+    existingHLS.id = UUID(); existingHLS.variant = hls
+    existingHLS.localPackagePath = savedLocation
+    existingHLS.localPackageBookmark = try package.bookmarkData(options: .minimalBookmark,
+        includingResourceValuesForKeys: nil, relativeTo: nil)
+    try recoveredStore.save([existingHLS])
+    let retained = try recoveredStore.load()
+    try check(retained.first?.state == .completed, "existing system asset is not missing based on bundle structure")
+    try check(retained.first?.localPackagePath == savedLocation && retained.first?.localPackageBookmark != nil,
+              "system location and bookmark persist in Core Data")
+    let restoredURL = try DownloadFiles.existingPackageURL(savedLocation, bookmark: retained.first?.localPackageBookmark)
+    try check(restoredURL == package, "offline playback receives original system URL")
+    var fabricated = existingHLS
+    fabricated.localPackagePath = "Library/Application Support/Downloads/fabricated.movpkg"
+    fabricated.recoverPersistedState()
+    try check(fabricated.state == .failed && fabricated.localPackagePath == nil && fabricated.failure != nil,
+              "fabricated legacy MP4-directory HLS record requires download again")
+    fabricated = existingHLS
+    fabricated.localPackagePath = "file:///old/Library/Application%20Support/Downloads/fabricated.movpkg"
+    fabricated.recoverPersistedState()
+    try check(fabricated.state == .failed && fabricated.localPackagePath == nil, "legacy fabricated file URL also migrates")
+    try FileManager.default.removeItem(at: package)
+    existingHLS.recoverPersistedState()
+    try check(existingHLS.state == .failed && existingHLS.failure == DownloadError.missingFile.localizedDescription,
+              "missing error only when saved system asset is actually gone")
     print("PASS download permissions, DRM, direct-file formats, Core Data restoration/deletion, sandbox, disk capacity")
 }
