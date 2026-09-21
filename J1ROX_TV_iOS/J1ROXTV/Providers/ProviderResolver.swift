@@ -14,7 +14,8 @@ struct ProviderResolver: Sendable {
     let checker: any PlaybackSourceChecking
     let timeout: TimeInterval
 
-    init(providers: [any VideoProvider] = [AtodoProvider(), CinemapProvider()],
+    // Optional providers must be explicitly injected; normal startup/playback uses ATODO.
+    init(providers: [any VideoProvider] = [AtodoProvider()],
          checker: any PlaybackSourceChecking = PlaybackSourceValidator(), timeout: TimeInterval = 15) {
         self.providers = providers
         self.checker = checker

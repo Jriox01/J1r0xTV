@@ -70,6 +70,7 @@ enum PlaybackSourceValidatorTests {
     }
 }
 
+#if DEBUG
 enum TestHLSProviderTests {
     static func run(_ request: PlaybackRequest) async throws {
         for input in ["", "file:///a.m3u8", "https://", "https://user:secret@example.com/a.m3u8"] {
@@ -86,6 +87,8 @@ enum TestHLSProviderTests {
         print("PASS TestHLSProviderTests: validation, resolver path, headers, refreshUnsupported, redaction")
     }
 }
+
+#endif
 
 enum ProviderResolverTests {
     @MainActor static func run(_ request: PlaybackRequest) async throws {
@@ -149,7 +152,9 @@ enum PlaybackSessionTests {
     let request = PlaybackRequest(media: media, sourceID: "one")
     let source = PlaybackSource(request: request, url: URL(string: "https://example.invalid/a.m3u8")!, providerID: "test", providerName: "Test")
     try await PlaybackSourceValidatorTests.run(source)
+    #if DEBUG
     try await TestHLSProviderTests.run(request)
+    #endif
     try await ProviderResolverTests.run(request)
     try PlaybackSessionTests.run(source)
 }

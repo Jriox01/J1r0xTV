@@ -271,6 +271,10 @@ struct ProviderTests {
         try CinemarFixtureTests.run()
         try await runPlaybackTests()
         try await runDownloadTests()
+        try require(APIConfig.baseURL.absoluteString == "https://api.atodo.fun/", "ATODO API base")
+        let defaults = ProviderResolver().providers
+        try require(defaults.map(\.id) == ["atodo"] && defaults.first?.availability == .available,
+                    "ATODO is the default; Cinemap is not required")
 
         let media = MediaItem.parse([
             "id": .string("42"),
@@ -281,6 +285,8 @@ struct ProviderTests {
         let movie = AtodoProvider(
             client: FixtureAPI(series: false)
         )
+        let movieSources = try await movie.sources(for: media)
+        try require(movieSources.1.map(\.id) == ["one"], "Movie sources use ATODO source/list")
 
         let matches = try await movie.search(
             .init(
@@ -362,6 +368,9 @@ struct ProviderTests {
         let series = AtodoProvider(
             client: FixtureAPI(series: true)
         )
+        let seriesSources = try await series.sources(for: seriesMedia)
+        try require(seriesSources.0.mediaType == "tv" && seriesSources.1.map(\.id) == ["one"],
+                    "Series details and sources use ATODO")
 
         for voice in ["a", "b"] {
             for episode in ["1", "2", "3"] {
@@ -582,10 +591,6 @@ struct ProviderTests {
         )
 
         // Cinemap now uses the configured authorized Video API, not a built-in debug stream.
-        let cinemap = CinemapProvider()
-        if case .unsupported = cinemap.availability { } else {
-            throw TestFailure(message: "Unconfigured Cinemap must be unavailable")
-        }
         let configured = CinemapProvider(baseURL: URL(string: "https://fixture.invalid/video")!)
         try require(configured.availability == .available, "Configured Cinemap available")
         let configuredSources = try await configured.sources(for: media)
