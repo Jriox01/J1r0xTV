@@ -22,60 +22,71 @@ workflows:
         includes:
           - "J1ROX_TV_iOS/**"
           - "codemagic.yaml"
+          - ".gitattributes"
     scripts:
-      - name: Provider regression tests
-        script: |
-          #!/bin/bash
-          set -euo pipefail
-          bash "$CM_BUILD_DIR/J1ROX_TV_iOS/Tests/run-provider-tests.sh"
-      - name: Verify project and shared scheme
+      - name: Xcode version, project, shared scheme and target diagnostics
         script: |
           #!/bin/bash
           set -euo pipefail
           cd "$CM_BUILD_DIR/J1ROX_TV_iOS"
+          mkdir -p build/logs build/artifacts build/results
+          exec > >(tee build/logs/xcode-environment.log) 2>&1
+          xcodebuild -version
+          xcrun swift --version
+          git rev-parse HEAD
           test -f "$XCODE_PROJECT/project.pbxproj"
           test -f "$XCODE_PROJECT/xcshareddata/xcschemes/$XCODE_SCHEME.xcscheme"
-          xcodebuild -project "$XCODE_PROJECT" -scheme "$XCODE_SCHEME" -list
-      - name: Debug simulator compile check
+          xcodebuild -project "$XCODE_PROJECT" -list
+          xcodebuild -project "$XCODE_PROJECT" -scheme "$XCODE_SCHEME" \
+            -configuration Debug -sdk iphonesimulator \
+            -showBuildSettings CODE_SIGNING_ALLOWED=NO
+          # No external SPM, CocoaPods or Carthage dependencies in this project.
+      - name: BUILD - Debug iOS Simulator (unsigned)
         script: |
           #!/bin/bash
           set -euo pipefail
           cd "$CM_BUILD_DIR/J1ROX_TV_iOS"
-          mkdir -p build/logs
           xcodebuild -project "$XCODE_PROJECT" -scheme "$XCODE_SCHEME" \
             -configuration Debug -sdk iphonesimulator -destination "generic/platform=iOS Simulator" \
-            -derivedDataPath build/DerivedData-debug CODE_SIGNING_ALLOWED=NO \
-            CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
+            -derivedDataPath build/DerivedData-debug -resultBundlePath build/results/debug-build.xcresult \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
+            SWIFT_SUPPRESS_WARNINGS=NO GCC_WARN_INHIBIT_ALL_WARNINGS=NO \
             build 2>&1 | tee build/logs/debug-build.log
-      - name: HLS playback on iPhone Simulator
-        script: |
-          #!/bin/bash
-          set -euo pipefail
-          bash "$CM_BUILD_DIR/J1ROX_TV_iOS/Tests/run-hls-simulator.sh" 2>&1 | tee "$CM_BUILD_DIR/J1ROX_TV_iOS/build/logs/hls-simulator.log"
-      - name: Unsigned Release compile check
+      - name: ARTIFACT - Package the unmodified simulator app
         script: |
           #!/bin/bash
           set -euo pipefail
           cd "$CM_BUILD_DIR/J1ROX_TV_iOS"
-          mkdir -p build/logs
-          xcodebuild \
-            -project "$XCODE_PROJECT" \
-            -scheme "$XCODE_SCHEME" \
-            -configuration Release \
-            -sdk iphoneos \
-            -destination "generic/platform=iOS" \
-            -derivedDataPath build/DerivedData-check \
-            CODE_SIGNING_ALLOWED=NO \
-            CODE_SIGNING_REQUIRED=NO SWIFT_STRICT_CONCURRENCY=complete \
-            build 2>&1 | tee build/logs/unsigned-build.log
-      - name: Download lifecycle on iPhone Simulator
+          APP_PATH="build/DerivedData-debug/Build/Products/Debug-iphonesimulator/J1ROXTV.app"
+          test -s "$APP_PATH/J1ROXTV"
+          test -s "$APP_PATH/Info.plist"
+          test "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$APP_PATH/Info.plist")" = "com.jirox.jiroxtv"
+          # A real simulator .app archive, not an installable iPhone IPA.
+          # Package before smoke tests add a local-networking exception to their copy.
+          ditto -c -k --sequesterRsrc --keepParent "$APP_PATH" build/artifacts/J1ROXTV-Debug-iphonesimulator.zip
+          unzip -tq build/artifacts/J1ROXTV-Debug-iphonesimulator.zip
+      - name: BUILD - Release iOS device compile check (unsigned)
         script: |
           #!/bin/bash
           set -euo pipefail
-          bash "$CM_BUILD_DIR/J1ROX_TV_iOS/Tests/run-download-simulator.sh" 2>&1 | tee "$CM_BUILD_DIR/J1ROX_TV_iOS/build/logs/download-simulator.log"
+          cd "$CM_BUILD_DIR/J1ROX_TV_iOS"
+          xcodebuild -project "$XCODE_PROJECT" -scheme "$XCODE_SCHEME" \
+            -configuration Release -sdk iphoneos -destination "generic/platform=iOS" \
+            -derivedDataPath build/DerivedData-check -resultBundlePath build/results/release-build.xcresult \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
+            SWIFT_STRICT_CONCURRENCY=complete SWIFT_SUPPRESS_WARNINGS=NO GCC_WARN_INHIBIT_ALL_WARNINGS=NO \
+            build 2>&1 | tee build/logs/unsigned-build.log
+      - name: TESTS - Provider, series, HLS and download regressions
+        script: |
+          #!/bin/bash
+          set -euo pipefail
+          bash "$CM_BUILD_DIR/J1ROX_TV_iOS/Tests/run-ci-regressions.sh"
     artifacts:
+      - J1ROX_TV_iOS/build/artifacts/*.zip
       - J1ROX_TV_iOS/build/logs/**
-      - J1ROX_TV_iOS/build/DerivedData-check/Logs/**/*.xcactivitylog
+      - J1ROX_TV_iOS/build/results/*.xcresult
+      - J1ROX_TV_iOS/build/DerivedData-debug/Logs/Build/*.xcactivitylog
+      - J1ROX_TV_iOS/build/DerivedData-check/Logs/Build/*.xcactivitylog
 
   ios-ipa:
     name: J1ROX TV iOS - Unsigned IPA

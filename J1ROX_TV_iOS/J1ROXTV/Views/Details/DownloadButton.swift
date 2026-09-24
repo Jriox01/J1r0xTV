@@ -5,6 +5,7 @@ struct DownloadButton: View {
     @EnvironmentObject private var app: AppViewModel
     @ObservedObject var model: DetailsViewModel
     var episode: EpisodeOption? = nil
+    var compact = false
     @State private var loading = false
     @State private var offer: DownloadOffer?
     private var entry: DownloadRecord? {
@@ -28,6 +29,19 @@ struct DownloadButton: View {
         } label: {
             HStack(spacing: 10) {
                 if loading { ProgressView() }
+                else if compact {
+                    Image(systemName: entry.map {
+                        switch $0.state {
+                        case .completed: return "checkmark.circle.fill"
+                        case .failed: return "exclamationmark.circle"
+                        case .queued, .downloading: return "hourglass"
+                        case .paused: return "pause.circle"
+                        }
+                    } ?? "arrow.down.circle")
+                    if let entry, entry.state == .downloading, let progress = entry.progress {
+                        Text("\(Int(progress * 100))%").font(.caption)
+                    }
+                }
                 else if let entry {
                     if entry.state == .downloading || entry.state == .queued {
                         ProgressView(value: entry.progress).frame(maxWidth: 100)
@@ -37,8 +51,9 @@ struct DownloadButton: View {
                     Label(episode == nil ? "Скачать" : "Скачать серию", systemImage: "arrow.down.circle")
                 }
             }
-            .frame(maxWidth: .infinity, minHeight: 44)
+            .frame(maxWidth: compact ? nil : .infinity, minHeight: 44)
         }
+        .accessibilityLabel(entry.map { title($0) } ?? "Скачать \(episode?.name ?? model.item.title)")
         .buttonStyle(.bordered)
         .tint(.red)
         .disabled(loading || model.loading || !downloads.ready || entry.map { downloads.pausing.contains($0.id) } == true)
@@ -63,7 +78,7 @@ struct DownloadButton: View {
                         }.frame(minHeight: 44)
                     }
                 }
-                .navigationTitle("Качество загрузки")
+                .navigationTitle(choice.request.episode.map { "Скачать \($0) серию" } ?? "Качество загрузки")
                 .toolbar { ToolbarItem(placement: .cancellationAction) { Button("Отмена") { offer = nil } } }
             }.tint(.red)
         }
@@ -88,7 +103,7 @@ struct DownloadButton: View {
             let request = model.downloadRequest(episode: episode)
             do {
                 let (resolvedRequest, variants) = try await model.downloadVariants(for: request)
-                if downloads.settings.askQuality && variants.count > 1 {
+                if variants.count > 1 {
                     offer = DownloadOffer(request: resolvedRequest, episodeID: episode?.id, variants: variants)
                 } else if let selected = variants.first(where: { $0.quality == downloads.settings.quality }) ?? variants.first {
                     downloads.enqueue(resolvedRequest, variant: selected, episodeID: episode?.id)

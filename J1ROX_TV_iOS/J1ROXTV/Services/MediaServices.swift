@@ -35,9 +35,20 @@ import AVFoundation
         let result = try await resolver.resolve(request)
         return PlaybackSelection(source: result.source, switched: result.switched)
     }
+    // Explicit user selections must not silently resolve another source or voice.
+    func resolveSelected(_ request: PlaybackRequest) async throws -> PlaybackSelection {
+        let provider = activeProvider
+        let checker = resolver.checker
+        let source = try await withProviderTimeout(seconds: resolver.timeout) {
+            let source = try await provider.playback(for: request)
+            try await checker.validate(source)
+            return source
+        }
+        return PlaybackSelection(source: source)
+    }
     func downloads(_ request: PlaybackRequest) async throws -> (PlaybackRequest, [DownloadVariant]) {
-        // Resolve exactly as playback does, preserving the actual fallback provider/episode.
-        let source = try await resolve(request).source
+        // Resolve the selected provider/episode without downloading a fallback voice.
+        let source = try await resolveSelected(request).source
         let variant = DownloadVariant(url: source.url, quality: source.quality ?? "Оригинал",
             expectedBytes: nil, headers: source.headers, expiresAt: source.expiresAt)
         guard variant.isValid else { throw DownloadError.unavailable }
@@ -57,6 +68,10 @@ import AVFoundation
                   manifest.trimmingCharacters(in: .whitespacesAndNewlines).hasPrefix("#EXTM3U") else { throw DownloadError.invalidFile }
             return (source.request, variant.hlsVariants(manifest: manifest))
         }
+        do {
+            let advertised = try await activeProvider.downloads(for: source.request).filter(\.isValid)
+            if !advertised.isEmpty { return (source.request, advertised) }
+        } catch { try Task.checkCancellation() }
         return (source.request, [try await variant.inspectingSize()])
     }
 }

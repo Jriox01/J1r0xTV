@@ -89,7 +89,16 @@ final class AtodoProvider: VideoProvider, @unchecked Sendable {
             metadata = unwrapObject(try await client.get(path: "api/source/\(request.sourceID ?? "")",
                 query: ["data": bytes.base64EncodedString()]))
         }
-        return DownloadVariant.parse(metadata)
+        let declared = DownloadVariant.parse(metadata)
+        if !declared.isEmpty { return declared }
+        // Use only qualities explicitly advertised for this episode/translation.
+        guard metadata["drm"] == .bool(false), metadata["download_allowed"] == .bool(true),
+              let qualities = metadata["streams"]?.object?["video"]?.object?["http"]?.object?["qualities"]?.object else { return [] }
+        return qualities.compactMap { quality, value -> DownloadVariant? in
+            guard let url = URL(string: value.text), DownloadVariant.isDirectFile(url) else { return nil }
+            return DownloadVariant(url: url, quality: Int(quality) == nil ? quality : quality + "p",
+                expectedBytes: nil, headers: APIConfig.headers, expiresAt: Self.expiration(metadata["expires_at"]))
+        }.sorted { $0.quality.localizedStandardCompare($1.quality) == .orderedDescending }
     }
 
     private func selectedContainer(for request: PlaybackRequest) async throws -> (PlaybackRequest, [String: JSONValue]) {

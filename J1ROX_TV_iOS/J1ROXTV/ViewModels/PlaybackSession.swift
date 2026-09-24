@@ -11,6 +11,7 @@ import Combine
     private var retries: [ProviderCandidate: PlaybackRetryBudget] = [:]
     @Published private(set) var diagnostic: String?
     private var recovery: Task<Void, Never>?
+    private var generation = UUID()
 
     init(selection: PlaybackSelection, resolver: ProviderResolver = ProviderResolver()) {
         self.selection = selection
@@ -34,12 +35,14 @@ import Combine
         let allowRenewal = budget.consume()
         retries[failed.candidate] = budget
         switching = true
+        let token = UUID(); generation = token
         recovery = Task {
-            defer { switching = false }
+            defer { if generation == token { switching = false } }
             do {
                 let result = try await resolver.recover(failed, request: request,
                     excluding: excluded, allowRenewal: allowRenewal)
                 try Task.checkCancellation()
+                guard generation == token else { return }
                 if result.source.candidate != failed.candidate { excluded.insert(failed.candidate) }
                 switched = switched || result.switched || result.source.candidate != failed.candidate
                 var restored = result.source
@@ -55,5 +58,14 @@ import Combine
         }
     }
 
-    func cancel() { recovery?.cancel(); recovery = nil }
+    func replace(_ value: PlaybackSelection, snapshot: PlaybackSnapshot? = nil) {
+        cancel()
+        var source = value.source
+        source.resumeState = snapshot
+        selection = PlaybackSelection(source: source, switched: value.switched)
+        switched = value.switched; switching = false; error = nil; diagnostic = nil
+        excluded.removeAll(); retries.removeAll()
+    }
+
+    func cancel() { generation = UUID(); recovery?.cancel(); recovery = nil; switching = false }
 }

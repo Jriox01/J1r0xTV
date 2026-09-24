@@ -1,0 +1,2415 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru" prefix="og: http://ogp.me/ns# video: http://ogp.me/ns/video# ya: http://webmaster.yandex.ru/vocabularies/">
+<head>
+	<meta charset="utf-8">
+<title>Последний богатырь. Колобок (2026) смотреть онлайн бесплатно в хорошем качестве</title>
+<meta name="description" content="Колобок решает изменить свою судьбу и поневоле становится напарником скромного пекаря Тихона.">
+<meta name="keywords" content="новом, мудрее, серию, приключений, каждое, которых, делает, дружбу, крепче, характеры, фильм, Вместе, будет, интересен, любит, истории, дружбе, самоопределении, изменении, собственной">
+<meta name="robots" content="noindex,nofollow">
+<meta property="og:site_name" content="KinoGo.online смотреть фильмы и сериалы онлайн на официальном КиноГо">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Последний богатырь. Колобок">
+<meta property="og:url" content="https://kinogo.parts/filmy/115026-posledniy-bogatyr-kolobok.html">
+<meta property="og:description" content="В новом приключенческом фильме Колобок, устав от традиционного предназначения, решает взять судьбу в свои руки. В своём стремлении начать жить по-новому, он неожиданно становится союзником скромного и добросердечного пекаря по имени Тихон. Вместе они погружаются в серию приключений, каждое из">
+<link rel="search" type="application/opensearchdescription+xml" href="https://kinogo.parts/index.php?do=opensearch" title="KinoGo.online смотреть фильмы и сериалы онлайн на официальном КиноГо">
+<link rel="canonical" href="https://kinogo.parts/filmy/115026-posledniy-bogatyr-kolobok.html">
+<link rel="alternate" type="application/rss+xml" title="KinoGo.online смотреть фильмы и сериалы онлайн на официальном КиноГо" href="https://kinogo.parts/rss.xml">
+
+<script src="/engine/classes/js/jquery3.js?v=412fc.6.4" type="0a5575e31818464495048405-text/javascript"></script>
+<script src="/engine/classes/js/dle_js.min.js?v=412fc.6.4" defer type="0a5575e31818464495048405-text/javascript"></script>
+	<meta name="robots" content="noarchive">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="apple-mobile-web-app-title" content="KinoGo.online">
+	<meta name="application-name" content="KinoGo.online!">
+	<meta name="referrer" content="always">
+	<meta http-equiv='x-dns-prefetch-control' content='on'> 
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+	<link type="image/png" sizes="16x16" rel="icon" href="/favicon-16x16.png">
+	<link type="image/png" sizes="32x32" rel="icon" href="/favicon-32x32.png">    
+	<link rel="icon" sizes="32x32" href="/favicon-32x32.ico">
+	<link rel="icon" sizes="48x48" href="/favicon-48x48.ico">    
+	<link type="image/svg+xml" rel="icon" sizes="any" href="/favicon.svg">
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/templates/kinogoB/apple/apple-touch-icon-180x180.png">
+	<link type="image/png" rel="icon" sizes="192x192" href="/android-chrome-192x192.png">
+	<link type="image/png" sizes="192x192" rel="icon" href="/templates/kinogoB/apple/android-icon-192x192.png">   
+	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#616161">
+	<link rel="manifest" href="/site.webmanifest">    
+	<meta name="msapplication-TileColor" content="#2b5797">
+	<meta name="msapplication-tile-image" content="/mstile-150x150.png">
+	<meta name="msapplication-tile-image" content="/mstile-144x144.png">
+	<meta name="theme-color" content="#404040">
+	
+	<link rel="stylesheet" href="/templates/smartphone/css/full-app.css?1.2.43">
+	
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Movie","url":"https://kinogo.parts/filmy/115026-posledniy-bogatyr-kolobok.html","image":"https://kinogo.parts/uploads/posts/2026-08/1785583383-poster.jpg","name":"Последний богатырь. Колобок (2026)","alternateName":null,"headline":"Последний богатырь. Колобок (2026)","alternativeHeadline":null,"inLanguage":"ru","description":"В новом приключенческом фильме Колобок, устав от традиционного предназначения, решает взять судьбу в свои руки. В своём стремлении начать жить по-новому, он неожиданно становится союзником скромного и добросердечного пекаря по имени Тихон. Вместе они погружаются в серию приключений, каждое из которых делает их дружбу крепче, а характеры - мудрее. Этот фильм будет интересен всем, кто любит истории о дружбе, самоопределении и изменении собственной жизни.","dateCreated":"2026","isAccessibleForFree":true,"isFamilyFriendly":true,"aggregateRating":{"@type":"AggregateRating","worstRating":1,"bestRating":5,"ratingCount":"7734","ratingValue":"1.8"},"genre":["комедия","фэнтези","приключения"],"actor":[{"@type":"Person","name":"Дмитрий Журавлев"},{"@type":"Person","name":"Гарик Харламов"},{"@type":"Person","name":"Гоша Куценко"},{"@type":"Person","name":"Мила Ершова"},{"@type":"Person","name":"Татьяна Догилева"},{"@type":"Person","name":"Кирилл Зайцев"},{"@type":"Person","name":"Дмитрий Колчин"},{"@type":"Person","name":"Дарья Блохина"},{"@type":"Person","name":"Тимофей Зайцев"},{"@type":"Person","name":"Игорь Богомягков"}],"director":[{"@type":"Person","name":"Антон Маслов"}],"countryOfOrigin":[{"@type":"Country","name":"Россия"}],"duration":"PT1H30M","video":{"@type":"VideoObject","thumbnailUrl":"https://kinogo.parts/uploads/posts/2026-08/1785583383-poster.jpg","description":"В новом приключенческом фильме Колобок, устав от традиционного предназначения, решает взять судьбу в свои руки. В своём стремлении начать жить по-новому, он неожиданно становится союзником скромного и добросердечного пекаря по имени Тихон. Вместе они погружаются в серию приключений, каждое из которых делает их дружбу крепче, а характеры - мудрее. Этот фильм будет интересен всем, кто любит истории о дружбе, самоопределении и изменении собственной жизни.","name":"Последний богатырь. Колобок","uploadDate":"2026-08-06T22:23:01+03:00","datePublished":"2026-08-06T22:23:01+03:00","dateCreated":"2026-08-06T22:23:01+03:00","embedUrl":"https://cinemar.cc/embed/117074/+MTRkZGUzYWFkYzQwYjJhODc1M2MwZjkyODIzNzNhYmM0YTE2MGQwMDQ3MDk1MDUwNTM1MzAzMDQ0ZTEwMDk1NzQ0NDExMTU5MTIwZDUwNWM1NzU1NWMxOTQzMDAxMDE3NDIxNjQ4NDYwYzQzNDM1YjQ2NTE1NTAwNTEwODUyMGE1NDA1MDk1NDAwNTYwOTA4MGI1MzUyNTYwOTAzNTc1OTUwNTcwMDAwNWY1NTA1NTIwMTU5NTIwNzUwNTE0MzE0MTU1MjQxMGM0NTE2MWIwODBkMWUxMTUyNGIxMTBiMTE1NDE2NWU1NTUyMGI1ODUyNWM1YTA1MDQ1MDFlNDM1MDVlNTE1NjAyNTQ0NDAzNTQ1OTVlNDA1MjFmNDMwYTBhNTU1MTA1MDAzYTQ1MGUwODA3MDYxNjBhMDQ1MzBkNGI1MjE5MTEwODRhMzk0ZTVhNTE0NjU2MTUwOTA3MDMwZjQyNTExOQ==","url":"https://kinogo.parts/filmy/115026-posledniy-bogatyr-kolobok.html","isFamilyFriendly":true,"playerType":"HTML5","width":1280,"height":720,"videoQuality":"high","inLanguage":"ru","thumbnail":{"@type":"ImageObject","url":"https://kinogo.parts/uploads/posts/2026-08/1785583383-poster.jpg"},"duration":"PT1H30M"}}</script>
+	<style>body.preload #content{display:block;position:relative;padding-top:0}</style>
+<link rel="dns-prefetch" href="https://cdn77.aj2517.bid">
+<link rel="dns-prefetch" href="https://cdn77.srv224.com">
+<link rel="dns-prefetch" href="https://cdn77.s2517.com">
+<link rel="dns-prefetch" href="https://v206.cinemap.cc">
+<link rel="dns-prefetch" href="https://video.cinemap.cc">
+<link rel="dns-prefetch" href="https://cfnd.cinemap.cc">
+	</head>
+   <style>
+		
+		div[id*=epom].epom-brend {
+			z-index: -1 !important;
+			height: 147px !important;
+			margin-top: 50px !important;
+		}
+		div[id*=epom].epom-brend > div {
+			background-size: cover !important;
+			background-position: 50% !important;
+		}
+		div[id*=epom-pushdown]{display:none}
+		.html-brend {
+			height: unset !important;
+			margin-top: 50px;
+		}
+	body.rocketme_brand_site_container {
+		margin-top: 55px !important;
+		background: #000;
+	}
+	body.rocketme_brand_site_container .ad-branding {
+		z-index: -2;
+	}
+	.rocketme_brand_block_brand img {
+		height: 150px;
+		object-fit: cover;
+	}
+	[id^="adangle-"] {
+		position: relative !important;
+		z-index: 1;
+	}
+	[data-key="4ed59b8f-48b5-417a-9e88-3fb2deccafd1"] {
+		position: fixed;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: #000;
+		z-index: 999;
+	}
+	[data-key="4ed59b8f-48b5-417a-9e88-3fb2deccafd1"] .adangle_stiker {height: unset !important}
+	[data-key="4ed59b8f-48b5-417a-9e88-3fb2deccafd1"] img {height:90px}
+	</style>
+	<style>
+		.navFlex a span {
+			margin-left: auto;
+			font-size: 12px;
+		}
+		.ad-branding {
+			display: block;
+			aspect-ratio: 3.7 / 1;
+			max-width: 930px;
+			overflow: hidden;
+			position: relative;
+		}
+		.ad-branding div[id^="eas-"][id$="-container"]{position:absolute;z-index: 9}
+		[id^="image-portrait-"],
+		[id^="image-landscape-"]{
+			max-height: 90px !important;
+			object-fit: contain;
+		}
+		.js-lightsearch-results{overflow: auto;border-bottom: 1px solid #111;}
+	</style>
+<body class="preload userLogged">
+	
+	<div class="ad-branding" style="position:relative">
+		
+			
+			
+			
+			<ins class="604c7625" data-key="a6dd61a3-f1e1-4f68-993a-d6d4e9f87fff" data-cp-host="45d4f7839d324714b7433f91fad2d386|kinogo.biz" data-cp-domain="kinogo.biz"></ins>
+			
+		
+		<div style="position:absolute;top:0" class="kinogo-short"><a rel="noindex" href="https://kinogo.luxury" target="_blank"><img style="width:100%;height:100%;object-fit:cover" data-src="/templates/kinogoB/images/banners/mob-brand-luxury.webp" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" class="lazy"></a></div>
+	</div>
+	
+	<div id="content" class="d-flex fd-column-reverse">
+		<div class="slider">
+			<div class="sliderWrap d-flex lazy_scroll">
+				<a href="https://kinogo.parts/filmy/117808-mjatezh.html" title="Мятеж">
+	<img src="/uploads/mini/topnews/c7/11b7a5587b257c3c436d1059f24316.webp"  alt="Мятеж" title="Мятеж">
+</a><a href="https://kinogo.parts/filmy/116814-glubokie-vody.html" title="Крушение рейса">
+	<img src="/uploads/mini/topnews/32/31f6c647030fbb4d5a94f0b4fd83d1.webp"  alt="Крушение рейса" title="Крушение рейса">
+</a><a href="https://kinogo.parts/filmy/117928-mjejdjej.html" title="Мэйдэй">
+	<img src="/uploads/mini/topnews/21/567aa69af3be1156431cef5646e8b3.webp"  alt="Мэйдэй" title="Мэйдэй">
+</a><a href="https://kinogo.parts/filmy/117217-holop-3.html" title="Холоп 3">
+	<img data-src="/uploads/mini/topnews/ad/f9eca8d595207f0faacfea8cee7d09.webp" src="/templates/smartphone/images/dot.gif" alt="Холоп 3" title="Холоп 3">
+</a><a href="https://kinogo.parts/filmy/117863-shepot-za-oknom.html" title="Шёпот за окном">
+	<img data-src="/uploads/mini/topnews/06/bb7ccfe4d1ad45be0a7aeb744ccdef.webp" src="/templates/smartphone/images/dot.gif" alt="Шёпот за окном" title="Шёпот за окном">
+</a><a href="https://kinogo.parts/filmy/117902-kurer.html" title="Курьер">
+	<img data-src="/uploads/mini/topnews/ba/bdb613a78c7ba67150e1bac992ef24.webp" src="/templates/smartphone/images/dot.gif" alt="Курьер" title="Курьер">
+</a><a href="https://kinogo.parts/filmy/117329-molodoj-vashington.html" title="Молодой Вашингтон">
+	<img data-src="/uploads/mini/topnews/34/8b84390f093f765564a31a4c255370.webp" src="/templates/smartphone/images/dot.gif" alt="Молодой Вашингтон" title="Молодой Вашингтон">
+</a><a href="https://kinogo.parts/filmy/117811-astral-6-oni-uzhe-zdes.html" title="Астрал 6: Они уже здесь">
+	<img data-src="/uploads/mini/topnews/e5/9c19d51e567981ec42b1424514c32e.webp" src="/templates/smartphone/images/dot.gif" alt="Астрал 6: Они уже здесь" title="Астрал 6: Они уже здесь">
+</a><a href="https://kinogo.parts/filmy/117880-mangust.html" title="Мангуст">
+	<img data-src="/uploads/mini/topnews/c4/940c761575fcef26c5d0c43dadfeb5.webp" src="/templates/smartphone/images/dot.gif" alt="Мангуст" title="Мангуст">
+</a><a href="https://kinogo.parts/filmy/117893-do-poslednego-gramma.html" title="До последнего грамма">
+	<img data-src="/uploads/mini/topnews/f4/34a56e684528c28099ef217165991e.webp" src="/templates/smartphone/images/dot.gif" alt="До последнего грамма" title="До последнего грамма">
+</a><a href="https://kinogo.parts/filmy/117904-beguschaja.html" title="Бегущая">
+	<img data-src="/uploads/mini/topnews/81/458d13c0720edfc324151c17964821.webp" src="/templates/smartphone/images/dot.gif" alt="Бегущая" title="Бегущая">
+</a><a href="https://kinogo.parts/filmy/117650-hochu-zanjatsja-s-toboj-seksom.html" title="Хочу заняться с тобой сексом">
+	<img data-src="/uploads/mini/topnews/bf/5c3ca74f1306a948a46d544ffed353.webp" src="/templates/smartphone/images/dot.gif" alt="Хочу заняться с тобой сексом" title="Хочу заняться с тобой сексом">
+</a><a href="https://kinogo.parts/multfilmy/117834-hitryj-kojot.html" title="Хитрый койот">
+	<img data-src="/uploads/mini/topnews/84/cb6171e7b3efff4b26446f72207b35.webp" src="/templates/smartphone/images/dot.gif" alt="Хитрый койот" title="Хитрый койот">
+</a>     
+			</div>
+		</div>
+		
+<div class="catBlock">
+	<details>
+		<summary class="d-flex ai-center jc-space-between">
+			<span class="detailsTitle">Фильмы / Категории</span>
+			<svg height="24" width="24"><use xlink:href="#chevronDown"></use></svg>
+		</summary>
+		<div class="summaryContent">
+			<div class="summaryCWrap">
+				<div class="navFlex d-flex fd-column">
+					<a class="d-flex ai-center" href="/filmy/" title="Все фильмы">Все фильмы<span>84336</span></a>
+					<a class="d-flex ai-center" href="/novinki/" class="navN" title="Новинки">Новинки<span>1242</span></a>
+				</div>
+				<div class="navFlex d-flex flex-col">    
+                    <a class="d-flex ai-center" href="/multfilmy/" title="Мультфильмы">Мультфильмы<span>5001</span></a>
+                    <a class="d-flex ai-center" href="/fantastika/" title=" Фантастика">Фантастика<span>5221</span></a>
+                    <a class="d-flex ai-center" href="/fjentezi/" title=" Фэнтези">Фэнтези<span>4466</span></a>
+                    <a class="d-flex ai-center" href="/nuar/" title="Нуар">Нуар<span>285</span></a>
+                    <a class="d-flex ai-center" href="/uzhasy/" title="Ужасы">Ужасы<span>10995</span></a>
+                    <a class="d-flex ai-center" href="/triller/" title=" Триллер">Триллер<span>17313</span></a>
+                    <a class="d-flex ai-center" href="/sport/" title="Спорт">Спорт<span>1524</span></a>
+                    <a class="d-flex ai-center" href="/prikljuchenija/" title="Приключения">Приключения<span>6044</span></a>
+                    <a class="d-flex ai-center" href="/istoricheskie/" title="Исторические">Исторические<span>3144</span></a>
+                    <a class="d-flex ai-center" href="/mjuzikl/" title=" Мюзикл">Мюзикл<span>1630</span></a>
+                    <a class="d-flex ai-center" href="/melodrama/" title="Мелодрама">Мелодрама<span>14983</span></a>
+                    <a class="d-flex ai-center" href="/korotkometrazhka/" title="Короткометражка ">Короткометражка<span>1576</span></a>
+                    <a class="d-flex ai-center" href="/kriminal/" title="Криминал">Криминал<span>10464</span></a>
+                    <a class="d-flex ai-center" href="/drama/" title="Драма">Драма<span>40954</span></a>
+                    <a class="d-flex ai-center" href="/komedija/" title="Комедия">Комедия<span>23434</span></a>
+                    <a class="d-flex ai-center" href="/dokumentalnye/" title="Документальные">Документальные<span>2731</span></a>
+                    <a class="d-flex ai-center" href="/detektiv/" title="Детектив">Детектив<span>5945</span></a>
+                    <a class="d-flex ai-center" href="/detskij/" title=" Детский"> Детский<span>224</span></a>
+                    <a class="d-flex ai-center" href="/voennyj/" title="Военный">Военный<span>3320</span></a>
+                    <a class="d-flex ai-center" href="/vestern/" title="Вестерн">Вестерн<span>1219</span></a>
+				</div>
+			</div>
+		</div>
+	</details>
+	<details>
+		<summary class="d-flex ai-center jc-space-between">
+			<span class="detailsTitle">По году</span>
+			<svg height="24" width="24"><use xlink:href="#chevronDown"></use></svg>
+		</summary>
+		<div class="summaryContent">
+			<div class="summaryCWrap">
+				<div class="navFlex d-flex flex-col3">
+                    <a class="d-flex ai-center" href="/xfsearch/god/2014/" title="Фильмы, мультфильмы и сериалы 2014 года">2014 года</a>
+                    <a class="d-flex ai-center" href="/xfsearch/god/2015/" title="Фильмы, мультфильмы и сериалы 2015 года">2015 года</a>
+                    <a class="d-flex ai-center" href="/xfsearch/god/2016/" title="Фильмы, мультфильмы и сериалы 2016 года">2016 года</a>
+                    <a class="d-flex ai-center" href="/xfsearch/god/2017/" title="Фильмы, мультфильмы и сериалы 2017 года">2017 года</a>
+                   	<a class="d-flex ai-center" href="/xfsearch/god/2018/" title="Фильмы, мультфильмы и сериалы 2018 года">2018 года</a>
+                    <a class="d-flex ai-center" href="/xfsearch/god/2019/" title="Фильмы, мультфильмы и сериалы 2019 года">2019 года</a>
+                    <a class="d-flex ai-center" href="/xfsearch/god/2020/" title="Фильмы, мультфильмы и сериалы 2020 года">2020 года</a>
+                    <a class="d-flex ai-center" href="/xfsearch/god/2021/" title="Фильмы, мультфильмы и сериалы 2021 года">2021 года</a>
+                    <a class="d-flex ai-center" href="/xfsearch/god/2022/" title="Фильмы, мультфильмы и сериалы 2022 года">2022 года</a>
+                    <a class="d-flex ai-center" href="/xfsearch/god/2023/" title="Фильмы, мультфильмы и сериалы 2023 года">2023 года</a>
+                    <a class="d-flex ai-center" href="/xfsearch/god/2024/" title="Фильмы, мультфильмы и сериалы 2024 года">2024 года</a>
+                    <a class="d-flex ai-center" href="/xfsearch/god/2025/" title="Фильмы, мультфильмы и сериалы 2025 года">2025 года</a>
+                    <a class="d-flex ai-center" href="/xfsearch/god/2026/" title="Фильмы, мультфильмы и сериалы 2026 года">2026 года</a>
+				</div>
+			</div>
+		</div>
+	</details>
+	<details>
+		<summary class="d-flex ai-center jc-space-between">
+			<span class="detailsTitle">По странам</span>
+			<svg height="24" width="24"><use xlink:href="#chevronDown"></use></svg>
+		</summary>
+		<div class="summaryContent">
+			<div class="summaryCWrap">
+				<div class="navFlex d-flex flex-col">
+                    <a class="d-flex ai-center" href="/xfsearch/country/США/" title="Смотреть Американские фильмы, мультфильмы или сериалы">Американские</a>
+                    <a class="d-flex ai-center" href="/xfsearch/country/Турция/" title="Смотреть Турецкие фильмы, мультфильмы или сериалы">Турецкие</a>
+                    <a class="d-flex ai-center" href="/xfsearch/country/Россия/" title="Смотреть Российские фильмы, мультфильмы или сериалы">Российские</a>
+                    <a class="d-flex ai-center" href="/xfsearch/country/Казахстан/"  title="Смотреть Казахстанские фильмы, мультфильмы или сериалы">Казахстанские</a>
+                    <a class="d-flex ai-center" href="/xfsearch/country/Индия/"  title="Смотреть Индийские фильмы, мультфильмы или сериалы">Индийские</a>
+                    <a class="d-flex ai-center" href="/xfsearch/country/Корея/" title="Смотреть Корейские фильмы, мультфильмы или сериалы">Корейские</a>
+                    <a class="d-flex ai-center" href="/xfsearch/country/Великобритания/" title="Смотреть Британские фильмы, мультфильмы или сериалы">Английские</a>
+				</div>
+			</div>
+		</div>
+	</details>
+	<details>
+		<summary class="d-flex ai-center jc-space-between">
+			<span class="detailsTitle">Сериалы</span>
+			<svg height="24" width="24"><use xlink:href="#chevronDown"></use></svg>
+		</summary>
+		<div class="summaryContent">
+			<div class="summaryCWrap">
+				<div class="navFlex d-flex fd-column">
+                    <a class="d-flex ai-center" href="/serialy/" title="Смотреть сериалы онлайн">Все сериалы<span>20737</span></a>
+                    <a class="d-flex ai-center" href="/zarubezhnye-serialy/" title="Смотреть зарубежные сериалы онлайн">Зарубежные<span>13512</span></a>
+                    <a class="d-flex ai-center" href="/russkie-serialy/" title="Смотреть русские сериалы онлайн">Русские<span>6207</span></a>
+                    <a class="d-flex ai-center" href="/multserialy/"  title="Смотреть Мультсериалы сериалы онлайн">Мультсериалы<span>2726</span></a>
+                    <a class="d-flex ai-center" href="/anime-serialy/" title="Смотреть Аниме-сериалы сериалы онлайн">Аниме-сериалы<span>3398</span></a>
+                    <a class="d-flex ai-center" href="/anime/" title="Смотреть Аниме онлайн">Аниме<span>1707</span></a>
+				</div>
+			</div>
+		</div>
+	</details>
+</div>
+
+
+		<div class="contentWrapper d-flex fd-row-reverse">
+			<main class="d-flex fd-column-reverse" style="" id="main">
+				<div class="mainWrap">
+                    
+                        <div class="app-download">
+                            <a href="/kinogoapp/kinogo.apk" rel="nofollow" target="_blank">Скачать</a>
+                        </div>
+                    
+					
+					
+					
+					
+					<div id='dle-content'><article class="fullStory bTop">
+	<div class="pad sHead">
+		<h1>Последний богатырь. Колобок (2026)</h1>
+		<div class="sFav">
+			
+			<div class="addFav" onclick="if (!window.__cfRLUnblockHandlers) return false; DLEalert('Необходимо зарегистрироваться для добавления материала в закладки!', 'Ошибка');" title="Необходимо зарегистрироваться для добавления в избранное" data-cf-modified-0a5575e31818464495048405-=""></div>
+		</div>
+	</div>
+	<div class="pad hRating d-flex ai-center jc-space-between">
+		<div class="k-card__rating-ext site js-count-rating-all" data-text="">
+			<div class="stars"><div id='ratig-layer-115026'>
+	<div class="rating">
+		<ul class="unit-rating">
+		<li class="current-rating" style="width:40%;">40</li>
+		<li><a href="#" title="Плохо" class="r1-unit" onclick="if (!window.__cfRLUnblockHandlers) return false; doRate('1', '115026'); return false;" data-cf-modified-0a5575e31818464495048405-="">1</a></li>
+		<li><a href="#" title="Приемлемо" class="r2-unit" onclick="if (!window.__cfRLUnblockHandlers) return false; doRate('2', '115026'); return false;" data-cf-modified-0a5575e31818464495048405-="">2</a></li>
+		<li><a href="#" title="Средне" class="r3-unit" onclick="if (!window.__cfRLUnblockHandlers) return false; doRate('3', '115026'); return false;" data-cf-modified-0a5575e31818464495048405-="">3</a></li>
+		<li><a href="#" title="Хорошо" class="r4-unit" onclick="if (!window.__cfRLUnblockHandlers) return false; doRate('4', '115026'); return false;" data-cf-modified-0a5575e31818464495048405-="">4</a></li>
+		<li><a href="#" title="Отлично" class="r5-unit" onclick="if (!window.__cfRLUnblockHandlers) return false; doRate('5', '115026'); return false;" data-cf-modified-0a5575e31818464495048405-="">5</a></li>
+		</ul>
+	</div>
+</div></div>
+			<span class="ratingStats">1.8/5 (<span id="vote-num-id-115026">7734</span> гол.)</span>
+		</div>
+		
+	</div>
+	<div class="pad shortStoryBody d-flex">
+		<div class="sPoster">
+			<img src="/uploads/mini/shortstory-mob/9cd/1785583383-poster.webp" width="130" height="195" alt="Последний богатырь. Колобок" title="Последний богатырь. Колобок">
+		</div>
+		
+		<div class="sInfo">
+			<span><b>Год выпуска:</b><a href="https://kinogo.parts/xfsearch/god/2026/">2026</a></span>
+			<span><b>Зарубежное название:</b>Отсутствует</span>
+			<span><b>Страна:</b><a href="https://kinogo.parts/xfsearch/country/%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D1%8F/">Россия</a></span>
+			<span><b>Жанр:</b><a href="https://kinogo.parts/filmy/">Фильмы</a> / <a href="https://kinogo.parts/novinki/">Новинки</a></span>
+			<span><b>Премьера (РФ):</b>6 августа 2026, «Атмосфера кино»</span>
+			<span><b style="color:#f90;">Кинопоиск:</b>3.0</span>
+			<span><b style="color:#f8d268;">IMDb:</b>1.1</span>
+		</div>
+		
+		
+	</div>
+	
+	
+
+	<div class="cast pad">
+		<div class="sInfo">
+			
+			<span><b>Режиссер:</b>Антон Маслов</span>
+			<span style="line-height: 20px;"><b>Актеры:</b><a href="https://kinogo.parts/xfsearch/actors/%D0%94%D0%BC%D0%B8%D1%82%D1%80%D0%B8%D0%B9%20%D0%96%D1%83%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%B2/">Дмитрий Журавлев</a>, <a href="https://kinogo.parts/xfsearch/actors/%D0%93%D0%B0%D1%80%D0%B8%D0%BA%20%D0%A5%D0%B0%D1%80%D0%BB%D0%B0%D0%BC%D0%BE%D0%B2/">Гарик Харламов</a>, <a href="https://kinogo.parts/xfsearch/actors/%D0%93%D0%BE%D1%88%D0%B0%20%D0%9A%D1%83%D1%86%D0%B5%D0%BD%D0%BA%D0%BE/">Гоша Куценко</a>, <a href="https://kinogo.parts/xfsearch/actors/%D0%9C%D0%B8%D0%BB%D0%B0%20%D0%95%D1%80%D1%88%D0%BE%D0%B2%D0%B0/">Мила Ершова</a>, <a href="https://kinogo.parts/xfsearch/actors/%D0%A2%D0%B0%D1%82%D1%8C%D1%8F%D0%BD%D0%B0%20%D0%94%D0%BE%D0%B3%D0%B8%D0%BB%D0%B5%D0%B2%D0%B0/">Татьяна Догилева</a>, <a href="https://kinogo.parts/xfsearch/actors/%D0%9A%D0%B8%D1%80%D0%B8%D0%BB%D0%BB%20%D0%97%D0%B0%D0%B9%D1%86%D0%B5%D0%B2/">Кирилл Зайцев</a>, <a href="https://kinogo.parts/xfsearch/actors/%D0%94%D0%BC%D0%B8%D1%82%D1%80%D0%B8%D0%B9%20%D0%9A%D0%BE%D0%BB%D1%87%D0%B8%D0%BD/">Дмитрий Колчин</a>, <a href="https://kinogo.parts/xfsearch/actors/%D0%94%D0%B0%D1%80%D1%8C%D1%8F%20%D0%91%D0%BB%D0%BE%D1%85%D0%B8%D0%BD%D0%B0/">Дарья Блохина</a>, <a href="https://kinogo.parts/xfsearch/actors/%D0%A2%D0%B8%D0%BC%D0%BE%D1%84%D0%B5%D0%B9%20%D0%97%D0%B0%D0%B9%D1%86%D0%B5%D0%B2/">Тимофей Зайцев</a>, <a href="https://kinogo.parts/xfsearch/actors/%D0%98%D0%B3%D0%BE%D1%80%D1%8C%20%D0%91%D0%BE%D0%B3%D0%BE%D0%BC%D1%8F%D0%B3%D0%BA%D0%BE%D0%B2/">Игорь Богомягков</a></span>
+			
+			
+		</div>
+	</div>
+	
+	
+	<div class="pad filmDescription">
+		<p>В новом приключенческом фильме Колобок, устав от традиционного предназначения, решает взять судьбу в свои руки. В своём стремлении начать жить по-новому, он неожиданно становится союзником скромного и добросердечного пекаря по имени Тихон. Вместе они погружаются в серию приключений, каждое из которых делает их дружбу крепче, а характеры - мудрее. Этот фильм будет интересен всем, кто любит истории о дружбе, самоопределении и изменении собственной жизни....</p>
+		<div class="fDop">
+			
+			
+			<div><b>Качество:</b>TC 720</div>
+			<div><b>Длительность:</b>90 мин. / 01:30</div>
+			<div><b>Перевод:</b>Не требуется, Оригинальная дорожка</div>
+			
+		</div>
+		<i>Сморите данный материал на всех устройствах: android, iphone, samsung, ipad и Смарт ТВ.</i>
+	</div>
+	
+	
+	
+
+	
+	
+
+	<div id="uniq-6c269d9030f8" class="kng-rekl">
+		
+			
+			
+			<ins class="604c7625" data-key="7f4de40c-7c7c-4536-af09-c997b9ae1f0b" data-cp-host="45d4f7839d324714b7433f91fad2d386|kinogo.biz" data-cp-domain="kinogo.biz"></ins>
+			
+		
+		<div style="position:absolute;top:0" class="kinogo-short"><a rel="noindex" href="https://kinogo.luxury" target="_blank"><img style="width:100%;height:100%;object-fit:cover" data-src="/templates/kinogoB/images/banners/above-player-luxury.webp" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" class="lazy"></a></div>
+	</div>
+
+	<div class="seoTip ta-center" style="padding:0">
+		
+		<strong>смотреть онлайн Последний богатырь. Колобок (2026) в хорошем качестве</strong>
+		
+		
+		
+		<div class="shareUs d-flex jc-center">
+			<div class="share f-flex ai-center jc-center fb" onclick="if (!window.__cfRLUnblockHandlers) return false; window.open('//www.facebook.com/sharer/sharer.php?u=https://kinogo.parts/filmy/115026-posledniy-bogatyr-kolobok.html', '_blank');return false" title="Поделиться в Facebook" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="24" height="24"><use xlink:href="#fb"></use></svg></div>
+			<div class="share f-flex ai-center jc-center tw" onclick="if (!window.__cfRLUnblockHandlers) return false; window.open('//twitter.com/intent/tweet?text=Последний богатырь. Колобок&amp;url=https://kinogo.parts/filmy/115026-posledniy-bogatyr-kolobok.html', '_blank');return false" title="Поделиться в Twitter" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="23"><use xlink:href="#tw"></use></svg></div>
+			<div class="share f-flex ai-center jc-center ld" onclick="if (!window.__cfRLUnblockHandlers) return false; window.open('//www.linkedin.com/shareArticle?mini=true&url=https://kinogo.parts/filmy/115026-posledniy-bogatyr-kolobok.html&title=Последний богатырь. Колобок', '_blank');return false" title="Поделиться в LinkedIn" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="20" height="20"><use xlink:href="#ld"></use></svg></div>
+			<div class="share f-flex ai-center jc-center vk" onclick="if (!window.__cfRLUnblockHandlers) return false; window.open('//vk.com/share.php?url=https://kinogo.parts/filmy/115026-posledniy-bogatyr-kolobok.html&amp;title=Последний богатырь. Колобок', '_blank');return false" title="Поделиться в VK" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="20" height="20"><use xlink:href="#vk"></use></svg></div>
+		</div>
+	</div>
+
+	<div class="playerRating d-flex ai-center bBot">
+		<div class="stars"><div id='ratig-layer-115026'>
+	<div class="rating">
+		<ul class="unit-rating">
+		<li class="current-rating" style="width:40%;">40</li>
+		<li><a href="#" title="Плохо" class="r1-unit" onclick="if (!window.__cfRLUnblockHandlers) return false; doRate('1', '115026'); return false;" data-cf-modified-0a5575e31818464495048405-="">1</a></li>
+		<li><a href="#" title="Приемлемо" class="r2-unit" onclick="if (!window.__cfRLUnblockHandlers) return false; doRate('2', '115026'); return false;" data-cf-modified-0a5575e31818464495048405-="">2</a></li>
+		<li><a href="#" title="Средне" class="r3-unit" onclick="if (!window.__cfRLUnblockHandlers) return false; doRate('3', '115026'); return false;" data-cf-modified-0a5575e31818464495048405-="">3</a></li>
+		<li><a href="#" title="Хорошо" class="r4-unit" onclick="if (!window.__cfRLUnblockHandlers) return false; doRate('4', '115026'); return false;" data-cf-modified-0a5575e31818464495048405-="">4</a></li>
+		<li><a href="#" title="Отлично" class="r5-unit" onclick="if (!window.__cfRLUnblockHandlers) return false; doRate('5', '115026'); return false;" data-cf-modified-0a5575e31818464495048405-="">5</a></li>
+		</ul>
+	</div>
+</div></div>
+		<span class="ratingStats">1.8/5 (<span id="vote-num-id-115026">7734</span> гол.)</span>
+	</div>
+	
+
+<div class="app-download full-b">
+    <a href="/kinogoapp/kinogo.apk" rel="nofollow" target="_blank">Скачать</a>
+</div>
+
+    
+	<div class="sectionPlayer">
+		<ul class="js-player-tabs player-tabs">
+	<li data-src="https://cinemar.cc/embed/117074/+MTRkZGUzYWFkYzQwYjJhODc1M2MwZjkyODIzNzNhYmM0YTE2MGQwMDQ3MDk1MDUwNTM1MzAzMDQ0ZTEwMDk1NzQ0NDExMTU5MTIwZDUwNWM1NzU1NWMxOTQzMDAxMDE3NDIxNjQ4NDYwYzQzNDM1YjQ2NTE1NTAwNTEwODUyMGE1NDA1MDk1NDAwNTYwOTA4MGI1MzUyNTYwOTAzNTc1OTUwNTcwMDAwNWY1NTA1NTIwMTU5NTIwNzUwNTE0MzE0MTU1MjQxMGM0NTE2MWIwODBkMWUxMTUyNGIxMTBiMTE1NDE2NWU1NTUyMGI1ODUyNWM1YTA1MDQ1MDFlNDM1MDVlNTE1NjAyNTQ0NDAzNTQ1OTVlNDA1MjFmNDMwYTBhNTU1MTA1MDAzYTQ1MGUwODA3MDYxNjBhMDQ1MzBkNGI1MjE5MTEwODRhMzk0ZTVhNTE0NjU2MTUwOTA3MDMwZjQyNTExOQ==" data-provider="0">Смотреть онлайн</li>
+</ul>
+
+	
+	<style>
+        .video-block-strip {
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            background: #ffe380;
+            padding: 4px 10px 4px;
+            color: #000000;
+            font-size: 13px;
+            line-height: 24px;
+            text-align: left;
+            font-weight: bold;
+            border-left: 4px solid #bb9511;
+            position: relative;
+        }
+        .video-block-strip a {
+            font-weight: bold;
+            color: #fff;
+            margin-left: auto;
+            text-decoration: none;
+            background-color: #0280a8;
+            line-height: 1;
+            padding: 6px 10px;
+            cursor: pointer;
+            font-size: 12px;
+            border-radius: 3px;
+        }
+	</style>
+    <div class="video-block-strip">
+        Создай свой киного, на случай блока
+        <a href="https://t.me/kinogobiz_bot" rel="nofollow" target="_blank">Создать</a>
+    </div>
+	
+
+
+
+
+
+
+
+<div class="js-player-container player-container">
+	
+    <iframe title="Последний богатырь. Колобок" loading="eager" src="https://cinemar.cc/embed/117074/+MTRkZGUzYWFkYzQwYjJhODc1M2MwZjkyODIzNzNhYmM0YTE2MGQwMDQ3MDk1MDUwNTM1MzAzMDQ0ZTEwMDk1NzQ0NDExMTU5MTIwZDUwNWM1NzU1NWMxOTQzMDAxMDE3NDIxNjQ4NDYwYzQzNDM1YjQ2NTE1NTAwNTEwODUyMGE1NDA1MDk1NDAwNTYwOTA4MGI1MzUyNTYwOTAzNTc1OTUwNTcwMDAwNWY1NTA1NTIwMTU5NTIwNzUwNTE0MzE0MTU1MjQxMGM0NTE2MWIwODBkMWUxMTUyNGIxMTBiMTE1NDE2NWU1NTUyMGI1ODUyNWM1YTA1MDQ1MDFlNDM1MDVlNTE1NjAyNTQ0NDAzNTQ1OTVlNDA1MjFmNDMwYTBhNTU1MTA1MDAzYTQ1MGUwODA3MDYxNjBhMDQ1MzBkNGI1MjE5MTEwODRhMzk0ZTVhNTE0NjU2MTUwOTA3MDMwZjQyNTExOQ==" frameborder="0" scrolling="no" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+</div>
+<div class="js-mylist mylist" data-id="115026">
+	<div class="mylist__item" data-folder="watch">Смотрю</div><div class="mylist__item" data-folder="done">Смотрел</div><div class="mylist__item" data-folder="todo">Буду</div><div class="mylist__item" data-folder="drop">Бросил</div><div class="mylist__item is-active" data-folder="0">Не смотрел</div>
+</div>
+
+
+
+
+		<div class="underPlayer ru">
+			<div class="dwnl"><svg width="20" height="20"><g fill-rule="nonzero" fill="#ffffff" transform="translate(1, 1)"><path d="M16,11.6666667 L16,15.2222222 C16,15.651777 15.651777,16 15.2222222,16 L2.77777778,16 C2.34822297,16 2,15.651777 2,15.2222222 L2,11.6666667 C2,11.1143819 1.55228475,10.6666667 1,10.6666667 C0.44771525,10.6666667 0,11.1143819 0,11.6666667 L0,15.2222222 C0,16.7563465 1.24365347,18 2.77777778,18 L15.2222222,18 C16.7563465,18 18,16.7563465 18,15.2222222 L18,11.6666667 C18,11.1143819 17.5522847,10.6666667 17,10.6666667 C16.4477153,10.6666667 16,11.1143819 16,11.6666667 Z" fill="#ffdd7d"></path><path d="M5.26266234,6.51511544 C4.87213804,6.12459115 4.23897307,6.12459115 3.84844877,6.51511544 C3.45792448,6.90563973 3.45792448,7.53880471 3.84844877,7.929329 L8.29289322,12.3737734 C8.68341751,12.7642977 9.31658249,12.7642977 9.70710678,12.3737734 L14.1515512,7.929329 C14.5420755,7.53880471 14.5420755,6.90563973 14.1515512,6.51511544 C13.7610269,6.12459115 13.127862,6.12459115 12.7373377,6.51511544 L9,10.2524531 L5.26266234,6.51511544 Z" fill="#ffdd7d"></path><path d="M10,11.6666667 L10,1 C10,0.44771525 9.55228475,0 9,0 C8.44771525,0 8,0.44771525 8,1 L8,11.6666667 C8,12.2189514 8.44771525,12.6666667 9,12.6666667 C9.55228475,12.6666667 10,12.2189514 10,11.6666667 Z" fill="#ffdd7d"></path></g></svg></div>
+			
+			<div id="uniq-6c269d9030f8" class="kng-rekl" style="margin:0 -10px">
+				
+					
+					
+					<ins class="604c7625" data-key="7f4de40c-7c7c-4536-af09-c997b9ae1f0b" data-cp-host="45d4f7839d324714b7433f91fad2d386|kinogo.biz" data-cp-domain="kinogo.biz"></ins>
+					
+				
+				<div style="position:absolute;top:0" class="kinogo-short"><a rel="noindex" href="https://kinogo.luxury" target="_blank"><img style="width:100%;height:100%;object-fit:cover" data-src="/templates/kinogoB/images/banners/mob-under-player-luxury.webp" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" class="lazy"></a></div>
+			</div>
+			
+		</div>
+	</div>
+	
+	<div class="viewMore">
+		<i>Рекомендуем посмотреть</i>
+		<div class="viewMore-wrap d-flex">
+			<div class="relatedItem">
+	<a href="https://kinogo.parts/filmy/106562-finist-pervyj-bogatyr.html" title="Финист. Первый богатырь (2025)">
+		<img data-src="/uploads/mini/related/dd/9df9b38d7e5ad8ca03db87e8a1d3cf.webp" src="/templates/smartphone/images/dot.gif" width="110" height="165" alt="Финист. Первый богатырь">
+		<span class="ta-center">Финист. Первый богатырь (2025)</span>
+	</a>
+</div><div class="relatedItem">
+	<a href="https://kinogo.parts/filmy/25517-ostrov.html" title="Остров (2006)">
+		<img data-src="/uploads/mini/related/bc/c9c9c652b763faaba9d3d05329699d.webp" src="/templates/smartphone/images/dot.gif" width="110" height="165" alt="Остров">
+		<span class="ta-center">Остров (2006)</span>
+	</a>
+</div><div class="relatedItem">
+	<a href="https://kinogo.parts/original/30593-alesha-popovich-i-tugarin-zmej.html" title="Алеша Попович и Тугарин Змей (2005)">
+		<img data-src="/uploads/mini/related/bd/eb119b5137694dc8ea788f2005d0ef.webp" src="/templates/smartphone/images/dot.gif" width="110" height="165" alt="Алеша Попович и Тугарин Змей">
+		<span class="ta-center">Алеша Попович и Тугарин Змей (2005)</span>
+	</a>
+</div><div class="relatedItem">
+	<a href="https://kinogo.parts/filmy/105071-uchenik-bulochnika-iz-venecii.html" title="Ученик булочника из Венеции (1963)">
+		<img data-src="/uploads/mini/related/0a/4bc7bf6836e20e56307fbc2fe25f82.webp" src="/templates/smartphone/images/dot.gif" width="110" height="165" alt="Ученик булочника из Венеции">
+		<span class="ta-center">Ученик булочника из Венеции (1963)</span>
+	</a>
+</div><div class="relatedItem">
+	<a href="https://kinogo.parts/filmy/77820-zhena-pekarja.html" title="Жена пекаря (1938)">
+		<img data-src="/uploads/mini/related/41/76d1a22cc7d484133874cceb7f643d.webp" src="/templates/smartphone/images/dot.gif" width="110" height="165" alt="Жена пекаря">
+		<span class="ta-center">Жена пекаря (1938)</span>
+	</a>
+</div>
+		</div>
+	</div>
+	
+
+
+	<div class="sectionComments">
+		<div class="pad sectionCHeader d-flex ai-center jc-space-between">
+			
+			<div class="addComment-btn" onclick="if (!window.__cfRLUnblockHandlers) return false; $('#commentForm').toggle();return false;" title="Добавить комментарий" data-cf-modified-0a5575e31818464495048405-="">Добавить комментарий</div>
+			
+			
+			<div class="sTime d-flex ai-center"><svg class="icon" width="15" height="15"><use xlink:href="#time"></use></svg> <time datetime="2026-08-06T22:23">6-08-2026, 22:23</time></div>
+		</div>
+		<form  method="post" name="dle-comments-form" id="dle-comments-form" ><div id="commentForm" style="display: none;">
+	<div class="cEditor">
+		<div class="bb-editor">
+<label for="comments" class="v-hidden">Ваш комментарий</label>
+<textarea name="comments" id="comments" placeholder="Ваш комментарий" cols="70" rows="1"></textarea>
+</div>
+		
+		
+		
+		<div class="cFormHeader d-flex">
+			<label for="name" class="v-hidden">Имя</label>
+			<input type="text" placeholder="Ваше имя" autocomplete="off" name="name" id="name" class="f_input">
+			<div class="submitComment">
+				<button type="submit" name="submit" class="fbutton" title="Добавить комментарий">Добавить</button>
+			</div>
+		</div>
+        
+        
+		
+		
+	</div>
+</div>
+		<input type="hidden" name="subaction" value="addcomment">
+		<input type="hidden" name="post_id" id="post_id" value="115026"><input type="hidden" name="user_hash" value="4b67782f9509193ad012a6bc5314c0145626360f"></form>
+		<form method="post" name="dlemasscomments" id="dlemasscomments"><div id="dle-comments-list">
+
+<div id="dle-ajax-comments"></div>
+<div id="comment"></div><ol class="comments-tree-list"><li id="comments-tree-item-214846" class="comments-tree-item" ><div id='comment-id-214846'><div class="Comment d-flex Level" id="CommentID-963">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >Геноцид Росиян</b>
+			<span>Сегодня, 08:19</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="963">
+			
+			<div id='comm-id-214846'>Фильм гавно, русские гавно привикли жрать, им нравица</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('214846', '0', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="963">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '214846'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-214846" class="ignore-select">0</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '214846'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-214846" class="ignore-select">0</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li><li id="comments-tree-item-214721" class="comments-tree-item" ><div id='comment-id-214721'><div class="Comment d-flex Level" id="CommentID-962">
+	<div class="commentAvatar" data-bg="//kinogo.parts/uploads/fotos/foto_159515.jpg"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b  style="color:#e0dfdc;">Sjjsjs</b>
+			<span>Сегодня, 00:56</span>
+            
+			<span> | Комментариев: 1</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="962">
+			
+			<div id='comm-id-214721'>Я чувствую как мой мозг гниёт с каждой секундой</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('214721', '0', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="962">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '214721'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-214721" class="ignore-select">0</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '214721'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-214721" class="ignore-select">0</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div><ol class="comments-tree-list"><li id="comments-tree-item-214810" class="comments-tree-item" ><div id='comment-id-214810'><div class="Comment d-flex Level-1" id="CommentID-961">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >Эксперт по аниме</b>
+			<span>Сегодня, 05:02</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="961">
+			
+			<div id='comm-id-214810'>Конечно, с такой то авой</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('214810', '1', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="961">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '214810'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-214810" class="ignore-select">0</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '214810'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-214810" class="ignore-select">0</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li></ol></li><li id="comments-tree-item-214131" class="comments-tree-item" ><div id='comment-id-214131'><div class="Comment d-flex Level" id="CommentID-960">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >Шуль</b>
+			<span>Вчера, 12:50</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="960">
+			
+			<div id='comm-id-214131'>Фильм говорит, не советую</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('214131', '0', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="960">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '214131'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-214131" class="ignore-select">2</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '214131'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-214131" class="ignore-select">0</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li><li id="comments-tree-item-214116" class="comments-tree-item" ><div id='comment-id-214116'><div class="Comment d-flex Level" id="CommentID-959">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >Хейтер колобка</b>
+			<span>Вчера, 12:37</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="959">
+			
+			<div id='comm-id-214116'>Фильм говно человек паук лучше чтоб вы сдохли</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('214116', '0', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="959">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '214116'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-214116" class="ignore-select">9</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '214116'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-214116" class="ignore-select">1</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div><ol class="comments-tree-list"><li id="comments-tree-item-214293" class="comments-tree-item" ><div id='comment-id-214293'><div class="Comment d-flex Level-1" id="CommentID-958">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b  style="color:#e0dfdc;">Обдолбыш вонючка</b>
+			<span>Вчера, 16:49</span>
+            
+			<span> | Комментариев: 2</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="958">
+			
+			<div id='comm-id-214293'>сдохни тварь. твое убогое мнение всем насрать</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('214293', '1', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="958">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '214293'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-214293" class="ignore-select">2</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '214293'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-214293" class="ignore-select">7</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li><li id="comments-tree-item-214479" class="comments-tree-item" ><div id='comment-id-214479'><div class="Comment d-flex Level-1" id="CommentID-957">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >чмордяй</b>
+			<span>Вчера, 20:22</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="957">
+			
+			<div id='comm-id-214479'>желаю вам вечной мучительной жизни</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('214479', '1', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="957">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '214479'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-214479" class="ignore-select">1</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '214479'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-214479" class="ignore-select">1</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li></ol></li><li id="comments-tree-item-213873" class="comments-tree-item" ><div id='comment-id-213873'><div class="Comment d-flex Level" id="CommentID-956">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >El</b>
+			<span>Вчера, 01:10</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="956">
+			
+			<div id='comm-id-213873'>Очень добрый, современный фильм. Абсолютно естественно судить больше об общем контексте, нежели вырывать фразы, слова и давать оценку ограниченным отрывкам и фразам.<br>Адаптивная версия к современным понятиям и ожиданиям.</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('213873', '0', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="956">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '213873'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-213873" class="ignore-select">2</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '213873'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-213873" class="ignore-select">9</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li><li id="comments-tree-item-213767" class="comments-tree-item" ><div id='comment-id-213767'><div class="Comment d-flex Level" id="CommentID-955">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >фан колобок</b>
+			<span>12 сентября 2026 22:47</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="955">
+			
+			<div id='comm-id-213767'>фильм дерьмо, Дерьмо, и еще раз ДЕРЬМО!!! ДЕРМИЩЕ!!! ОТБОРОНОЕ дерьмо!!!! все кто смотрел поели фекалии (говно) и выпили МОЧИ сценариста (сценарист - ДЕРЬМО) и ЗДрезка ДЕРЬМО!!! не советую, но если вам понравилось ничего страшного потому вы ДЕРЬМОЕДЫ!!!! ОТБОРНЫЕ!!! самые ЧТО НЕДО ЕСТЬ!!!! Д-Е-Р-Ь-М-О!!!!<br>без негатива просто день хороший</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('213767', '0', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="955">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '213767'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-213767" class="ignore-select">15</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '213767'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-213767" class="ignore-select">2</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li><li id="comments-tree-item-213614" class="comments-tree-item" ><div id='comment-id-213614'><div class="Comment d-flex Level" id="CommentID-954">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >Кацап из масквабада</b>
+			<span>12 сентября 2026 20:13</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="954">
+			
+			<div id='comm-id-213614'>фильм гуано как и все маасквабаде</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('213614', '0', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="954">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '213614'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-213614" class="ignore-select">4</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '213614'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-213614" class="ignore-select">1</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li><li id="comments-tree-item-213327" class="comments-tree-item" ><div id='comment-id-213327'><div class="Comment d-flex Level" id="CommentID-953">
+	<div class="commentAvatar" data-bg="//kinogo.parts/uploads/fotos/foto_85333.jpg"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b  style="color:#e0dfdc;">COSMOSTAR</b>
+			<span>12 сентября 2026 12:39</span>
+            
+			<span> | Комментариев: 13</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="953">
+			
+			<div id='comm-id-213327'>ф<br>фывыфвывфыв</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('213327', '0', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="953">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '213327'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-213327" class="ignore-select">0</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '213327'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-213327" class="ignore-select">0</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li><li id="comments-tree-item-213229" class="comments-tree-item" ><div id='comment-id-213229'><div class="Comment d-flex Level" id="CommentID-952">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >Хохол, который живет в Европе</b>
+			<span>12 сентября 2026 09:01</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="952">
+			
+			<div id='comm-id-213229'>ОГО сколько членoв внизу. Я бы отсoсал.</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('213229', '0', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="952">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '213229'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-213229" class="ignore-select">4</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '213229'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-213229" class="ignore-select">4</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div><ol class="comments-tree-list"><li id="comments-tree-item-213377" class="comments-tree-item" ><div id='comment-id-213377'><div class="Comment d-flex Level-1" id="CommentID-951">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >чмордяй</b>
+			<span>12 сентября 2026 14:14</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="951">
+			
+			<div id='comm-id-213377'>а у меня милого фембоя хотел бы опробывать?</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('213377', '1', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="951">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '213377'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-213377" class="ignore-select">0</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '213377'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-213377" class="ignore-select">2</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div><ol class="comments-tree-list"><li id="comments-tree-item-213425" class="comments-tree-item" ><div id='comment-id-213425'><div class="Comment d-flex Level-1" id="CommentID-950">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >Хохол, который живет в Европе</b>
+			<span>12 сентября 2026 15:49</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="950">
+			
+			<div id='comm-id-213425'>Если только по взаимному все будет. И на память сделать фото не забыть нужно.</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('213425', '2', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="950">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '213425'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-213425" class="ignore-select">1</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '213425'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-213425" class="ignore-select">0</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li><li id="comments-tree-item-214228" class="comments-tree-item" ><div id='comment-id-214228'><div class="Comment d-flex Level-1" id="CommentID-949">
+	<div class="commentAvatar" data-bg="//kinogo.parts/uploads/fotos/foto_71001.jpg"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b  style="color:#e0dfdc;">foreinor</b>
+			<span>Вчера, 15:19</span>
+            
+			<span> | Комментариев: 79</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="949">
+			
+			<div id='comm-id-214228'>уже 2026 год, а люди до сих пор шутят про фембоев</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('214228', '2', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="949">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '214228'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-214228" class="ignore-select">1</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '214228'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-214228" class="ignore-select">1</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div><ol class="comments-tree-list"><li id="comments-tree-item-214302" class="comments-tree-item" ><div id='comment-id-214302'><div class="Comment d-flex Level-1" id="CommentID-948">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >чмордяй</b>
+			<span>Вчера, 17:08</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="948">
+			
+			<div id='comm-id-214302'>я действительно в реале горячий секси фембой</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('214302', '3', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="948">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '214302'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-214302" class="ignore-select">2</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '214302'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-214302" class="ignore-select">0</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li></ol></li></ol></li></ol></li><li id="comments-tree-item-213129" class="comments-tree-item" ><div id='comment-id-213129'><div class="Comment d-flex Level" id="CommentID-947">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >Дим</b>
+			<span>12 сентября 2026 02:29</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="947">
+			
+			<div id='comm-id-213129'>На фоне мультика про принцессу лесбиянку ещё и ниче</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('213129', '0', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="947">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '213129'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-213129" class="ignore-select">0</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '213129'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-213129" class="ignore-select">0</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li><li id="comments-tree-item-213122" class="comments-tree-item" ><div id='comment-id-213122'><div class="Comment d-flex Level" id="CommentID-946">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >Апостол Андрей</b>
+			<span>12 сентября 2026 02:20</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="946">
+			
+			<div id='comm-id-213122'>Иисус как-то сказал: &quot;что поешь, то и постель&quot;. Так и появился калобок</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('213122', '0', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="946">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '213122'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-213122" class="ignore-select">1</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '213122'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-213122" class="ignore-select">1</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div><ol class="comments-tree-list"><li id="comments-tree-item-213123" class="comments-tree-item" ><div id='comment-id-213123'><div class="Comment d-flex Level-1" id="CommentID-945">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >Учитель всякой мудрости</b>
+			<span>12 сентября 2026 02:23</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="945">
+			
+			<div id='comm-id-213123'>&quot;что поешь, то и посрешь&quot;, а не постель.</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('213123', '1', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="945">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '213123'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-213123" class="ignore-select">1</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '213123'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-213123" class="ignore-select">0</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li></ol></li><li id="comments-tree-item-213094" class="comments-tree-item" ><div id='comment-id-213094'><div class="Comment d-flex Level" id="CommentID-944">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >Гость Михаил</b>
+			<span>12 сентября 2026 01:21</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="944">
+			
+			<div id='comm-id-213094'>Неожидал такой годноты после всего хейта которым залили этот мульт ,мульт рил хороший очень понравился он веселый и романтичный и оцень хорошо цепляет</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('213094', '0', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="944">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '213094'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-213094" class="ignore-select">1</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '213094'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-213094" class="ignore-select">8</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li><li id="comments-tree-item-213083" class="comments-tree-item" ><div id='comment-id-213083'><div class="Comment d-flex Level" id="CommentID-943">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >КуколдПетухКоммунистПутинист</b>
+			<span>12 сентября 2026 01:07</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="943">
+			
+			<div id='comm-id-213083'>Нуу, ниче так. Патриотичненько</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('213083', '0', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="943">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '213083'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-213083" class="ignore-select">3</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '213083'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-213083" class="ignore-select">0</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li><li id="comments-tree-item-213000" class="comments-tree-item" ><div id='comment-id-213000'><div class="Comment d-flex Level" id="CommentID-942">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >1</b>
+			<span>11 сентября 2026 22:56</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="942">
+			
+			<div id='comm-id-213000'>Посмотрел фильм, почитал комменты. Это что-то. Не считаю что фильм говно как все думают, а похоже что не думают, так как если бы думали то не кричали бы со всех утюгов что фильм говно. Нормальный фильм. Есть сюжет, мало ляпов и дыр, нет откровенных шуток ниже пояса. По сюжету не хуже мультиков про богатырей. Вот всем закинули мульку что фильм говно, вот все бездумно теперь пишут и обсирают его. И никто не может обосновать почему же фильм считает говном. В комментах мат перемат, невозможно читать, не фильм обсуждают, а совсем другое. Да ещё и писать грамотно не умеют, а орут на всех и вся благим матом.</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('213000', '0', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="942">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '213000'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-213000" class="ignore-select">4</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '213000'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-213000" class="ignore-select">5</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div><ol class="comments-tree-list"><li id="comments-tree-item-213017" class="comments-tree-item" ><div id='comment-id-213017'><div class="Comment d-flex Level-1" id="CommentID-941">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >чмордяй</b>
+			<span>11 сентября 2026 23:11</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="941">
+			
+			<div id='comm-id-213017'>дебил этот фильм распил бабла 1 миллиард пенсии стариков лечи свою голову</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('213017', '1', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="941">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '213017'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-213017" class="ignore-select">4</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '213017'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-213017" class="ignore-select">1</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li><li id="comments-tree-item-213077" class="comments-tree-item" ><div id='comment-id-213077'><div class="Comment d-flex Level-1" id="CommentID-940">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >Гость Алан</b>
+			<span>12 сентября 2026 00:55</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="940">
+			
+			<div id='comm-id-213077'>Фильм гавно жидкое</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('213077', '1', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="940">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '213077'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-213077" class="ignore-select">2</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '213077'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-213077" class="ignore-select">0</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li><li id="comments-tree-item-213080" class="comments-tree-item" ><div id='comment-id-213080'><div class="Comment d-flex Level-1" id="CommentID-939">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >Аллах</b>
+			<span>12 сентября 2026 01:02</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="939">
+			
+			<div id='comm-id-213080'>Согласен. Если этот фильм говно, то кто тогда я создатель всего? Тогда я получается тоже говно и кто умный образованный учёный согласится, что все от Аллаха. Только дурак будет спорить необразованный. Дурочок одним словом</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('213080', '1', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="939">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '213080'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-213080" class="ignore-select">0</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '213080'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-213080" class="ignore-select">1</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li></ol></li><li id="comments-tree-item-212789" class="comments-tree-item" ><div id='comment-id-212789'><div class="Comment d-flex Level" id="CommentID-938">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >ИИСУС</b>
+			<span>11 сентября 2026 19:30</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="938">
+			
+			<div id='comm-id-212789'>ГОЙДА!!!</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('212789', '0', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="938">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '212789'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-212789" class="ignore-select">5</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '212789'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-212789" class="ignore-select">4</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div><ol class="comments-tree-list"><li id="comments-tree-item-213081" class="comments-tree-item" ><div id='comment-id-213081'><div class="Comment d-flex Level-1" id="CommentID-937">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >Аллах</b>
+			<span>12 сентября 2026 01:04</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="937">
+			
+			<div id='comm-id-213081'>Ва истину ассаляму алейкум воскрес</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('213081', '1', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="937">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '213081'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-213081" class="ignore-select">0</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '213081'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-213081" class="ignore-select">1</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li></ol></li><li id="comments-tree-item-212777" class="comments-tree-item" ><div id='comment-id-212777'><div class="Comment d-flex Level" id="CommentID-936">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >Бандито</b>
+			<span>11 сентября 2026 19:11</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="936">
+			
+			<div id='comm-id-212777'>Ребят не поxyй ли на этот фильм наш мир идет к полному краху наслаждайтесь тем временем которое у вас осталось нас ждет тоталиристическое антиутопическое будущее и и вам там не понравится я уже думаю чтобы выпилится</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('212777', '0', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="936">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '212777'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-212777" class="ignore-select">9</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '212777'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-212777" class="ignore-select">2</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li><li id="comments-tree-item-212475" class="comments-tree-item" ><div id='comment-id-212475'><div class="Comment d-flex Level" id="CommentID-935">
+	<div class="commentAvatar" data-bg="//kinogo.parts/uploads/fotos/foto_141583.png"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b  style="color:#e0dfdc;">ananas67 (ВЕРНУЛСЯ С ОТПУСКА)</b>
+			<span>11 сентября 2026 09:06</span>
+            
+			<span> | Комментариев: 142</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="935">
+			
+			<div id='comm-id-212475'>в итальянскам кафе на стине исть плагат гди очинь проста написана исус христос пидр мухамед мазал сваю жопу вазилинам ананас67 павилитиль туалита путин мачу асла привратил в расию</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('212475', '0', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="935">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '212475'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-212475" class="ignore-select">2</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '212475'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-212475" class="ignore-select">2</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div><ol class="comments-tree-list"><li id="comments-tree-item-212607" class="comments-tree-item" ><div id='comment-id-212607'><div class="Comment d-flex Level-1" id="CommentID-934">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >Неверный</b>
+			<span>11 сентября 2026 14:59</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="934">
+			
+			<div id='comm-id-212607'>От души сказал как шайтан. Пайду мамку виибу, насвай пожую и патом намаз сдэлаю. И да: я находится в еврейском рабство, они мной манипулируют поэтому я такой дебильный чурка, а ислам он чэстный и там кажидый порядочный, то я просто жертва манипуляций еврей. Все мусульмане знают что я такой тупой и дебильный потому что еврей хитрый</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('212607', '1', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="934">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '212607'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-212607" class="ignore-select">1</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '212607'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-212607" class="ignore-select">1</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li><li id="comments-tree-item-212612" class="comments-tree-item" ><div id='comment-id-212612'><div class="Comment d-flex Level-1" id="CommentID-933">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >чмордяй</b>
+			<span>11 сентября 2026 15:03</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="933">
+			
+			<div id='comm-id-212612'>тебе словарем надо по ебалу надовать</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('212612', '1', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="933">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '212612'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-212612" class="ignore-select">0</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '212612'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-212612" class="ignore-select">0</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li></ol></li><li id="comments-tree-item-212445" class="comments-tree-item" ><div id='comment-id-212445'><div class="Comment d-flex Level" id="CommentID-932">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >thebrat</b>
+			<span>11 сентября 2026 04:43</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="932">
+			
+			<div id='comm-id-212445'>Is that movie costs russian billion for real?no way lol</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('212445', '0', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="932">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '212445'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-212445" class="ignore-select">3</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '212445'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-212445" class="ignore-select">0</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li><li id="comments-tree-item-212349" class="comments-tree-item" ><div id='comment-id-212349'><div class="Comment d-flex Level" id="CommentID-931">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >чмордяй</b>
+			<span>11 сентября 2026 00:44</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="931">
+			
+			<div id='comm-id-212349'>……..…../´¯/)………… (\¯&#96;\<br>…………/….//……….. …\\….\<br>………../….//………… ….\\….\<br>…../´¯/…./´¯\………../¯ &#96;\….\¯&#96;\<br>.././…/…./…./.|_……_| .\….\….\…\.\..<br>(.(….(….(…./.)..)..(..(. \….)….)….)… )<br>.\…………….\/…/….\. ..\/……………./<br>..\…………….. /……..\……………..…/<br>….\…………..(…………)……………./</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('212349', '0', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="931">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '212349'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-212349" class="ignore-select">4</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '212349'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-212349" class="ignore-select">2</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li><li id="comments-tree-item-212317" class="comments-tree-item" ><div id='comment-id-212317'><div class="Comment d-flex Level" id="CommentID-930">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >чмордяй</b>
+			<span>11 сентября 2026 00:18</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="930">
+			
+			<div id='comm-id-212317'>.·´¯&#96;·.  ·´¯·.<br> __|__<br> | |__ ╲     ╲ ╲<br> |ロ | ╲ ╲   /\~/\<br> |ロ |  ╲ ╲(  •ω • )<br> |ロ |   ╲⊂       づ<br> |ロ |    ╲  ╲ ⊃⊃  ╲<br> |ロ |___  ╲  | ___ ╲|____<br><br>просто ASCII картинка никаких хуёв и политики</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('212317', '0', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="930">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '212317'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-212317" class="ignore-select">2</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '212317'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-212317" class="ignore-select">0</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li><li id="comments-tree-item-212314" class="comments-tree-item" ><div id='comment-id-212314'><div class="Comment d-flex Level" id="CommentID-929">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >РускиеПидарасы</b>
+			<span>11 сентября 2026 00:13</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="929">
+			
+			<div id='comm-id-212314'>Руское гавно</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('212314', '0', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="929">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '212314'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-212314" class="ignore-select">10</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '212314'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-212314" class="ignore-select">2</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li><li id="comments-tree-item-212310" class="comments-tree-item" ><div id='comment-id-212310'><div class="Comment d-flex Level" id="CommentID-928">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >чмордяй</b>
+			<span>11 сентября 2026 00:08</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="928">
+			
+			<div id='comm-id-212310'>……..…../´¯/)………… (\¯&#96;\<br>…………/….//……….. …\\….\<br>………../….//………… ….\\….\<br>…../´¯/…./´¯\………../¯ &#96;\….\¯&#96;\<br>.././…/…./…./.|_……_| .\….\….\…\.\..<br>(.(….(….(…./.)..)..(..(. \….)….)….)… )<br>.\…………….\/…/….\. ..\/……………./<br>..\…………….. /……..\……………..…/<br>….\…………..(…………)……………./<br><br>моя ответочка вам защеканцы</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('212310', '0', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="928">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '212310'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-212310" class="ignore-select">5</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '212310'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-212310" class="ignore-select">1</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li><li id="comments-tree-item-212045" class="comments-tree-item" ><div id='comment-id-212045'><div class="Comment d-flex Level" id="CommentID-927">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >КТО написал ответ тот</b>
+			<span>10 сентября 2026 19:00</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="927">
+			
+			<div id='comm-id-212045'>Koroche i nemog sderjat svoi poziv rvoti potomy i pisat for you may friend don&#039;t watch this kolobok</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('212045', '0', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="927">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '212045'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-212045" class="ignore-select">2</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '212045'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-212045" class="ignore-select">0</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li><li id="comments-tree-item-212035" class="comments-tree-item" ><div id='comment-id-212035'><div class="Comment d-flex Level" id="CommentID-926">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b  style="color:#e0dfdc;">YOU MOM</b>
+			<span>10 сентября 2026 18:48</span>
+            
+			<span> | Комментариев: 9</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="926">
+			
+			<div id='comm-id-212035'>КАЛобок, КАЛобок сел на xyёк, разработал пирожок<br><br>…………▄▄▄▄▄▄▄▄▄▄▄▄▄<br>……. ▄▀░░░░░░░░░░░░░▀▄<br>……▐░░░░░░░░░░░░░░░░▀▄<br>…..▐░░░░░░░░░░░░░░░░░░▀▄<br>….▐░░░░░░░░░░░░░░░░░░░░░▌<br>…▐░░░░░░░  ▄▄░░░░▄▄  ░░░░░░▌<br>…▐░░░░░░░  ▀▀░░░░▀▀  ░░░░░░▌<br>…▐░░░░░░░░░░░░░░░░░░░░░░▌<br>…▐░░░░░░░░░  ▄▄▄▄▄  ░░░░░░░▌<br>…▐░░░░░░░░ ▄▀     ▀▄ ▀▄░░░░░░░▌<br>…▐░░░░░░░░▐░  ▀▀▀  ░░▌░░░░░▌<br>….▐░░░░░░░░▀▄░░░░▄▀░░░░░▌<br>….▐░░░░░░░░░▀▀▀▀▀░░░░░░▌<br>…..▐░░░░░░░░░░░░░░░░░░░▌<br>……▀▄░░░░░░░░░░░░░░░░▄▀<br>…..…▀▄░░░░░░░░░░░░▄▀▀<br>…………▀▀▀▄▄▀▄▄▀▀▀▀…<br><br>…….............▄▄ ▄▄<br>………......▐▐░░▀░░▐▐<br>……….....▐▒▒▒▒▒▒▒▒▒▌<br>………....▐▒▒▒▒▒▒▒▒▒▒▌<br>………....▐▒▒▒▒▒▒▒▒▒▒▌<br>………....▐▀▄▄▄▄▄▄▄▄▀▌<br>………....▐░░░░░░░░░░▌<br>………....▐░░░░░░░░░░▌<br>………....▐░░░░░░░░░░▌<br>………....▐░░░░░░░░░░▌<br>………....▐░░░░░░░░░░▌<br>………....▐░░░░░░░░░░▌<br>………....▐░░░░░░░░░░▌<br>………....▐░░░░░░░░░░▌<br>………....▐░░░░░░░░░░▌<br>………....▐░░░░░░░░░░▌<br>……....▐.▀▒▒▒▒▒▒▒▒▒▒▀▐<br>……...▄▀░░░░░░░░░░░░░▀▄<br>…...▐░░░░░░░▀▄▒▄▀░░░░░▌<br>…….▐░░░░░░░▒▒▐▒▒░░░░░▌<br>…….▐▒░░░░░▒▒▒▐▒▒▒░░░▒▌<br>……..▀▄▒▒▒▒▒▄▀▒▀▄▒▒▒▒▄▀</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('212035', '0', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="926">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '212035'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-212035" class="ignore-select">11</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '212035'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-212035" class="ignore-select">0</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li><li id="comments-tree-item-211692" class="comments-tree-item" ><div id='comment-id-211692'><div class="Comment d-flex Level" id="CommentID-925">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >100Pudof</b>
+			<span>10 сентября 2026 05:37</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="925">
+			
+			<div id='comm-id-211692'>Хахахха я чуть не кончился с комментариев, фильм не смотрел, нахрен бы о нужен был, а комменты шедевральные</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('211692', '0', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="925">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '211692'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-211692" class="ignore-select">9</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '211692'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-211692" class="ignore-select">1</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li><li id="comments-tree-item-211685" class="comments-tree-item" ><div id='comment-id-211685'><div class="Comment d-flex Level" id="CommentID-924">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >Гость Вилен</b>
+			<span>10 сентября 2026 05:08</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="924">
+			
+			<div id='comm-id-211685'>Ужас в коментариях.<br /><br />Смотрел колобка с внуками. Хотел обсудить в коментариях культурно да рационально произвидение данное. А тут одна свинота да хохлятина да банкоботня сидит. Банкова крадет деньги да нам инфополе засоряет. Ничего святого у вас нет! На великомученика господнего Сталина да посланника божьего ленина такое писать. Бога побойтесь. ничего святого у вас нет. Вот найду я тебя гад, когда доблестная роисиская армия захватит исконно русские территории, львов, донбас, харьков, днепр, дублин, херсон, киев, одессу мать городов русских. Да и вся окраина ваша - часть РОссии великой. Найду вас да как дам кочергой по горбу да зубах будете с земли собирать. Армия ратная на промежность вашу в бой пошла. Скоро ответите за слезв даунбасят. Будет у вас право ввбирать в срaку совать xуй или вантуз. Закипает от злости разум мой от одной мвсли от вас. Матершини нет такой в русском великом могучем да описать вас, на клавиатуре просот не описб гнев мой неистоволз ололврощ  лтьт льхьлщ т 4о3ш4щзхол3тьтьиолмпиротьлд 43ощзлщотирдольотирто ш34щозо ш34зирш34 охш43рзо43лщорйцулцулзйцхтьитмяччччсчсимвввфвффв рпатррттретр</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('211685', '0', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="924">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '211685'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-211685" class="ignore-select">9</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '211685'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-211685" class="ignore-select">8</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div><ol class="comments-tree-list"><li id="comments-tree-item-211689" class="comments-tree-item" ><div id='comment-id-211689'><div class="Comment d-flex Level-1" id="CommentID-923">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >Даздраперма Чикоглезернова</b>
+			<span>10 сентября 2026 05:11</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="923">
+			
+			<div id='comm-id-211689'>Че   пишешь тут  если не служил в  ВДВ. Алкашня старая   в коментариях   сидит. На зоне под шконками   сидит одна   позор дедов</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('211689', '1', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="923">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '211689'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-211689" class="ignore-select">1</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '211689'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-211689" class="ignore-select">0</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li><li id="comments-tree-item-211769" class="comments-tree-item" ><div id='comment-id-211769'><div class="Comment d-flex Level-1" id="CommentID-922">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >Сириус</b>
+			<span>10 сентября 2026 10:49</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="922">
+			
+			<div id='comm-id-211769'>Что ты ,что фильм ,<br>гавно!</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('211769', '1', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="922">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '211769'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-211769" class="ignore-select">2</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '211769'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-211769" class="ignore-select">0</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li><li id="comments-tree-item-212143" class="comments-tree-item" ><div id='comment-id-212143'><div class="Comment d-flex Level-1" id="CommentID-921">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >Русский пидорас</b>
+			<span>10 сентября 2026 21:12</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="921">
+			
+			<div id='comm-id-212143'>Знаешь, хоть я тоже тупой русский пидорас, как и ты, но большинство русских пидорасов эту хуету не смотрит и я не вхожу в исклчение тупых русских пидорасов, которые ставят отрицательный палец вверх. Все русские пидорасы посчитали этот фильм полной парашей, все кинотеатры рассчитаные на тупых русских пидорасов были пустые, этот фильм для тупых русских пидорасов полностью провалился</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('212143', '1', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="921">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '212143'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-212143" class="ignore-select">1</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '212143'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-212143" class="ignore-select">0</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li><li id="comments-tree-item-212468" class="comments-tree-item" ><div id='comment-id-212468'><div class="Comment d-flex Level-1" id="CommentID-920">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b  style="color:#e0dfdc;">Utushalla</b>
+			<span>11 сентября 2026 08:40</span>
+            
+			<span> | Комментариев: 1</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="920">
+			
+			<div id='comm-id-212468'>Потрясающе. Это очень тонкий толстый сарказм или реальный приступ?) в любом случае поржал,ещё раз спасибо:)</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('212468', '1', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="920">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '212468'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-212468" class="ignore-select">1</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '212468'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-212468" class="ignore-select">0</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li></ol></li><li id="comments-tree-item-211670" class="comments-tree-item" ><div id='comment-id-211670'><div class="Comment d-flex Level" id="CommentID-919">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >Ручв</b>
+			<span>10 сентября 2026 04:16</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="919">
+			
+			<div id='comm-id-211670'>Ну, раз</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('211670', '0', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="919">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '211670'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-211670" class="ignore-select">0</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '211670'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-211670" class="ignore-select">0</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li><li id="comments-tree-item-211633" class="comments-tree-item" ><div id='comment-id-211633'><div class="Comment d-flex Level" id="CommentID-918">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >Гость Игорь</b>
+			<span>10 сентября 2026 02:08</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="918">
+			
+			<div id='comm-id-211633'>ЧЕ ТО Я СИЖУ В ИЖЕВСКЕ И КОМПЬЮТЕР ЕСТЬ И ГАЗ И КОНДИЦИОНЕР У РОДСТВЕННИКОВ В КУБАНИ И ЧТО? Че у нас нету что у запада есть? Ураганов как у америки и цунами? Я скажу, что счастье не в пикапах или еде там айфонах. Тачки? А закон всех уровнял. Телефон? А по факту то звонит и мой поко. Жизнь все расставила каждую пaдаль. Ибо карма то есть. И дедуша мой мудрее будет за ЛЮБОГО АМЕРЕКОСА. А то со своей политикой поссорили нас с украиной. Я конечно против нацизма и против них но тоже они же русские просто не такие. Траванули их пропогандой. Ишь че клинтон, вашингтон да кенеди наделали. А так всю историю дружили да хлеб соль ели. с чубами хлопци ели сало и горилку. А московская знать тоже алкоголь. Да не обижали друг друга снисходили. А сейчас что? Русские свободное общество. Донбас захотел уйти - ушел. Ведь русские то терпят, но митинги делают и своего добиваються. Понимаешь? И не сломала всвя европа шахтеров. 1:100 соотношение шахтера к армиям. Вот он русский дух. Ну а что? Шахтер видит что чето митингуют на майдане. Ну понимает нельзя незаконно так митинговать. И пошел революцией на митинги за свою федерацию. Вот. Республика, душа русская и никому не сломать их. Все люди. Но кто-то решает стать свиньей. Миру мир!</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('211633', '0', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="918">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '211633'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-211633" class="ignore-select">2</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '211633'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-211633" class="ignore-select">5</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div><ol class="comments-tree-list"><li id="comments-tree-item-211666" class="comments-tree-item" ><div id='comment-id-211666'><div class="Comment d-flex Level-1" id="CommentID-917">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >Папа</b>
+			<span>10 сентября 2026 04:03</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="917">
+			
+			<div id='comm-id-211666'>Сынок, шахтеры ссыкуны и куколды, они поверили тупому пуйлу что будут пенсии как у москвичей, а получили х*уй за щеку и так им и надо далбаебам</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('211666', '1', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="917">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '211666'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-211666" class="ignore-select">5</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '211666'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-211666" class="ignore-select">0</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div><ol class="comments-tree-list"><li id="comments-tree-item-211673" class="comments-tree-item" ><div id='comment-id-211673'><div class="Comment d-flex Level-1" id="CommentID-916">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >чмордяй</b>
+			<span>10 сентября 2026 04:22</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="916">
+			
+			<div id='comm-id-211673'>тупое стадо поверит во что угодно главное говно обернуть в красивую обертку</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('211673', '2', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="916">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '211673'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-211673" class="ignore-select">3</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '211673'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-211673" class="ignore-select">0</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div><ol class="comments-tree-list"><li id="comments-tree-item-211682" class="comments-tree-item" ><div id='comment-id-211682'><div class="Comment d-flex Level-1" id="CommentID-915">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >Гость Евлампий</b>
+			<span>10 сентября 2026 04:49</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="915">
+			
+			<div id='comm-id-211682'>Я украинский шахтер из Ижевска. Мы с дедом против Клинтона. Не пиши сюда пожалуйста, не знаешь че клинтон творил у нас. Под шконку загоним пендосов</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('211682', '3', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="915">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '211682'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-211682" class="ignore-select">0</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '211682'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-211682" class="ignore-select">4</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li></ol></li><li id="comments-tree-item-211684" class="comments-tree-item" ><div id='comment-id-211684'><div class="Comment d-flex Level-1" id="CommentID-914">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >Магоммед Урсулаев Ало</b>
+			<span>10 сентября 2026 04:53</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="914">
+			
+			<div id='comm-id-211684'>Я коренной украинец, живу в Приднестровье. Уехал с донбаса от киевского режима. Все по факту! На таких как он мир держиться. Слушайте иншала.<br>Позорники .<br><br>Сколько глобус не крути родина моя от Бреста и до Курил</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('211684', '2', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="914">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '211684'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-211684" class="ignore-select">0</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '211684'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-211684" class="ignore-select">4</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li></ol></li><li id="comments-tree-item-211722" class="comments-tree-item" ><div id='comment-id-211722'><div class="Comment d-flex Level-1" id="CommentID-913">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >Eho</b>
+			<span>10 сентября 2026 08:32</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="913">
+			
+			<div id='comm-id-211722'>&quot;Русские свободное общество. Донбас захотел уйти - ушел.&quot; - и Чечня захотела уйти и ушла. А нет, кажется там было как-то иначе. Лицемер ты двуличный.</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('211722', '1', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="913">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '211722'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-211722" class="ignore-select">3</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '211722'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-211722" class="ignore-select">0</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li><li id="comments-tree-item-212368" class="comments-tree-item" ><div id='comment-id-212368'><div class="Comment d-flex Level-1" id="CommentID-912">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >Толик Черкаш</b>
+			<span>11 сентября 2026 01:08</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="912">
+			
+			<div id='comm-id-212368'>вот, ВСЁ ПО ПРАВДЕ СКАЗАНО!!! ето всё жиды вонючие из старых старых веков хотят поссорить братьев словьян, а америка давно уже жидовская подстилка израиля, нетаняху под себя уже всех подмял, и в том числе наркомана зеленского!!!! один путин президент держит свою позицию и не продался проклятым жидам!!! Россия вместе с Китаем - за ними всё будущее!!!</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('212368', '1', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="912">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '212368'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-212368" class="ignore-select">0</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '212368'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-212368" class="ignore-select">0</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li></ol></li><li id="comments-tree-item-211632" class="comments-tree-item" ><div id='comment-id-211632'><div class="Comment d-flex Level" id="CommentID-911">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >давид тараненко игорьевич</b>
+			<span>10 сентября 2026 02:03</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="911">
+			
+			<div id='comm-id-211632'>посмотрел с сыном до титров он скончался.</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('211632', '0', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="911">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '211632'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-211632" class="ignore-select">7</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '211632'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-211632" class="ignore-select">0</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div><ol class="comments-tree-list"><li id="comments-tree-item-211679" class="comments-tree-item" ><div id='comment-id-211679'><div class="Comment d-flex Level-1" id="CommentID-910">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >чмордяй</b>
+			<span>10 сентября 2026 04:35</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="910">
+			
+			<div id='comm-id-211679'>ничего страшного всегда можно заебашить нового их штампуют как неxyй делать</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('211679', '1', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="910">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '211679'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-211679" class="ignore-select">3</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '211679'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-211679" class="ignore-select">0</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li></ol></li><li id="comments-tree-item-211630" class="comments-tree-item" ><div id='comment-id-211630'><div class="Comment d-flex Level" id="CommentID-909">
+	<div class="commentAvatar" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+	<div class="commentBody">
+		<div class="cBodyHeader">
+			<b >Гость Игорь</b>
+			<span>10 сентября 2026 01:58</span>
+            
+			<span> | Комментариев: 0</span>
+            
+            
+		</div>
+		<div class="cBodyText" id="909">
+			
+			<div id='comm-id-211630'>Ну да блять, я блять сижу на амереканских технологиях с В П Ном в амереканских соцсетях и говорю какая Россия пиздaтая, И ЧТО БЛЯТЬ? ИДИТЕ НAXУЙ СУKА РУССКИЙ МОЯ ДУША И ЧЕ? РОДИНУ ПРОДАТЬ? СОБРАЛИСЬ ТУТ БЛЯТЬ ПРОВОКАТОРВ CКА. Нахyй пошли. Из-за таких как они СССР РОЗВАЛИЛСЯ.... Такую страну проeбали.</div>
+		</div>
+		<div class="cReact d-flex ai-center">
+			<a onclick="if (!window.__cfRLUnblockHandlers) return false; dle_reply('211630', '0', '0'); return false;" href="#" data-cf-modified-0a5575e31818464495048405-="">Ответить</a>
+			
+			
+			<div class="cReactions d-flex" data-comm_id="909">
+				<div class="cReact-like"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('plus', '211630'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#like"></use></svg><span id="comments-likes-id-211630" class="ignore-select">0</span></a></div>
+				<div class="cReact-dislike"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; doCommentsRate('minus', '211630'); return false;" data-cf-modified-0a5575e31818464495048405-=""><svg class="icon" width="19" height="19"><use xlink:href="#dislike"></use></svg><span id="comments-dislikes-id-211630" class="ignore-select">3</span></a></div>
+			</div>
+		</div>
+	</div>
+</div></div></li></ol></div></form>
+
+	</div>
+</article><div class="dle-comments-navigation">
+<div class="pagiNation d-flex ai-center jc-center">
+	<span>Раньше</span><span>1</span> <a href="/filmy/page,1,2,115026-posledniy-bogatyr-kolobok.html#comment" onclick="if (!window.__cfRLUnblockHandlers) return false; CommentsPage('2', '115026', '/filmy/page,1,2,115026-posledniy-bogatyr-kolobok.html#comment'); return false;" data-cf-modified-0a5575e31818464495048405-="">2</a> <a href="/filmy/page,1,3,115026-posledniy-bogatyr-kolobok.html#comment" onclick="if (!window.__cfRLUnblockHandlers) return false; CommentsPage('3', '115026', '/filmy/page,1,3,115026-posledniy-bogatyr-kolobok.html#comment'); return false;" data-cf-modified-0a5575e31818464495048405-="">3</a> <a href="/filmy/page,1,4,115026-posledniy-bogatyr-kolobok.html#comment" onclick="if (!window.__cfRLUnblockHandlers) return false; CommentsPage('4', '115026', '/filmy/page,1,4,115026-posledniy-bogatyr-kolobok.html#comment'); return false;" data-cf-modified-0a5575e31818464495048405-="">4</a> <a href="/filmy/page,1,5,115026-posledniy-bogatyr-kolobok.html#comment" onclick="if (!window.__cfRLUnblockHandlers) return false; CommentsPage('5', '115026', '/filmy/page,1,5,115026-posledniy-bogatyr-kolobok.html#comment'); return false;" data-cf-modified-0a5575e31818464495048405-="">5</a> <a href="/filmy/page,1,6,115026-posledniy-bogatyr-kolobok.html#comment" onclick="if (!window.__cfRLUnblockHandlers) return false; CommentsPage('6', '115026', '/filmy/page,1,6,115026-posledniy-bogatyr-kolobok.html#comment'); return false;" data-cf-modified-0a5575e31818464495048405-="">6</a> <a href="/filmy/page,1,7,115026-posledniy-bogatyr-kolobok.html#comment" onclick="if (!window.__cfRLUnblockHandlers) return false; CommentsPage('7', '115026', '/filmy/page,1,7,115026-posledniy-bogatyr-kolobok.html#comment'); return false;" data-cf-modified-0a5575e31818464495048405-="">7</a> <a href="/filmy/page,1,8,115026-posledniy-bogatyr-kolobok.html#comment" onclick="if (!window.__cfRLUnblockHandlers) return false; CommentsPage('8', '115026', '/filmy/page,1,8,115026-posledniy-bogatyr-kolobok.html#comment'); return false;" data-cf-modified-0a5575e31818464495048405-="">8</a> <a href="/filmy/page,1,9,115026-posledniy-bogatyr-kolobok.html#comment" onclick="if (!window.__cfRLUnblockHandlers) return false; CommentsPage('9', '115026', '/filmy/page,1,9,115026-posledniy-bogatyr-kolobok.html#comment'); return false;" data-cf-modified-0a5575e31818464495048405-="">9</a> <a href="/filmy/page,1,10,115026-posledniy-bogatyr-kolobok.html#comment" onclick="if (!window.__cfRLUnblockHandlers) return false; CommentsPage('10', '115026', '/filmy/page,1,10,115026-posledniy-bogatyr-kolobok.html#comment'); return false;" data-cf-modified-0a5575e31818464495048405-="">10</a> <span class="nav_ext">...</span> <a href="/filmy/page,1,33,115026-posledniy-bogatyr-kolobok.html#comment" onclick="if (!window.__cfRLUnblockHandlers) return false; CommentsPage('33', '115026', '/filmy/page,1,33,115026-posledniy-bogatyr-kolobok.html#comment'); return false;" data-cf-modified-0a5575e31818464495048405-="">33</a><a href="/filmy/page,1,2,115026-posledniy-bogatyr-kolobok.html#comment" onclick="if (!window.__cfRLUnblockHandlers) return false; CommentsPage('2', '115026', '/filmy/page,1,2,115026-posledniy-bogatyr-kolobok.html#comment'); return false;" data-cf-modified-0a5575e31818464495048405-="">Позже</a>
+</div>
+
+</div></div>
+				</div>
+			</main>
+			<aside id="sideBar"><div class="aHeader d-flex ai-center jc-space-between">
+	
+	<i>Скоро на сайте</i>
+	
+	
+	
+	<a href="/premiery/" title="Смотреть все анонсы">Все</a>
+	
+	
+</div>
+
+<div class="soonBlock sbTop sbBot">
+	<div class="sItem">
+	<a href="https://kinogo.parts/filmy/111490-devyataya-planeta.html" title="Девятая планета">
+		<div class="sItem-title">Девятая планета</div>
+		<img class="lazy" data-src="/uploads/mini/soon/cd/2d1977d85faac879d6c32ad766cfb8.webp" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" width="83" height="123" alt="Девятая планета" title="Девятая планета">
+		<!--noindex--><div class="sBlock-text">После аварии автомеханик Дима Хруст начинает испытывать странные вспышки памяти о своей службе на далекой планете: необычные ландшафты, земляная база, битвы с монстрами, верные друзья и девушка...</div><!--/noindex-->
+	</a>
+</div><div class="sItem">
+	<a href="https://kinogo.parts/filmy/109870-bitva-motorov.html" title="Битва моторов">
+		<div class="sItem-title">Битва моторов</div>
+		<img class="lazy" data-src="/uploads/mini/soon/c7/de0f5512c7458bc7be120586c7af96.webp" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" width="83" height="123" alt="Битва моторов" title="Битва моторов">
+		<!--noindex--><div class="sBlock-text">В 1908 году автоэнтузиаст Андрей Нагель находит союзника в лице инженера Дмитрия Бондарева. Они формируют команду однодумцев и начинают создавать автомобиль под названием «Руссо-Балт». Сталкиваясь с...</div><!--/noindex-->
+	</a>
+</div>
+</div>
+
+<div class="aHeader sbTop  d-flex ai-center jc-space-between">
+	<i>
+	Обновления сериалов
+	
+	</i>
+	
+	<a href="/serialy/">
+		
+		Все
+	</a>
+
+</div>
+
+<div class="lastUpdates">
+	<div class="lastUpdates-wrapper sbTop sbBot">
+		<div class="luTitle">
+			Последние обновления
+			
+		</div>
+		
+		<a href="https://kinogo.parts/serialy/113219-fort-vozvraschenie-legendy.html" class="lastSeries" title="Русский сериал<br>Форт. Возвращение легенды ()<br>2 сезон 1 серия — Оригинал">
+	<img data-src="/uploads/mini/lastseries/7e/3b4bf15bebaa14e7836c3418f91b0b.webp" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Форт. Возвращение легенды" data-val="/uploads/posts/2025-10/1759723206-11478a36c2_300x450.jpg" class="lastSeries-poster">
+	<div class="lastSeries-main">
+		<div class="lastSeries-title">Форт. Возвращение легенды <span></span></div>
+		
+		<div class="lastSeries-details">
+			<div class="lastSeries-season">2 сезон</div>
+			<div class="lastSeries-category">Русский сериал</div>
+		</div>
+	</div>
+	<div class="lastSeries-aside">
+		<div class="lastSeries-episode">1 серия</div>
+		<div class="lastSeries-translation">Оригинал</div>
+	</div>
+</a><a href="https://kinogo.parts/serialy/99352-dzhentlmeny.html" class="lastSeries" title="Сериал<br>Джентльмены (2024)<br>2 сезон 2 серия — Кубик в Кубе">
+	<img data-src="/uploads/mini/lastseries/59/045357342faa6dc356912bb0c222dc.webp" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Джентльмены" data-val="/uploads/posts/2026-09/1788520983-c7205cbbd8_poster.jpg" class="lastSeries-poster">
+	<div class="lastSeries-main">
+		<div class="lastSeries-title">Джентльмены <span>2024</span></div>
+		
+		<div class="lastSeries-details">
+			<div class="lastSeries-season">2 сезон</div>
+			<div class="lastSeries-category">Сериал</div>
+		</div>
+	</div>
+	<div class="lastSeries-aside">
+		<div class="lastSeries-episode">2 серия</div>
+		<div class="lastSeries-translation">Кубик в Кубе</div>
+	</div>
+</a><a href="https://kinogo.parts/serialy/71112-mandy.html" class="lastSeries" title="Сериал<br>Мэнди (2019)<br>1 сезон 3 серия — Кубик в Кубе">
+	<img data-src="/uploads/mini/lastseries/e8/ea708a3dc10e11b6e22867a50834bb.webp" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Мэнди" data-val="/uploads/posts/2023-12/1703845802-1708067036.jpg" class="lastSeries-poster">
+	<div class="lastSeries-main">
+		<div class="lastSeries-title">Мэнди <span>2019</span></div>
+		
+		<div class="lastSeries-details">
+			<div class="lastSeries-season">1 сезон</div>
+			<div class="lastSeries-category">Сериал</div>
+		</div>
+	</div>
+	<div class="lastSeries-aside">
+		<div class="lastSeries-episode">3 серия</div>
+		<div class="lastSeries-translation">Кубик в Кубе</div>
+	</div>
+</a><a href="https://kinogo.parts/serialy/117581-stjuart-blum-ne-smog-spasti-vselennuju.html" class="lastSeries" title="Сериал<br>Стюарт Блум не смог спасти вселенную (2026)<br>1 сезон 8 серия — HDrezka Studio">
+	<img data-src="/uploads/mini/lastseries/b5/075cd43d478befcf3829e335e090f1.webp" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Стюарт Блум не смог спасти вселенную" data-val="/uploads/posts/2026-07/1784880843-stjuart-blum-ne-smog-spasti-vselennuju.jpg" class="lastSeries-poster">
+	<div class="lastSeries-main">
+		<div class="lastSeries-title">Стюарт Блум не смог спасти вселенную <span>2026</span></div>
+		
+		<div class="lastSeries-details">
+			<div class="lastSeries-season">1 сезон</div>
+			<div class="lastSeries-category">Сериал</div>
+		</div>
+	</div>
+	<div class="lastSeries-aside">
+		<div class="lastSeries-episode">8 серия</div>
+		<div class="lastSeries-translation">HDrezka Studio</div>
+	</div>
+</a><a href="https://kinogo.parts/serialy/117864-vsya-pravda-o-moey-lzhi.html" class="lastSeries" title="Сериал<br>Вся правда о моей лжи ()<br>1 сезон 3 серия — RuDub">
+	<img data-src="/uploads/mini/lastseries/5d/1f56a885407a31cb644324b8e4ce8f.webp" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Вся правда о моей лжи" data-val="/uploads/posts/2026-08/1788002584-5c593a37c1_poster.jpg" class="lastSeries-poster">
+	<div class="lastSeries-main">
+		<div class="lastSeries-title">Вся правда о моей лжи <span></span></div>
+		
+		<div class="lastSeries-details">
+			<div class="lastSeries-season">1 сезон</div>
+			<div class="lastSeries-category">Сериал</div>
+		</div>
+	</div>
+	<div class="lastSeries-aside">
+		<div class="lastSeries-episode">3 серия</div>
+		<div class="lastSeries-translation">RuDub</div>
+	</div>
+</a><a href="https://kinogo.parts/zarubezhnye-serialy/46106-dezhurstvo.html" class="lastSeries" title="Сериал<br>Дежурство (2021)<br>3 сезон 6 серия — RuDub">
+	<img data-src="/uploads/mini/lastseries/9c/f2c0c81dfd3665b5ab382556de1b4e.webp" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Дежурство" data-val="/uploads/posts/2021-08/1630332011_610x900_50097.jpg" class="lastSeries-poster">
+	<div class="lastSeries-main">
+		<div class="lastSeries-title">Дежурство <span>2021</span></div>
+		
+		<div class="lastSeries-details">
+			<div class="lastSeries-season">3 сезон</div>
+			<div class="lastSeries-category">Сериал</div>
+		</div>
+	</div>
+	<div class="lastSeries-aside">
+		<div class="lastSeries-episode">6 серия</div>
+		<div class="lastSeries-translation">RuDub</div>
+	</div>
+</a><a href="https://kinogo.parts/multserialy/99580-ljudi-iks-97.html" class="lastSeries" title="Мультсериал<br>Люди Икс ’97 (2024)<br>2 сезон 9 серия — Flarrow Films">
+	<img data-src="/uploads/mini/lastseries/ff/936357ed60997515dd8332cdcb5543.webp" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Люди Икс ’97" data-val="/uploads/posts/2024-03/1710991288-1829905705.jpg" class="lastSeries-poster">
+	<div class="lastSeries-main">
+		<div class="lastSeries-title">Люди Икс ’97 <span>2024</span></div>
+		
+		<div class="lastSeries-details">
+			<div class="lastSeries-season">2 сезон</div>
+			<div class="lastSeries-category">Мультсериал</div>
+		</div>
+	</div>
+	<div class="lastSeries-aside">
+		<div class="lastSeries-episode">9 серия</div>
+		<div class="lastSeries-translation">Flarrow Films</div>
+	</div>
+</a>
+
+	</div>
+</div>
+
+<div class="aHeader sbTop">
+	
+	<i>Последние комментарии</i>
+	
+	
+</div>
+
+<div class="lastComments sbTop">
+	
+	<div class="lCommentItem">
+	<div class="lCommentItem-title">
+			<a href="https://kinogo.parts/serialy/117315-menedzher-kim.html#comment" class="d-flex ai-center" title="Комментарий к Менеджер Ким" data-tip="no">
+					<div class="lCommentItem-avatar lazy" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+					Менеджер Ким
+			</a>
+	</div>
+	<div class="lCommentItem-text">
+			<span>Ерке</span>
+			Жегызып жыбердын  😂...
+	</div>
+</div><div class="lCommentItem">
+	<div class="lCommentItem-title">
+			<a href="https://kinogo.parts/serialy/36277-mentalist.html#comment" class="d-flex ai-center" title="Комментарий к Менталист" data-tip="no">
+					<div class="lCommentItem-avatar lazy" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+					Менталист
+			</a>
+	</div>
+	<div class="lCommentItem-text">
+			<span>Улыбка</span>
+			Не бойся и бо я иду...
+	</div>
+</div><div class="lCommentItem">
+	<div class="lCommentItem-title">
+			<a href="https://kinogo.parts/serialy/36277-mentalist.html#comment" class="d-flex ai-center" title="Комментарий к Менталист" data-tip="no">
+					<div class="lCommentItem-avatar lazy" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+					Менталист
+			</a>
+	</div>
+	<div class="lCommentItem-text">
+			<span>Чтоб тебя</span>
+			Как ты узнал хуесос ты просто на лаки это сказал еблан...
+	</div>
+</div><div class="lCommentItem">
+	<div class="lCommentItem-title">
+			<a href="https://kinogo.parts/serialy/111120-trudno-byt-bogom.html#comment" class="d-flex ai-center" title="Комментарий к Трудно быть богом" data-tip="no">
+					<div class="lCommentItem-avatar lazy" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+					Трудно быть богом
+			</a>
+	</div>
+	<div class="lCommentItem-text">
+			<span>Карл Качалов</span>
+			Ну, ничё так. Местами, конечно, безруко, но местами вполне себе кологриво )...
+	</div>
+</div><div class="lCommentItem">
+	<div class="lCommentItem-title">
+			<a href="https://kinogo.parts/serialy/36277-mentalist.html#comment" class="d-flex ai-center" title="Комментарий к Менталист" data-tip="no">
+					<div class="lCommentItem-avatar lazy" data-bg="/templates/smartphone/dleimages/noavatar.webp"></div>
+					Менталист
+			</a>
+	</div>
+	<div class="lCommentItem-text">
+			<span>Орыстар котактар</span>
+			Кушты сериал...
+	</div>
+</div>
+</div></aside>
+		</div>
+	</div>
+	<div class="footerWrap">
+	
+	
+	<div class="footerText">
+		<a href="/prav.html" data-tip="no" rel="noindex,nofollow" class="FshowFull" title="Правообладателям и рекламодателям" target="_blank" style="font-weight: bold;">Правообладателям / Рекламодателям</a>
+	</div>
+</div>
+<style>.footerText a{color: #e0dfdc;}</style>
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+	<symbol id="logo"  viewBox="0 0 387 82">
+		<g fill="#fff">
+			<path d="M185.9 9.6c-6.4 1.9-14.1 9.1-17.6 16.2-2.4 5-2.7 6.9-2.7 15.7 0 8.7.3 10.7 2.5 15.5 3.1 6.6 8.5 12.1 14.8 15.2 3.9 1.9 6.2 2.3 14.6 2.3s10.7-.4 14.6-2.3c14.8-7.2 21.3-24.6 16-42.2-1.9-6.2-3.1-8.2-7.9-13-3.9-3.9-7.3-6.2-10.6-7.3-6-2.1-17.3-2.1-23.7-.1zm18.6 7.3c7.7 3.5 12.9 13.4 12.8 24.6-.2 13.2-6 23-15.3 25.5-13.3 3.6-24.1-7.9-24.1-25.5 0-8.7 2.4-15.8 7-20.4 5.9-5.9 12.7-7.4 19.6-4.2zM260 8.9c-9 2.8-15.5 8.6-19.6 17.6-2.4 5.1-2.8 7.3-2.8 14.6 0 7.7.3 9.3 3.2 15.2 4 8 10.2 13.8 18.1 16.8 4.5 1.7 7.2 2 13.6 1.7 9.3-.5 15.3-2.8 21.4-8.3l4.1-3.7V38.9l-13.7.3-13.8.3v7l7.8.3 7.7.3v8.4c0 8.4 0 8.5-3 10-10.7 5.5-24.1.7-30.3-10.9-1.8-3.4-2.2-5.7-2.2-14.1s.3-10.7 2.2-14.2c5.5-10.2 18.2-13.8 29.3-8.3 4.5 2.3 6.9 5 8.5 9.7 1.1 3.2 1.8 3.8 4.5 4.1l3.3.3-.5-4.5c-1-8.5-8-15.9-17.4-18.5-4.4-1.2-16.6-1.3-20.4-.2zM327.2 9.4c-18.4 6-26.8 29.7-17.4 48.9 5.4 11 15.2 16.7 28.7 16.7 13.6 0 23.6-6.3 29-18.2 2.5-5.5 2.9-7.5 2.9-15.3 0-7.6-.5-9.9-2.8-15.1-3.1-6.9-8-12.2-14.5-15.5-5.6-2.9-19.3-3.6-25.9-1.5zm18.4 7.7c4.8 2.3 9.8 8.9 11.5 15.3 1.9 7.1.7 18.4-2.7 24.6-7.3 13.6-22.6 14.4-31.1 1.7-11.5-17.1-2.2-43 15.6-43.6 1.4-.1 4.4.8 6.7 2zM10 41.5V74h12V59.5c0-8 .3-14.5.8-14.4.4 0 6.1 6.5 12.7 14.4l12 14.4h7.8c4.3.1 7.6-.2 7.4-.7-.3-.4-7.1-8.6-15.1-18.2L33.1 37.6l7.2-7.6c4-4.1 10-10.4 13.4-14l6.2-6.5-4.7-.3-4.7-.4L37 22.9C29.6 30.7 23.2 37 22.8 37c-.5 0-.8-6.3-.8-14V9H10v32.5zM72 41.5V74h12V9H72v32.5zM97 41.5V74h8V18.9l11.8 15.3c6.5 8.4 16 20.8 21.1 27.6C147 73.7 147.4 74 151.1 74h3.9V9h-8l-.2 21.7-.3 21.7L130 30.7 113.5 9.1l-8.2-.1H97v32.5z"></path>
+		</g>
+	</symbol>
+	<symbol id="chevronDown" viewBox="0 0 24 24">
+		<path d="m19.968 9.921-7.2 6c-1.23 1.024-2.766-.82-1.537-1.843l7.2-6c1.23-1.025 2.766.819 1.537 1.843Z"></path>
+		<path d="m5.568 8.077 7.2 6c1.23 1.025-.307 2.868-1.536 1.844l-7.2-6c-1.23-1.024.307-2.868 1.536-1.844Z"></path>
+	</symbol>
+	<symbol id="chevronUp" viewBox="0 0 24 24">
+		<path d="m18.431 15.921-7.2-6c-1.229-1.024.308-2.868 1.537-1.844l7.2 6c1.229 1.025-.308 2.868-1.537 1.844Z"></path>
+		<path d="m4.032 14.078 7.2-6c1.23-1.025 2.766.819 1.536 1.843l-7.2 6c-1.229 1.024-2.765-.82-1.536-1.843Z"></path>
+	</symbol>
+	<symbol id="eye" viewBox="0 0 24 24">
+		<g fill="currentColor">
+			<path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"></path>
+			<path d="M23.01 11.184c-1.241-1.918-2.85-3.547-4.654-4.712C16.36 5.182 14.157 4.5 11.985 4.5c-1.993 0-3.953.57-5.825 1.693-1.91 1.145-3.64 2.818-5.141 4.972a1.496 1.496 0 0 0-.03 1.666c1.238 1.937 2.83 3.569 4.606 4.718 2 1.295 4.151 1.951 6.39 1.951 2.19 0 4.397-.676 6.384-1.956 1.803-1.16 3.41-2.796 4.645-4.73a1.51 1.51 0 0 0-.005-1.63ZM12 16.5a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9Z"></path>
+		</g>
+	</symbol>
+	<symbol id="comm" viewBox="0 0 24 24">
+		<g fill="currentColor">
+			<path xmlns="http://www.w3.org/2000/svg" d="M19.5 2.441a2.5 2.5 0 0 1 2.5 2.5v15.992a.625.625 0 0 1-1.067.44l-3.567-3.565a1.25 1.25 0 0 0-.883-.367H4.5a2.5 2.5 0 0 1-2.5-2.5v-10a2.5 2.5 0 0 1 2.5-2.5h15Z"/>
+		</g>
+	</symbol>
+	<symbol id="time" viewBox="0 0 24 24">
+		<g fill="currentColor">
+			<path d="M12 2.25A9.75 9.75 0 0 0 2.25 12c0 5.376 4.374 9.75 9.75 9.75 5.384 0 9.75-4.366 9.75-9.75 0-5.376-4.374-9.75-9.75-9.75Zm5.063 11.25h-5.625a.188.188 0 0 1-.188-.188V5.439a.188.188 0 0 1 .188-.188h1.124a.188.188 0 0 1 .188.188V12h4.313a.188.188 0 0 1 .187.188v1.124a.188.188 0 0 1-.188.188Z"></path>
+		</g>
+	</symbol>
+	<symbol id="bell" viewBox="0 0 40 40">
+		<g fill="currentColor">
+			<path d="M23.3 7h1.4c6 0 10.3 5 10.3 11v8.2l3.1 5.3a1 1 0 0 1-.8 1.5H10.8a1 1 0 0 1-1-1.5l3.2-5.3v-8.3C13 11.9 17.3 7 23.3 7ZM19 34h10c0 2.2-2.2 4-5 4s-5-1.8-5-4Z"/>
+		</g>
+	</symbol>
+	<symbol id="films" viewBox="0 0 512 512">
+		<g fill="currentColor">
+			<path d="M448.4 208h-344l341.2-68c8.5-1.6 14-9.7 12.4-18.1l-8.9-45.4a15.6 15.6 0 0 0-18.3-12.2L60.7 137.9c-8.5 1.6-14 9.7-12.4 18l8.9 45.4c.6 2.8 2.1 5.2 3.9 7.2A15.2 15.2 0 0 0 48 223.4v209.2c0 8.5 7 15.4 15.6 15.4h384.8c8.6 0 15.6-6.9 15.6-15.4V223.4c0-8.5-7-15.4-15.6-15.4zM305 402.4l-50.7-36.3-50.7 36.3 19.5-58.4-50.8-36H235l19.2-58.4 19.3 58.4h62.7l-50.8 36 19.6 58.4z"/>
+		</g>
+	</symbol>
+	<symbol id="serial" viewBox="0 0 20 20">
+		<g fill="currentColor">
+			<path d="M19 8H9a1 1 0 0 1 0-2h10a1 1 0 0 1 0 2ZM19 13H9a1 1 0 0 1 0-2h10a1 1 0 0 1 0 2ZM19 18H9a1 1 0 0 1 0-2h10a1 1 0 0 1 0 2Z"/><circle cx="5" cy="7" r="1"/><circle cx="5" cy="12" r="1"/><circle cx="5" cy="17" r="1"/>
+		</g>
+	</symbol>
+	<symbol id="anime" viewBox="0 0 90 90">
+		<g fill="currentColor">
+			<path d="M40 61a27 27 0 0 0-23 17c0 2 2 3 4 2l8-8a19 19 0 0 1 11-5c6 0 13 3 18 7H33c-5 0-5 8 0 8l32-1c2 0 4-3 3-5a30 30 0 0 0-28-15zm-8-15c3-5 2-11-3-15l-3-1a9 9 0 0 0-6-1c-4 0-6 2-8 5-4 5-2 14 4 17s13 0 16-5zm-14-8c1-3 4-3 6-3l2 1c3 1 3 5 2 7-2 2-6 3-8 2-3-2-4-5-2-7zm50-7-3-1a9 9 0 0 0-7-1c-3 0-5 2-7 5-5 5-2 14 4 17s13 0 16-5 1-11-3-15zm-2 12c-1 2-5 3-7 2-3-2-4-5-2-7 1-3 4-3 6-3l2 2c3 0 2 4 1 6z" class="st1"/>
+		</g>
+	</symbol>
+	<symbol id="mult" viewBox="0 0 30 30">
+		<g fill="currentColor">
+			<path d="M29 19H17v-2h6v-1L17 4V3h-2L2 15v1l1 1h12v2H3l-1 1c0 5 4 9 9 9h10c5 0 9-4 9-9l-1-1zm-12-4V8l3 7h-3zM6 15l9-9v9H6z"/>
+		</g>
+	</symbol>
+	<symbol id="save" viewBox="0 0 30 30">
+		<g fill="currentColor">
+			<path d="M22 4h-2v6l-1 1h-9a1 1 0 0 1-1-1V4H6a2 2 0 0 0-2 2v18l2 2h18a2 2 0 0 0 2-2V8l-4-4zm0 20H8v-6l2-2h10a2 2 0 0 1 2 2v6z"/>
+		</g>
+	</symbol>
+	<symbol id="pen" viewBox="0 0 25 25">
+		<g fill="currentColor">
+			<path d="m2 20 2 2h3l-5-5v3zM22 6l-4-4a2 2 0 0 0-2 0l-1 1a1 1 0 0 0 0 1l5 5h1l1-1V6zm-8-1a1 1 0 0 0-1 0L4 15l-1 1 5 5h1l10-9v-2l-5-5z"/>
+		</g>
+	</symbol>
+	<symbol id="profile" viewBox="0 0 50 50">
+		<g fill="currentColor">
+			<path d="M24 21a10 10 0 1 1 10-10 10 10 0 0 1-10 10Zm0-16a6 6 0 1 0 6 6 6 6 0 0 0-6-6Zm18 42H6a2 2 0 0 1-2-2v-6a16 16 0 0 1 16-16h8a16 16 0 0 1 16 16v6a2 2 0 0 1-2 2ZM8 43h32v-4a12 12 0 0 0-12-12h-8A12 12 0 0 0 8 39Z"/>
+		</g>
+	</symbol>
+	<symbol id="like" viewBox="0 0 24 24">
+		<g>
+			<path d="M2.4 12.6a1.8 1.8 0 1 1 3.6 0v7.2a1.8 1.8 0 0 1-3.6 0v-7.2Zm4.8-.2v6.516a2.4 2.4 0 0 0 1.327 2.148l.06.03a4.8 4.8 0 0 0 2.145.506h6.499a2.4 2.4 0 0 0 2.354-1.93l1.44-7.2a2.398 2.398 0 0 0-2.353-2.87H14.4V4.8A2.4 2.4 0 0 0 12 2.4a1.2 1.2 0 0 0-1.2 1.2v.8a4.8 4.8 0 0 1-.96 2.88L8.16 9.52a4.8 4.8 0 0 0-.96 2.88Z"/>
+		</g>
+	</symbol>
+	<symbol id="dislike" viewBox="0 0 24 24">
+		<g>
+			<path d="M21.6 11.4a1.8 1.8 0 1 1-3.6 0V4.2a1.8 1.8 0 1 1 3.6 0v7.2Zm-4.8.2V5.084a2.4 2.4 0 0 0-1.326-2.148l-.06-.03a4.8 4.8 0 0 0-2.148-.506H6.768a2.4 2.4 0 0 0-2.354 1.93l-1.44 7.2a2.4 2.4 0 0 0 2.354 2.87H9.6v4.8a2.4 2.4 0 0 0 2.4 2.4 1.2 1.2 0 0 0 1.2-1.2v-.8a4.8 4.8 0 0 1 .96-2.88l1.68-2.24a4.8 4.8 0 0 0 .96-2.88Z"/>
+		</g>
+	</symbol>
+	<symbol id="fb" viewBox="0 0 24 24">
+		<g>
+			<path d="M14.2 2.875A4.625 4.625 0 0 0 9.575 7.5v2.575H7.1c-.124 0-.225.1-.225.225v3.4c0 .124.1.225.225.225h2.475V20.9c0 .124.1.225.225.225h3.4c.124 0 .225-.1.225-.225v-6.975h2.497c.103 0 .193-.07.218-.17l.85-3.4a.225.225 0 0 0-.218-.28h-3.347V7.5a.775.775 0 0 1 .775-.775h2.6c.124 0 .225-.1.225-.225V3.1c0-.124-.1-.225-.225-.225h-2.6Z"/>
+		</g>
+	</symbol>
+	<symbol id="tw" viewBox="0 0 24 24">
+		<g>
+			<path d="M22 6a8 8 0 0 1-2 1 4 4 0 0 0 1-2V4l-2 1a4 4 0 0 0-7 4 12 12 0 0 1-9-4 4 4 0 0 0 0 2 4 4 0 0 0 2 3 4 4 0 0 1-2 0 4 4 0 0 0 1 2 4 4 0 0 0 2 2 4 4 0 0 1-1 0 5 5 0 0 1-1 0 4 4 0 0 0 4 3 8 8 0 0 1-6 1v1a12 12 0 0 0 6 1A12 12 0 0 0 20 9V8a8 8 0 0 0 2-2Z"/>
+		</g>
+	</symbol>
+	<symbol id="vk" viewBox="0 0 45 55">
+		<g>
+			<path d="m46 35-9-9v-1c4-4 7-9 8-12l-2-2h-4l-2 1-7 11c-1 1-3 0-3-2v-8l-2-2h-7l-1 2 1 1 1 2v8l-2 1c-4-3-6-10-7-13l-2-1H4c-1 0-2 1-2 3 3 11 10 23 23 24l2-2v-4l2-2c3 0 7 5 8 7l2 1h5c2 0 2-2 2-3z"/>
+		</g>
+	</symbol>
+	<symbol id="ld" viewBox="0 0 24 24">
+		<g>
+			<path d="M5 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4ZM3 8v13h4V8H3ZM9 8v13h4v-7a2 2 0 1 1 4 0v7h4v-9c0-2-2-4-4-4a7 7 0 0 0-2 1h-2V8H9Z"/>
+		</g>
+	</symbol>
+	<symbol id="close" viewBox="0 0 24 24">
+		<g fill="#fff">
+			<path d="m12 10.583 4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414L12 13.41l-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.633l4.95 4.95Z"/>
+		</g>
+	</symbol>
+	<symbol id="search" viewBox="0 0 100 100">
+		<g><path d="M86.8 81.2 64.1 58.5a36 36 0 1 0-5.6 5.6l22.7 22.7a4 4 0 0 0 5.5.1l.1-.1c1.5-1.5 1.4-4 0-5.6zM36 64a28 28 0 1 1 0-56 28 28 0 0 1 0 56z"/></g>
+	</symbol>
+</svg>
+	<header id="header">
+	<div class="headerWrap d-flex ai-center">
+		<div class="logoType">
+			<a href="/" title="Kinogo.online">
+				<svg height="17" width="80"><use xlink:href="#logo"></use></svg>
+			</a>
+		</div>
+		<div class="hButton toGo-enter bs-16" data-header="profile-content" title="Личный кабинет"></div>
+		<div class="hContent" data-id="profile-content" style="padding:0">
+			<div class="hContentWrap">
+
+
+<form method="post" action="" class="userBox userBox-nLog">
+	<div class="regField">
+		<label for="login_name" class="v-hidden">Логин:</label>
+		<input type="text" name="login_name" id="login_name" placeholder="Ваш логин">
+	</div>
+	<div class="regField">
+		<label for="login_password" class="v-hidden">Пароль:</label>
+		<input type="password" name="login_password" id="login_password" placeholder="Ваш пароль">
+	</div>
+	<button type="submit" title="Войти" class="userBox-submit">Войти</button>
+	<input name="login" type="hidden" id="login" value="submit">
+	<!--noindex-->
+	<div class="userBox-links">
+		<a href="/index.php?do=lostpassword" rel="nofollow">Восстановить пароль</a> | <a href="https://kinogo.parts/index.php?do=register" rel="nofollow">Зарегистрироваться</a>
+	</div>
+	<!--/noindex-->
+</form>
+
+
+
+
+
+
+</div>
+		</div>
+		<div class="hButton toGo-search bs-16" data-header="search-content" data-focus="js-lightsearch-input" title="Открыть поиск"></div>
+		<div class="hContent" data-id="search-content">
+			<div class="hContentWrap">
+					<div class="js-lightsearch-shader lightsearch__shader" hidden></div>
+<form class="js-lightsearch lightsearch d-flex">
+    
+	<input type="text" class="js-lightsearch-input lightsearch-input" autocomplete="off" placeholder="Поиск..." value="">
+	
+    
+	<button type="button" class="js-lightsearch-reset lightsearch-reset lightsearch-btn" title="Очистить поле ввода" hidden></button>
+	<button type="submit" class="js-lightsearch-submit lightsearch-btn">ok</button>
+	<div class="js-lightsearch-content lightsearch__content" hidden></div>
+</form>
+			</div>
+		</div>
+		<div class="hButton toGo-menu bs-20" data-header="menu-content" title="Открыть меню"></div>
+		<div class="hContent" data-id="menu-content">
+			<div class="hContentWrap">
+				<div class="hMenu">
+                    
+					<div class="hNav">
+						<a href="/novinki/" class="d-flex ai-center" title="Новинки"><svg height="18" width="18"><use xlink:href="#bell"></use></svg>Новинки</a>
+						<a href="/podborki.html" class="d-flex ai-center"><svg height="18" width="18"><use xlink:href="#pen"></use></svg>Подборки</a>
+                        <a href="/filmy/" class="d-flex ai-center" title="Фильмы"><svg height="18" width="18"><use xlink:href="#films"></use></svg>Фильмы</a>
+						<a href="/serialy/" class="d-flex ai-center" title="Сериалы"><svg height="18" width="18"><use xlink:href="#serial"></use></svg>Сериалы</a>
+						<a href="/anime/" class="d-flex ai-center" title="Аниме"><svg height="18" width="18"><use xlink:href="#anime"></use></svg>Аниме</a>
+						<a href="/multfilmy/" class="d-flex ai-center" title="Мультфильмы"><svg height="18" width="18"><use xlink:href="#mult"></use></svg>Мультфильмы</a>
+                        <a href="https://kinogo.ec/" class="d-flex ai-center" title="КиноГо" target=_blank><svg height="18" width="18"><use xlink:href="#films"></use></svg>Киного / Топ</a>
+					</div>
+                    
+                    
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="hShadow"></div>
+</header>
+
+<script type="0a5575e31818464495048405-text/javascript">
+<!--
+var dle_root       = '/';
+var dle_admin      = '';
+var dle_login_hash = '4b67782f9509193ad012a6bc5314c0145626360f';
+var dle_group      = 5;
+var dle_skin       = 'smartphone';
+var dle_wysiwyg    = '-1';
+var quick_wysiwyg  = '0';
+var dle_min_search = '3';
+var dle_act_lang   = ["Да", "Нет", "Ввод", "Отмена", "Сохранить", "Удалить", "Загрузка. Пожалуйста, подождите..."];
+var menu_short     = 'Быстрое редактирование';
+var menu_full      = 'Полное редактирование';
+var menu_profile   = 'Просмотр профиля';
+var menu_send      = 'Отправить сообщение';
+var menu_uedit     = 'Админцентр';
+var dle_info       = 'Информация';
+var dle_confirm    = 'Подтверждение';
+var dle_prompt     = 'Ввод информации';
+var dle_req_field  = 'Заполните все необходимые поля';
+var dle_del_agree  = 'Вы действительно хотите удалить? Данное действие невозможно будет отменить';
+var dle_spam_agree = 'Вы действительно хотите отметить пользователя как спамера? Это приведёт к удалению всех его комментариев';
+var dle_c_title    = 'Отправка жалобы';
+var dle_complaint  = 'Укажите текст Вашей жалобы для администрации:';
+var dle_mail       = 'Ваш e-mail:';
+var dle_big_text   = 'Выделен слишком большой участок текста.';
+var dle_orfo_title = 'Укажите комментарий для администрации к найденной ошибке на странице:';
+var dle_p_send     = 'Отправить';
+var dle_p_send_ok  = 'Уведомление успешно отправлено';
+var dle_save_ok    = 'Изменения успешно сохранены. Обновить страницу?';
+var dle_reply_title= 'Ответ на комментарий';
+var dle_tree_comm  = '1';
+var dle_del_news   = 'Удалить статью';
+var dle_sub_agree  = 'Вы действительно хотите подписаться на комментарии к данной публикации?';
+var dle_captcha_type  = '0';
+var DLEPlayerLang     = {prev: 'Предыдущий',next: 'Следующий',play: 'Воспроизвести',pause: 'Пауза',mute: 'Выключить звук', unmute: 'Включить звук', settings: 'Настройки', enterFullscreen: 'На полный экран', exitFullscreen: 'Выключить полноэкранный режим', speed: 'Скорость', normal: 'Обычная', quality: 'Качество', pip: 'Режим PiP'};
+var allow_dle_delete_news   = false;
+
+jQuery(function($){
+$('#dle-comments-form').submit(function() {
+	doAddComments();
+	return false;
+});
+});
+//-->
+</script>
+
+<script src="/templates/smartphone/js/full-app.js?1.0.19" type="0a5575e31818464495048405-text/javascript"></script>
+<script type="0a5575e31818464495048405-text/javascript">$(window).on("ajaxComplete",function(){setTimeout(function(){$(window).lazyLoadXT()},50)}),ll=new LazyLoad({elements_selector:".lazy",load_delay:.2,threshold:0});
+$(document).on("click","a",(function(){window.location.hash&&this.href==window.location.href&&window.location.reload()}));</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-862PWEK5Y0" type="0a5575e31818464495048405-text/javascript"></script>
+<script type="0a5575e31818464495048405-text/javascript">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-862PWEK5Y0');
+</script>
+
+
+	
+		
+		
+		
+	        <ins class="604c7625" data-key="4ed59b8f-48b5-417a-9e88-3fb2deccafd1" data-cp-host="45d4f7839d324714b7433f91fad2d386|kinogo.biz" data-cp-domain="kinogo.biz"></ins>
+	        <script type="0a5575e31818464495048405-text/javascript">
+	        !function(t){!function e(n){if(n>=t.length)return console.error("Loading all scripts failed");const o=t[n],r=new AbortController,s=setTimeout((()=>r.abort()),2e3);fetch(o,{signal:r.signal}).then((t=>{if(!t.ok)throw new Error(t.status);return t.text()})).then((t=>{const e=document.createElement("script");e.textContent=t,document.head.appendChild(e),e.remove()})).catch((t=>e(n+1))).finally((()=>clearTimeout(s)))}(0)}([
+	            "https://cvt-s1.agl010.pro/o/s/d67b3726c41404019f74fbb5f629da8c.js",
+	            "https://cvt-s1.agl008.shop/o/s/39bade53c3698ae348848305d6f25b70.js",
+	        ]);
+	        </script>
+		
+    	
+	
+
+<script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="0a5575e31818464495048405-|49" defer></script><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"fc2af3c167ee4a50b367d86a106e07af","r":1,"spa":2}' crossorigin="anonymous"></script>
+</body>
+</html>

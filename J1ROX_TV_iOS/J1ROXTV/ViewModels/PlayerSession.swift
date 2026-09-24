@@ -17,6 +17,8 @@ import UIKit
     @Published private(set) var cdnHost = "unknown"
     @Published private(set) var lastError: String?
     @Published private(set) var events: [String] = []
+    var onEnded: (() -> Void)?
+    private var ended = false
     var onProgress: ((Double, Double) -> Void)?
     var onFailure: ((PlaybackSnapshot, PlaybackError) -> Void)?
     private(set) var source: PlaybackSource
@@ -37,6 +39,7 @@ import UIKit
         guard !active else { return }
         active = true
         failed = false
+        ended = false
         lastError = nil
         wantsPlayback = source.resumeState?.isPlaying ?? true
         cdnHost = source.url.host ?? "unknown"
@@ -90,12 +93,18 @@ import UIKit
                 self.wantsPlayback = player.timeControlStatus != .paused
             }
         })
-        for name in [Notification.Name.AVPlayerItemFailedToPlayToEndTime, .AVPlayerItemNewErrorLogEntry,
+        for name in [Notification.Name.AVPlayerItemDidPlayToEndTime, .AVPlayerItemFailedToPlayToEndTime, .AVPlayerItemNewErrorLogEntry,
                      .AVPlayerItemNewAccessLogEntry, .AVPlayerItemPlaybackStalled] {
             notifications.append(NotificationCenter.default.addObserver(forName: name, object: item, queue: .main) { [weak self] note in
                 Task { @MainActor [weak self] in
                     guard let self, self.active, self.player.currentItem === item else { return }
-                    if name == .AVPlayerItemFailedToPlayToEndTime {
+                    if name == .AVPlayerItemDidPlayToEndTime {
+                        guard !self.ended else { return }
+                        self.ended = true
+                        self.sample()
+                        self.onProgress?(self.currentTime, self.duration)
+                        self.onEnded?()
+                    } else if name == .AVPlayerItemFailedToPlayToEndTime {
                         let error = note.userInfo?[AVPlayerItemFailedToPlayToEndTimeErrorKey] as? Error
                         self.fail(.avFoundation(error ?? item.error ?? NSError(domain: "AVPlayerItem", code: -2)))
                     } else if name == .AVPlayerItemNewErrorLogEntry { self.readErrorLog(item) }
@@ -130,7 +139,9 @@ import UIKit
             await self.restoreTracks(item, state: state)
             guard !Task.isCancelled, self.active, self.player.currentItem === item else { return }
             if state.position.isFinite && state.position > 0 {
-                _ = await self.player.seek(to: CMTime(seconds: state.position, preferredTimescale: 600), toleranceBefore: .zero, toleranceAfter: .zero)
+                let length = item.duration.seconds
+                let position = length.isFinite && length > 0 ? min(state.position, max(0, length - 1)) : state.position
+                _ = await self.player.seek(to: CMTime(seconds: position, preferredTimescale: 600), toleranceBefore: .zero, toleranceAfter: .zero)
             }
             guard !Task.isCancelled, self.active, self.player.currentItem === item else { return }
             self.restoring = false
@@ -158,7 +169,7 @@ import UIKit
         let time = player.currentTime().seconds
         var result = source.resumeState ?? PlaybackSnapshot(position: source.request.resumeAt)
         result.isPlaying = wantsPlayback
-        if status == "readyToPlay", time.isFinite { result.position = max(0, time) }
+        if status == "readyToPlay", !restoring, time.isFinite { result.position = max(0, time) }
         if let item = player.currentItem {
             for characteristic in [AVMediaCharacteristic.audible, .legible] {
                 // Cached groups are populated during readyToPlay restoration.
@@ -188,7 +199,7 @@ import UIKit
         if let size = player.currentItem?.presentationSize, size.width.isFinite, size.height.isFinite {
             resolution = "\(Int(size.width))×\(Int(size.height))"
         }
-        if Date().timeIntervalSince(lastSavedAt) >= 10 {
+        if !restoring, status == "readyToPlay", Date().timeIntervalSince(lastSavedAt) >= 10 {
             onProgress?(currentTime, duration)
             lastSavedAt = Date()
         }

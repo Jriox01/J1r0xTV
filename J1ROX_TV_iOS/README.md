@@ -56,9 +56,13 @@ API настраивается в `J1ROXTV/Networking/APIConfig.swift`. Общи
 Windows → git push → GitHub → Codemagic/Xcode → App Store Connect → TestFlight → iPhone
 ```
 
-В корне репозитория находится `codemagic.yaml` с двумя workflow:
+Для первого запуска выберите **ios-check**: Apple credentials не требуются.
+Порядок этапов, артефакты, логи и точные команды описаны в [CI-CODEMAGIC.md](CI-CODEMAGIC.md).
 
-- `ios-check` — автоматически проверяет Release-компиляцию без подписи при push или pull request в `main`, если менялись `J1ROX_TV_iOS/**` или `codemagic.yaml`;
+В корне репозитория находится `codemagic.yaml` с тремя workflow:
+
+- `ios-check` — при push или pull request в `main` сначала собирает Debug для симулятора, сохраняет `.app.zip`, затем проверяет Release для устройства и запускает регрессионные тесты; реагирует на изменения `J1ROX_TV_iOS/**`, `codemagic.yaml` и `.gitattributes`;
+- `ios-ipa` — существующий ручной workflow упаковки неподписанного device build; такой IPA без дальнейшей подписи не устанавливается штатно на iPhone;
 - `ios-testflight` — запускается вручную, выполняет такую же unsigned-проверку, затем получает signing files, создаёт archive/IPA и загружает приложение в TestFlight.
 
 TestFlight workflow использует номер `$BUILD_NUMBER` от Codemagic как `CFBundleVersion`, поэтому повторная загрузка не получает прежний build number. Версия приложения задаётся переменной `MARKETING_VERSION` в `codemagic.yaml`.

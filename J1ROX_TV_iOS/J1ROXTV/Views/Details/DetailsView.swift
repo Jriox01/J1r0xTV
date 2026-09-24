@@ -43,7 +43,20 @@ struct DetailsView: View {
             Color.clear.frame(height: 16)
         }
         .navigationBarTitleDisplayMode(.inline)
-        .task { await model.load() }
+        .onChange(of: app.playback?.id) { id in
+            guard id == nil, let saved = app.library.history.first(where: { $0.mediaID == model.item.id && $0.mediaType == model.item.mediaType }) else { return }
+            Task {
+                await model.synchronize(.init(media: model.item, sourceID: saved.sourceID,
+                    translationID: saved.translationID, season: saved.season, episode: saved.episode))
+            }
+        }
+        .task {
+            if let saved = app.library.history.first(where: { $0.mediaID == model.item.id && $0.mediaType == model.item.mediaType }) {
+                model.restore(.init(media: model.item, sourceID: saved.sourceID, translationID: saved.translationID, season: saved.season, episode: saved.episode, resumeAt: saved.position))
+            }
+            await model.load()
+            if model.item.mediaType == "tv" { await model.prepare() }
+        }
     }
 
     private var hero: some View {
@@ -102,91 +115,40 @@ struct DetailsView: View {
     }
 
     @ViewBuilder private var sourcePicker: some View {
-        if !model.sources.isEmpty {
-            selectionSection("Источник") {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 8) {
-                        ForEach(model.sources) { source in
-                            chip(source.name, selected: model.activeSource == source.id) {
-                                Task { try? await model.select(source: source) }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        if !model.translations.isEmpty {
-            selectionSection("Озвучка") {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 8) {
-                        ForEach(model.translations) { translation in
-                            chip(translation.name, selected: model.selectedTranslation?.id == translation.id) {
-                                model.select(translation: translation)
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        if !model.seasons.isEmpty {
-            selectionSection("Сезоны") {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 8) {
-                        ForEach(model.seasons) { season in
-                            chip(season.name, selected: model.selectedSeason?.id == season.id) {
-                                model.select(season: season)
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        ContentSelectors(model: model)
         if !model.episodes.isEmpty {
             selectionSection("Серии") {
-                LazyVStack(spacing: 8) {
+                LazyVStack(spacing: 6) {
                     ForEach(model.episodes) { episode in
-                        Button {
-                            Task {
-                                do { app.playback = try await model.play(episode: episode) }
-                                catch { model.error = error.localizedDescription }
-                            }
-                        } label: {
-                            VStack(alignment: .leading, spacing: 8) {
-                                Color.jiroxSurface
-                                    .frame(height: 120)
-                                    .overlay {
-                                        CachedAsyncImage(url: URL(string: episode.imageURL), contentMode: .fill)
-                                    }
-                                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                                Label {
-                                    VStack(alignment: .leading, spacing: 8) {
-                                        Text(episode.name).font(.body.weight(.semibold))
-                                        Text("Серия \(episode.number)")
-                                            .font(.subheadline)
-                                            .foregroundStyle(.secondary)
-                                    }
-                                } icon: {
-                                    Image(systemName: "play.circle.fill").foregroundStyle(Color.red)
+                        HStack {
+                            Button {
+                                Task {
+                                    let saved = app.library.history.first { $0.mediaID == model.item.id && $0.mediaType == model.item.mediaType && $0.season == model.selectedSeason?.number && $0.episode == episode.number }
+                                    do { app.playback = try await model.play(episode: episode, resume: saved.map { $0.duration > 0 && $0.position >= $0.duration - 5 ? 0 : $0.position } ?? 0) }
+                                    catch is CancellationError {}
+                                    catch { model.error = error.localizedDescription }
                                 }
+                            } label: {
+                                Label(episode.name, systemImage: "play.fill")
+                                    .frame(maxWidth: .infinity, minHeight: 44, alignment: .leading)
                             }
-                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .tint(model.selectedEpisode == episode.number ? .red : .primary)
+                            DownloadButton(model: model, episode: episode, compact: true)
                         }
-                        .buttonStyle(DetailsControlStyle())
-                        DownloadButton(model: model, episode: episode)
+                        .padding(.horizontal, 8)
+                        .background(model.selectedEpisode == episode.number ? Color.red.opacity(0.12) : .clear, in: RoundedRectangle(cornerRadius: 8))
                     }
                 }
             }
-        } else if model.selectedTranslation != nil && model.seasons.isEmpty {
-            Button {
+        } else if model.item.mediaType != "tv", model.selectedTranslation != nil {
+            Button("Воспроизвести") {
                 Task {
                     do { app.playback = try await model.play() }
                     catch { model.error = error.localizedDescription }
                 }
-            } label: {
-                Label("Воспроизвести", systemImage: "play.fill")
-                    .frame(maxWidth: .infinity)
-            }
-            .buttonStyle(DetailsControlStyle(selected: true))
+            }.buttonStyle(DetailsControlStyle(selected: true))
+        } else if !model.loading && !model.sources.isEmpty {
+            Text("Нет доступных серий").foregroundStyle(.secondary)
         }
     }
 
@@ -268,5 +230,57 @@ struct ErrorPanel: View {
         .frame(maxWidth: .infinity)
         .padding(16)
         .background(Color.jiroxSurface, in: RoundedRectangle(cornerRadius: 16))
+    }
+}
+
+struct ContentSelectors: View {
+    @ObservedObject var model: DetailsViewModel
+    var sourceSelected: ((SourceOption) -> Void)? = nil
+    var translationSelected: ((TranslationOption) -> Void)? = nil
+    var seasonSelected: ((SeasonOption) -> Void)? = nil
+    var body: some View {
+        VStack(spacing: 8) {
+            if !model.sources.isEmpty {
+                Menu {
+                    ForEach(model.sources) { source in
+                        Button {
+                            if let sourceSelected { sourceSelected(source) }
+                            else { Task { do { try await model.select(source: source) } catch is CancellationError {} catch { model.error = error.localizedDescription } } }
+                        } label: { choice(source.name, selected: source.id == model.activeSource) }
+                    }
+                } label: { field("Источник", model.sources.first { $0.id == model.activeSource }?.name ?? "—") }
+            }
+            if !model.translations.isEmpty {
+                Menu {
+                    ForEach(model.translations) { value in
+                        Button { if let translationSelected { translationSelected(value) } else { model.select(translation: value) } } label: {
+                            choice(value.name, selected: value.id == model.selectedTranslation?.id)
+                        }
+                    }
+                } label: { field("Озвучка", model.selectedTranslation?.name ?? "—") }
+            }
+            if !model.seasons.isEmpty {
+                Menu {
+                    ForEach(model.seasons) { value in
+                        Button { if let seasonSelected { seasonSelected(value) } else { model.select(season: value) } } label: {
+                            choice("Сезон \(value.number)", selected: value.id == model.selectedSeason?.id)
+                        }
+                    }
+                } label: { field("Сезон", model.selectedSeason.map { "Сезон \($0.number)" } ?? "—") }
+            }
+        }.tint(.red)
+    }
+    private func choice(_ title: String, selected: Bool) -> some View {
+        Label(title, systemImage: selected ? "checkmark" : "")
+    }
+    private func field(_ title: String, _ value: String) -> some View {
+        HStack {
+            Text(title).foregroundStyle(.secondary)
+            Text(value).lineLimit(1)
+            Spacer()
+            Image(systemName: "chevron.down").foregroundStyle(.red)
+        }.font(.subheadline).foregroundStyle(.primary).padding(12)
+            .frame(maxWidth: .infinity, minHeight: 44)
+            .background(Color.jiroxSurface, in: RoundedRectangle(cornerRadius: 12))
     }
 }
