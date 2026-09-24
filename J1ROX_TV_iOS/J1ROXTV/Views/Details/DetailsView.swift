@@ -268,18 +268,21 @@ struct ContentSelectors: View {
                     }
                 } label: { field("Сезон", model.selectedSeason.map { "Сезон \($0.number)" } ?? "—") }
             }
-        }.tint(.red)
+        }
+        .tint(.red)
+        .environment(\.colorScheme, .dark)
     }
     private func choice(_ title: String, selected: Bool) -> some View {
         Label(title, systemImage: selected ? "checkmark" : "")
+            .foregroundStyle(.white)
     }
     private func field(_ title: String, _ value: String) -> some View {
         HStack {
-            Text(title).foregroundStyle(.secondary)
-            Text(value).lineLimit(1)
+            Text(title).foregroundStyle(.white)
+            Text(value).foregroundStyle(.white).lineLimit(1)
             Spacer()
             Image(systemName: "chevron.down").foregroundStyle(.red)
-        }.font(.subheadline).foregroundStyle(.primary).padding(12)
+        }.font(.subheadline).foregroundStyle(.white).padding(12)
             .frame(maxWidth: .infinity, minHeight: 44)
             .background(Color.jiroxSurface, in: RoundedRectangle(cornerRadius: 12))
     }
