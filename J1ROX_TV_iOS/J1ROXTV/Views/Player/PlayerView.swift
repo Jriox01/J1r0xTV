@@ -94,6 +94,7 @@ import SwiftUI
 
 @MainActor struct PlayerScreen: View {
     @EnvironmentObject private var app: AppViewModel
+    @EnvironmentObject private var together: WatchTogetherManager
     @StateObject private var session: PlaybackSession
     @StateObject private var playerSession: PlayerSession
     @StateObject private var controls: DetailsViewModel
@@ -106,6 +107,8 @@ import SwiftUI
     @State private var closed = false
     @State private var dragOffset: CGFloat = 0
     @State private var dismissTask: Task<Void, Never>?
+    @State private var showingSelections = false
+    @State private var metadataTask: Task<Void, Never>?
 
     init(selection: PlaybackSelection) {
         let model = DetailsViewModel(item: selection.request.media, streaming: StreamingService())
@@ -123,9 +126,9 @@ import SwiftUI
                     onDragEnded: { distance, velocity, cancelled in
                         finishDrag(distance: distance, velocity: velocity, cancelled: cancelled, height: geometry.size.height)
                     })
-                .ignoresSafeArea()
+                .ignoresSafeArea(.container, edges: [.top, .leading, .trailing])
                 VStack(alignment: .leading, spacing: 8) {
-                    if changing { ProgressView("Загрузка видео…") }
+                    if changing || together.resolving { ProgressView("Загрузка видео…") }
                     if let error = controls.error { Text(error).font(.callout) }
                     if session.switching { ProgressView("Проверка источника…") }
                     if let error = session.error { Text(error).font(.callout) }
@@ -146,16 +149,38 @@ import SwiftUI
                 }
             }
             .background(.black)
-            .offset(y: dragOffset)
         }
         .background(.black)
-        .accessibilityAction(.escape) { dismissPlayer() }
-        .task(id: session.selection.source.id) {
-            if !closed, !session.selection.source.url.isFileURL { await controls.synchronize(session.selection.request) }
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            HStack {
+                WatchTogetherButton { session.selection.request }
+                Spacer()
+                if !session.selection.source.url.isFileURL {
+                    Button { showingSelections = true } label: {
+                        Label("Настройки", systemImage: "slider.horizontal.3")
+                    }
+                }
+            }
+            .font(.callout).tint(.white).padding(12).background(.black)
         }
+        .offset(y: dragOffset)
+        .background(.black)
+        .sheet(isPresented: $showingSelections) { playbackSelections }
+        .modifier(WatchTogetherAlert())
+        .accessibilityAction(.escape) { dismissPlayer() }
         .onAppear {
             closed = false
             dragOffset = 0
+            together.attach(playerSession, onRemoteChange: {
+                changeID = UUID(); changeTask?.cancel(); changeTask = nil
+                metadataTask?.cancel(); metadataTask = nil
+                controls.cancel(); session.cancel(); cancelCountdown(); changing = false
+            }, onSelection: { selection, snapshot in
+                guard !closed else { return }
+                let saved = playerSession.snapshot()
+                app.library.save(PlaybackSelection(source: playerSession.source), position: saved.position, duration: playerSession.duration)
+                session.replace(selection, snapshot: snapshot)
+            })
             playerSession.onEnded = { scheduleNext() }
             playerSession.onProgress = { position, duration in
                 app.library.save(PlaybackSelection(source: playerSession.source), position: position, duration: duration)
@@ -166,11 +191,27 @@ import SwiftUI
                 session.failed(sourceID: session.selection.source.id, snapshot: snapshot, failure: error)
             }
             playerSession.start()
+            synchronizeControls()
         }
         .onChange(of: session.selection.source.id) { _ in
             guard !closed else { return }
             cancelCountdown()
             playerSession.replace(with: session.selection.source)
+            synchronizeControls()
+        }
+        .onChange(of: together.isAutomaticAdvanceOwner) { owner in
+            if !owner { cancelCountdown() }
+            else if playerSession.hasEnded { scheduleNext() }
+        }
+        .onChange(of: together.isActive) { active in
+            cancelCountdown()
+            if !active { synchronizeControls() }
+        }
+        .onChange(of: session.error) { error in
+            if let error, together.isActive {
+                together.message = error
+                together.leave()
+            }
         }
         .onDisappear {
             dismissTask?.cancel(); dismissTask = nil
@@ -178,6 +219,46 @@ import SwiftUI
             playerSession.stop()
             app.playback = nil
         }
+    }
+
+    private func synchronizeControls() {
+        let previous = metadataTask
+        previous?.cancel()
+        guard !closed, !session.selection.source.url.isFileURL else { return }
+        let request = session.selection.request
+        metadataTask = Task { @MainActor in
+            await previous?.value
+            guard !Task.isCancelled else { return }
+            await controls.synchronize(request)
+        }
+    }
+
+    private var playbackSelections: some View {
+        NavigationStack {
+            ScrollView {
+                VStack(spacing: 16) {
+                    ContentSelectors(model: controls,
+                        sourceSelected: { change(source: $0) },
+                        translationSelected: { change(translation: $0) },
+                        seasonSelected: { season in
+                            controls.select(season: season)
+                            if let episode = controls.episodes.first { change(episode: episode, event: .changeSeason) }
+                        })
+                    ForEach(controls.episodes) { episode in
+                        HStack {
+                            Button(episode.name) { change(episode: episode) }
+                                .frame(maxWidth: .infinity, minHeight: 44, alignment: .leading)
+                            DownloadButton(model: controls, episode: episode, compact: true)
+                        }
+                    }
+                    if changing || together.resolving { ProgressView("Загрузка видео…") }
+                    if let error = controls.error { Text(error) }
+                }.padding()
+            }
+            .navigationTitle("Воспроизведение")
+            .toolbar { Button("Готово") { showingSelections = false } }
+        }
+        .preferredColorScheme(.dark)
     }
 
     private func finishDrag(distance: CGFloat, velocity: CGFloat, cancelled: Bool, height: CGFloat) {
@@ -209,6 +290,8 @@ import SwiftUI
     private func prepareToClose() {
         guard !closed else { return }
         closed = true
+        together.detach(playerSession)
+        metadataTask?.cancel(); metadataTask = nil
         changeID = UUID(); changeTask?.cancel(); changeTask = nil
         controls.cancel(); cancelCountdown(); session.cancel()
         playerSession.onEnded = nil
@@ -226,7 +309,8 @@ import SwiftUI
     }
 
     private func scheduleNext() {
-        guard !closed, !changing, countdownTask == nil, !session.selection.source.url.isFileURL else { return }
+        guard !closed, !changing, !together.resolving, together.isAutomaticAdvanceOwner,
+              countdownTask == nil, !session.selection.source.url.isFileURL else { return }
         let sourceID = session.selection.source.id
         countdownTask = Task { @MainActor in
             // Metadata may still be loading when a short episode finishes.
@@ -241,20 +325,24 @@ import SwiftUI
             nextEpisode = next; countdown = 5
             for remaining in stride(from: 4, through: 0, by: -1) {
                 do { try await Task.sleep(nanoseconds: 1_000_000_000) } catch { return }
-                guard !Task.isCancelled, !closed, session.selection.source.id == sourceID else { return }
+                guard !Task.isCancelled, !closed, together.isAutomaticAdvanceOwner, session.selection.source.id == sourceID else { return }
                 if remaining == 0 { playNext() } else { countdown = remaining }
             }
         }
     }
 
     private func playNext() {
-        guard !closed, let next = nextEpisode, !changing else { return }
+        guard !closed, let next = nextEpisode, !changing, together.isAutomaticAdvanceOwner else { return }
         cancelCountdown()
         controls.select(season: next.0)
-        change(episode: next.1)
+        change(episode: next.1, automatic: true)
     }
 
-    private func change(source: SourceOption? = nil, translation: TranslationOption? = nil, episode: EpisodeOption? = nil) {
+    private func change(source: SourceOption? = nil, translation: TranslationOption? = nil,
+                        episode: EpisodeOption? = nil, event: WatchTogetherMessage.Event? = nil, automatic: Bool = false) {
+        together.localChangeStarted()
+        let previousMetadata = metadataTask
+        metadataTask?.cancel(); metadataTask = nil
         cancelCountdown()
         changeTask?.cancel(); controls.cancel(); session.cancel()
         let token = UUID(); changeID = token
@@ -265,6 +353,8 @@ import SwiftUI
         changeTask = Task { @MainActor in
             defer { if changeID == token { changing = false } }
             do {
+                await previousMetadata?.value
+                try Task.checkCancellation()
                 if let source { try await controls.select(source: source) }
                 if let translation { controls.select(translation: translation) }
                 var target = episode
@@ -277,12 +367,17 @@ import SwiftUI
                 let result = try await controls.play(episode: target, resume: episode == nil ? snapshot.position : 0)
                 try Task.checkCancellation()
                 guard !closed, changeID == token else { return }
+                guard !automatic || together.isAutomaticAdvanceOwner else { return }
+                together.publish(result.request, event: event ?? (source != nil ? .changeSource : translation != nil ? .changeVoice : .changeEpisode))
                 session.replace(result, snapshot: episode == nil ? snapshot : nil)
             } catch {
                 if !Task.isCancelled, changeID == token {
                     let message = error.localizedDescription
                     await controls.synchronize(current)
-                    if !Task.isCancelled, changeID == token { controls.error = message }
+                    if !Task.isCancelled, changeID == token {
+                        controls.error = message
+                        together.localChangeFailed()
+                    }
                 }
             }
         }

@@ -18,6 +18,12 @@ import UIKit
     @Published private(set) var lastError: String?
     @Published private(set) var events: [String] = []
     var onEnded: (() -> Void)?
+    // Optional integration hooks; ordinary playback and standalone tests need no SharePlay dependency.
+    var onWillChangeItem: (() -> Void)?
+    var onItemCreated: ((AVPlayerItem, PlaybackRequest) -> Void)?
+    var onReady: (() -> Void)?
+    var isReadyForCoordination: Bool { active && !restoring && !failed && status == "readyToPlay" }
+    var hasEnded: Bool { ended }
     private var ended = false
     var onProgress: ((Double, Double) -> Void)?
     var onFailure: ((PlaybackSnapshot, PlaybackError) -> Void)?
@@ -65,6 +71,7 @@ import UIKit
         if source.url.isFileURL { print("PLAYBACK LOCAL URL: \(source.url.absoluteString)") }
         #endif
         let item = AVPlayerItem(asset: asset)
+        onItemCreated?(item, source.request)
         status = "loading"
         observations.append(item.observe(\.status, options: [.initial, .new]) { [weak self] item, _ in
             Task { @MainActor [weak self] in
@@ -148,6 +155,7 @@ import UIKit
             self.wantsPlayback = state.isPlaying
             if state.isPlaying { self.player.play() }
             self.sample()
+            self.onReady?()
         }
     }
 
@@ -226,6 +234,7 @@ import UIKit
         let detail = PlaybackDiagnostics.error(error)
         lastError = [lastError, detail].compactMap { $0 }.joined(separator: "\n")
         log(detail)
+        onWillChangeItem?()
         player.pause()
         onProgress?(saved.position, duration)
         onFailure?(saved, error)
@@ -238,6 +247,7 @@ import UIKit
         #endif
     }
     func replace(with source: PlaybackSource) {
+        onWillChangeItem?()
         stop()
         self.source = source
         currentTime = 0; duration = 0; bitrate = 0; buffer = "unknown"; resolution = "unknown"

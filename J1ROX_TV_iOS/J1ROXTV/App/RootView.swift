@@ -27,7 +27,10 @@ struct RootView:View{
             try? await Task.sleep(for: .seconds(2))
             withAnimation(.easeInOut(duration: 0.6)) { splash = false }
         }
-        .fullScreenCover(item: $app.playback) { PlayerScreen(selection: $0).environmentObject(app) }
+        .modifier(WatchTogetherAlert())
+        .fullScreenCover(item: $app.playback) {
+            PlayerScreen(selection: $0).environmentObject(app).environmentObject(app.watchTogether)
+        }
     }
 }
 struct SplashView:View{@State private var glow=false;var body:some View{ZStack{Color.black.ignoresSafeArea();Circle().fill(.red.opacity(glow ? 0.22:0.06)).frame(width:300).blur(radius:70).scaleEffect(glow ? 1.1:0.8);VStack(spacing:18){Text("J1ROX TV").font(.system(size:46,weight:.black,design:.rounded)).foregroundStyle(.white).shadow(color:.red.opacity(0.8),radius:glow ? 24:8);Text("КИНО ВСЕГДА С ТОБОЙ").font(.caption.weight(.semibold)).tracking(3).foregroundStyle(.secondary);ProgressView().tint(.red).padding(.top,18)}}.onAppear{withAnimation(.easeInOut(duration:1.2).repeatForever(autoreverses:true)){glow=true}}}}

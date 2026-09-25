@@ -25,6 +25,6 @@ import SwiftUI
         }
     }
     private var root: some View {
-        RootView().environmentObject(model).environmentObject(downloads).environment(\.managedObjectContext, persistence.container.viewContext)
+        RootView().environmentObject(model).environmentObject(model.watchTogether).environmentObject(downloads).environment(\.managedObjectContext, persistence.container.viewContext)
     }
 }

@@ -19,9 +19,12 @@ swiftc "${flags[@]}" -target "$(uname -m)-apple-macos13.0" -swift-version 5 -par
   J1ROXTV/ViewModels/PlaybackSession.swift \
   J1ROXTV/ViewModels/DetailsViewModel.swift \
   J1ROXTV/Services/MediaServices.swift \
+  J1ROXTV/SharePlay/WatchTogetherMessage.swift \
+  J1ROXTV/SharePlay/WatchTogetherResolver.swift \
   Tests/Research/*.swift \
   Tests/PlaybackTests.swift \
   Tests/SeriesTests.swift \
+  Tests/WatchTogetherTests.swift \
   Tests/DownloadTests.swift \
   Tests/ProviderTests.swift \
   -o "build/provider-tests-$configuration" 2>&1 | tee "build/logs/provider-tests-$configuration-compile.log"

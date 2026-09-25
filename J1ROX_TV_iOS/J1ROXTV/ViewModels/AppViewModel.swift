@@ -6,7 +6,12 @@ import Combine
     @Published var isLoading=false; @Published var errorMessage:String?; @Published var playback:PlaybackSelection?
     let catalog=CatalogService(), searchService=SearchService(), detailsService=DetailsService(), streaming=StreamingService(), library:LibraryStore
     private var searchTask:Task<Void,Never>?
-    init(library:LibraryStore){self.library=library}
+    let watchTogether = WatchTogetherManager()
+    init(library:LibraryStore){
+        self.library=library
+        watchTogether.onOpen = { [weak self] in self?.playback = $0 }
+        watchTogether.startListening()
+    }
     func loadHome() async { isLoading=true; errorMessage=nil; do { async let m=catalog.catalog(type:"movie"); async let s=catalog.catalog(type:"tv"); (movies,series)=try await(m,s) } catch { errorMessage="Не удалось загрузить каталог"; debugPrint(error) }; isLoading=false }
     func search(_ query:String){ searchTask?.cancel(); guard !query.trimmingCharacters(in:.whitespaces).isEmpty else {searchResults=[];return}; searchTask=Task { try? await Task.sleep(for:.milliseconds(450)); guard !Task.isCancelled else{return}; isLoading=true; do{searchResults=try await searchService.search(query)}catch is CancellationError{}catch{errorMessage="Не удалось выполнить поиск";debugPrint(error)};isLoading=false } }
     func continueWatching(_ entry: WatchProgressEntity) async {

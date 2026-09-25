@@ -269,6 +269,7 @@ struct ProviderTests {
         try CinemarFixtureTests.run()
         try await runPlaybackTests()
         try await runSeriesTests()
+        try await runWatchTogetherTests()
         try await runDownloadTests()
         try require(APIConfig.baseURL.absoluteString == "https://api.atodo.fun/", "ATODO API base")
         let defaults = ProviderResolver().providers

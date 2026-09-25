@@ -70,6 +70,12 @@ private struct SeriesFixture: VideoProvider {
     do { try await old.value; throw SeriesFailure(message: "stale source accepted") }
     catch is CancellationError {}
     try expectSeries(first.activeSource == "fast", "latest source wins")
+    let incomingMedia = MediaItem.parse(["id": .string(UUID().uuidString), "media_type": .string("tv")])
+    await first.synchronize(.init(media: incomingMedia, sourceID: "one", translationID: "different-device-id",
+                                 season: "1", episode: "2", translationName: "Second"))
+    try expectSeries(first.item.id == incomingMedia.id && first.activeSource == "one", "incoming media reloads old player selectors")
+    try expectSeries(first.selectedTranslation?.name == "Second" && first.selectedEpisode == "2",
+                     "incoming voice matches by name when device IDs differ")
     first.select(translation: .init(id: "empty", name: "Empty", payload: [:]), remember: false)
     try expectSeries(first.seasons.isEmpty && first.episodes.isEmpty && first.selectedEpisode == nil, "empty API clears selectors")
     print("PASS SeriesTests: voice defaults/persistence, season/episode retention, succession, stale requests, empty content")

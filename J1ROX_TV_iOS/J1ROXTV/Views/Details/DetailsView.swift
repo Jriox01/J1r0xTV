@@ -109,6 +109,14 @@ struct DetailsView: View {
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(DetailsControlStyle(selected: true))
+            WatchTogetherButton {
+                if model.sources.isEmpty { await model.prepare() }
+                guard model.selectedTranslation != nil else { throw ProviderError.unavailable }
+                let episode = model.episodes.first { $0.number == model.selectedEpisode } ?? model.episodes.first
+                if model.item.mediaType == "tv", episode == nil { throw ProviderError.selectionUnavailable }
+                return model.downloadRequest(episode: episode)
+            }
+            .buttonStyle(DetailsControlStyle())
             DetailsFavoriteButton(library: app.library, item: model.item)
             if model.item.mediaType != "tv" { DownloadButton(model: model) }
         }

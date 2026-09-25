@@ -94,6 +94,12 @@ import Combine
     }
 
     func synchronize(_ request: PlaybackRequest) async {
+        if item.id != request.media.id || item.mediaType != request.media.mediaType {
+            cancel()
+            item = request.media
+            sources = []; translations = []; seasons = []; episodes = []
+            selectedTranslation = nil; selectedSeason = nil; selectedEpisode = nil; activeSource = ""
+        }
         restore(request)
         if sources.isEmpty { await prepare() }
         do {
@@ -101,7 +107,8 @@ import Combine
                 try await select(source: source)
             }
             try Task.checkCancellation()
-            if let translation = translations.first(where: { $0.id == request.translationID && (request.translationName == nil || $0.name == request.translationName) }) {
+            if let translation = translations.first(where: { $0.id == request.translationID && (request.translationName == nil || $0.name == request.translationName) })
+                ?? translations.first(where: { request.translationName != nil && $0.name == request.translationName }) {
                 select(translation: translation, remember: false)
             }
             if let season = seasons.first(where: { $0.number == request.season }) { select(season: season) }
