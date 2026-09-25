@@ -20,13 +20,25 @@ struct WatchTogetherContent: Codable, Equatable, Sendable {
     }
 
     var isValid: Bool {
-        !mediaID.isEmpty && ["movie", "tv"].contains(mediaType) &&
+        !mediaID.isEmpty && !providerID.isEmpty && sourceID?.isEmpty == false &&
+        ["movie", "tv"].contains(mediaType) &&
         (mediaType != "tv" || (season?.isEmpty == false && episode?.isEmpty == false))
     }
 
     // Length prefixes prevent ambiguous identifiers even when catalog IDs contain separators.
     var playbackID: String {
         [mediaType, mediaID, season ?? "", episode ?? ""].map { "\($0.utf8.count):\($0)" }.joined()
+    }
+
+    /// A provider may refresh a voice's opaque ID; its name still identifies the requested dub.
+    func matches(_ request: PlaybackRequest) -> Bool {
+        let other = Self(request)
+        return playbackID == other.playbackID && providerID == other.providerID && sourceID == other.sourceID &&
+            (voiceName.map { $0 == other.voiceName } ?? (voiceID == other.voiceID))
+    }
+
+    var coordinationID: String {
+        playbackID + [providerID, sourceID ?? "", voiceName ?? voiceID ?? ""].map { "\($0.utf8.count):\($0)" }.joined()
     }
 
     func request(media: MediaItem, resumeAt: Double = 0) -> PlaybackRequest {
@@ -58,7 +70,9 @@ struct WatchTogetherState {
     private(set) var content: WatchTogetherContent?
     private(set) var revision = WatchTogetherRevision.initial
 
-    init(content: WatchTogetherContent? = nil) { self.content = content }
+    init(content: WatchTogetherContent? = nil, revision: WatchTogetherRevision = .initial) {
+        self.content = content; self.revision = revision
+    }
 
     mutating func publish(_ value: WatchTogetherContent, author: String) -> Bool {
         guard value.isValid, value != content, revision.counter < UInt64.max else { return false }

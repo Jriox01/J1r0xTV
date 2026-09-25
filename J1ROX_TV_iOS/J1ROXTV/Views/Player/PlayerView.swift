@@ -107,7 +107,6 @@ import SwiftUI
     @State private var closed = false
     @State private var dragOffset: CGFloat = 0
     @State private var dismissTask: Task<Void, Never>?
-    @State private var showingSelections = false
     @State private var metadataTask: Task<Void, Never>?
 
     init(selection: PlaybackSelection) {
@@ -151,21 +150,8 @@ import SwiftUI
             .background(.black)
         }
         .background(.black)
-        .safeAreaInset(edge: .bottom, spacing: 0) {
-            HStack {
-                WatchTogetherButton { session.selection.request }
-                Spacer()
-                if !session.selection.source.url.isFileURL {
-                    Button { showingSelections = true } label: {
-                        Label("Настройки", systemImage: "slider.horizontal.3")
-                    }
-                }
-            }
-            .font(.callout).tint(.white).padding(12).background(.black)
-        }
         .offset(y: dragOffset)
         .background(.black)
-        .sheet(isPresented: $showingSelections) { playbackSelections }
         .modifier(WatchTogetherAlert())
         .accessibilityAction(.escape) { dismissPlayer() }
         .onAppear {
@@ -188,6 +174,7 @@ import SwiftUI
             playerSession.onFailure = { snapshot, error in
                 guard !closed, !changing else { return }
                 cancelCountdown()
+                if together.recoverPlayback() { return }
                 session.failed(sourceID: session.selection.source.id, snapshot: snapshot, failure: error)
             }
             playerSession.start()
@@ -231,34 +218,6 @@ import SwiftUI
             guard !Task.isCancelled else { return }
             await controls.synchronize(request)
         }
-    }
-
-    private var playbackSelections: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(spacing: 16) {
-                    ContentSelectors(model: controls,
-                        sourceSelected: { change(source: $0) },
-                        translationSelected: { change(translation: $0) },
-                        seasonSelected: { season in
-                            controls.select(season: season)
-                            if let episode = controls.episodes.first { change(episode: episode, event: .changeSeason) }
-                        })
-                    ForEach(controls.episodes) { episode in
-                        HStack {
-                            Button(episode.name) { change(episode: episode) }
-                                .frame(maxWidth: .infinity, minHeight: 44, alignment: .leading)
-                            DownloadButton(model: controls, episode: episode, compact: true)
-                        }
-                    }
-                    if changing || together.resolving { ProgressView("Загрузка видео…") }
-                    if let error = controls.error { Text(error) }
-                }.padding()
-            }
-            .navigationTitle("Воспроизведение")
-            .toolbar { Button("Готово") { showingSelections = false } }
-        }
-        .preferredColorScheme(.dark)
     }
 
     private func finishDrag(distance: CGFloat, velocity: CGFloat, cancelled: Bool, height: CGFloat) {

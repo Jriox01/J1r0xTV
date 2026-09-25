@@ -1,7 +1,7 @@
 import Foundation
 
-/// Uses the existing provider pipeline; fallback never changes the requested episode.
-struct WatchTogetherResolver {
+/// Each iPhone resolves its own URL. Shared viewing requires the same source and dub.
+struct WatchTogetherResolver: Sendable {
     var resolver = ProviderResolver()
 
     func resolve(_ content: WatchTogetherContent, current: PlaybackRequest?, position: Double) async throws -> PlaybackSelection {
@@ -12,28 +12,21 @@ struct WatchTogetherResolver {
         } else {
             media = try await DetailsService().details(type: content.mediaType, id: content.mediaID)
         }
-        let providers = resolver.providers.filter { $0.id == content.providerID } +
-            resolver.providers.filter { $0.id != content.providerID }
-        let ordered = ProviderResolver(providers: providers, checker: resolver.checker, timeout: resolver.timeout)
-        var request = content.request(media: media, resumeAt: position)
-        var attempts = [request]
-        if let current, current.media.id == content.mediaID, current.media.mediaType == content.mediaType,
-           current.translationName != content.voiceName {
-            request.translationID = nil
-            request.translationName = current.translationName
-            attempts.append(request)
+        guard let provider = resolver.providers.first(where: { $0.id == content.providerID }),
+              provider.availability == .available, provider.canHandle(media) else {
+            throw ProviderError.selectionUnavailable
         }
-        request.translationID = nil; request.translationName = nil
-        attempts.append(request)
-        for request in attempts {
-            do {
-                let result = try await ordered.resolve(request)
-                guard WatchTogetherContent(result.source.request).playbackID == content.playbackID else {
-                    throw ProviderError.selectionUnavailable
-                }
-                return PlaybackSelection(source: result.source, switched: result.switched)
-            } catch { try Task.checkCancellation() }
+        let request = content.request(media: media, resumeAt: position)
+        let source = try await withProviderTimeout(seconds: resolver.timeout) {
+            // Do not call requests(for:): it intentionally enumerates fallback sources for solo playback.
+            let source = try await provider.playback(for: request)
+            guard source.providerID == content.providerID, content.matches(source.request),
+                  !source.url.isFileURL else { throw ProviderError.selectionUnavailable }
+            guard source.expiresAt.map({ $0 > Date() }) ?? true else { throw ProviderError.expired }
+            try await resolver.checker.validate(source)
+            return source
         }
-        throw ProviderError.selectionUnavailable
+        try Task.checkCancellation()
+        return PlaybackSelection(source: source)
     }
 }

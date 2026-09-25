@@ -25,12 +25,12 @@ private struct TogetherTestProvider: VideoProvider {
         return [value]
     }
     func playback(for request: PlaybackRequest) async throws -> PlaybackSource {
-        guard request.season == "2", request.episode == "5",
+        guard request.sourceID == "available-source", request.season == "2", request.episode == "5",
               request.translationName == nil || request.translationName == "Available voice" else {
             throw ProviderError.selectionUnavailable
         }
         var value = request; value.translationID = "available-voice"; value.translationName = "Available voice"
-        return PlaybackSource(request: value, url: URL(fileURLWithPath: "/test-only.mp4"), providerID: id, providerName: name)
+        return PlaybackSource(request: value, url: URL(string: "https://test.invalid/device-local-token.mp4")!, providerID: id, providerName: name)
     }
 }
 
@@ -42,6 +42,7 @@ func runWatchTogetherTests() async throws {
     request.sourceID = "source-b"; request.translationName = "Another voice"
     let variant = WatchTogetherContent(request)
     try expectTogether(original.playbackID == variant.playbackID, "source and voice changes retain coordinated timeline identity")
+    try expectTogether(original.coordinationID != variant.coordinationID, "different source/dub must not coordinate until both peers finish switching")
     request.episode = "6"
     let next = WatchTogetherContent(request)
     try expectTogether(original.playbackID != next.playbackID, "different episodes cannot share playback identity")
@@ -73,6 +74,12 @@ func runWatchTogetherTests() async throws {
     _ = late.receive(.init(event: .snapshot, revision: a.revision, content: variant))
     try expectTogether(late.content == variant, "late participant adopts latest complete selection")
     try expectTogether(late.publish(next, author: "c") && late.revision.counter == 2, "local clock advances after remote state")
+    var rejoined = WatchTogetherState(content: next, revision: late.revision)
+    try expectTogether(!rejoined.receive(stale) && rejoined.content == next,
+                       "version persisted in GroupActivity protects rejoin even after the original author leaves")
+    let unchanged = WatchTogetherMessage(event: .snapshot, revision: rejoined.revision, content: next)
+    try expectTogether(!rejoined.receive(unchanged) && rejoined.revision == unchanged.revision,
+                       "equal initial snapshot confirms content without reload or outgoing change")
 
     let ids = [UUID(), UUID(), UUID()]
     let owner = WatchTogetherState.automaticAdvanceOwner(in: Set(ids))
@@ -82,13 +89,32 @@ func runWatchTogetherTests() async throws {
     var current = original.request(media: media, resumeAt: 120)
     current.translationName = "Available voice"
     let resolver = WatchTogetherResolver(resolver: ProviderResolver(providers: [TogetherTestProvider()], checker: TogetherTestChecker(), timeout: 1))
-    let fallback = try await resolver.resolve(original, current: current, position: 120)
-    try expectTogether(fallback.request.season == "2" && fallback.request.episode == "5" && fallback.request.resumeAt == 120,
-                       "missing source/voice fallback preserves episode and local position")
-    try expectTogether(fallback.request.translationName == "Available voice" && fallback.source.providerID == "available-provider", "fallback uses available provider and current voice")
+    current.providerID = "available-provider"; current.sourceID = "available-source"
+    let selected = WatchTogetherContent(current)
+    let resolved = try await resolver.resolve(selected, current: current, position: 120)
+    try expectTogether(resolved.request.season == "2" && resolved.request.episode == "5" && resolved.request.resumeAt == 120,
+                       "exact selection resolves independently and preserves local preparation position")
+    try expectTogether(selected.matches(resolved.request), "same named voice may have a refreshed opaque ID")
+    try expectTogether(selected.coordinationID == WatchTogetherContent(resolved.request).coordinationID,
+                       "refreshed voice ID and CDN URL do not change coordination identity")
     do {
-        _ = try await resolver.resolve(next, current: current, position: 0)
+        _ = try await resolver.resolve(original, current: current, position: 0)
+        throw WatchTogetherTestFailure(message: "missing provider silently substituted")
+    } catch is ProviderError {}
+    var missingSource = current; missingSource.sourceID = "missing"
+    do {
+        _ = try await resolver.resolve(WatchTogetherContent(missingSource), current: current, position: 0)
+        throw WatchTogetherTestFailure(message: "missing source silently substituted")
+    } catch is ProviderError {}
+    var missingVoice = current; missingVoice.translationName = "Missing voice"
+    do {
+        _ = try await resolver.resolve(WatchTogetherContent(missingVoice), current: current, position: 0)
+        throw WatchTogetherTestFailure(message: "missing voice silently substituted")
+    } catch is ProviderError {}
+    var missingEpisode = current; missingEpisode.episode = "6"
+    do {
+        _ = try await resolver.resolve(WatchTogetherContent(missingEpisode), current: current, position: 0)
         throw WatchTogetherTestFailure(message: "missing episode silently substituted")
     } catch is ProviderError {}
-    print("PASS WatchTogetherTests: wire format, identities, duplicate/stale events, concurrent ordering, late join, owner election, fallback")
+    print("PASS WatchTogetherTests: wire format, identities, duplicate/stale events, concurrent ordering, late join/rejoin, owner election, strict selection")
 }

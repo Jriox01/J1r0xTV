@@ -15,6 +15,9 @@ import GroupActivities
     private var listener: Task<Void, Never>?
     private var receiver: Task<Void, Never>?
     private var resolution: Task<Void, Never>?
+    private var initialSync: Task<Void, Never>?
+    private var awaitingInitialState = false
+    private var recoveryAttempts = 0
     private var sends: [UUID: Task<Void, Never>] = [:]
     private var subscriptions = Set<AnyCancellable>()
     private var state = WatchTogetherState()
@@ -29,6 +32,11 @@ import GroupActivities
     private var coordinatedSession: UUID?
     private var suspension: AVCoordinatedPlaybackSuspension?
     private var pendingSelection: PlaybackSelection?
+
+    deinit {
+        listener?.cancel(); receiver?.cancel(); resolution?.cancel(); initialSync?.cancel()
+        for task in sends.values { task.cancel() }
+    }
 
     func startListening() {
         guard listener == nil else { return }
@@ -46,10 +54,11 @@ import GroupActivities
         guard session.activity.content.isValid else { session.leave(); return }
         Self.log("Session detected")
         group = session; isActive = true; message = nil
-        state = WatchTogetherState(content: session.activity.content)
+        state = WatchTogetherState(content: session.activity.content, revision: session.activity.revision ?? .initial)
+        awaitingInitialState = true
         participants = Set(session.activeParticipants.map(\.id)).union([session.localParticipant.id])
         participantCount = participants.count
-        isAutomaticAdvanceOwner = WatchTogetherState.automaticAdvanceOwner(in: participants) == session.localParticipant.id
+        isAutomaticAdvanceOwner = false
         let transport = GroupSessionMessenger(session: session)
         messenger = transport
         session.$state.sink { [weak self, weak session] state in
@@ -59,9 +68,7 @@ import GroupActivities
                 case .invalidated: self.cleanup()
                 case .joined:
                     Self.log("Joined session")
-                    self.send(event: .requestState)
-                    self.send(event: .snapshot)
-                    self.coordinateIfReady()
+                    self.synchronizeInitialState(session)
                 default: break
                 }
             }
@@ -75,9 +82,15 @@ import GroupActivities
                 if !self.participants.subtracting(ids).isEmpty { Self.log("Participant left") }
                 self.participants = ids
                 self.participantCount = ids.count
-                self.isAutomaticAdvanceOwner = WatchTogetherState.automaticAdvanceOwner(in: ids) == session.localParticipant.id
+                self.refreshAdvanceOwner()
                 // Every peer can answer; version ordering discards duplicates and stale snapshots.
                 if !joined.isEmpty { self.send(event: .snapshot) }
+            }
+        }.store(in: &subscriptions)
+        session.$activity.sink { [weak self, weak session] activity in
+            Task { @MainActor in
+                guard let self, let session, self.group?.id == session.id else { return }
+                self.receive(.init(event: .snapshot, revision: activity.revision ?? .initial, content: activity.content), confirmsInitialState: false)
             }
         }.store(in: &subscriptions)
         receiver = Task { [weak self, weak session] in
@@ -86,6 +99,7 @@ import GroupActivities
             for await (value, context) in transport.messages(of: WatchTogetherMessage.self) {
                 guard let self, let session, !Task.isCancelled, self.group?.id == session.id else { return }
                 guard context.source.id != session.localParticipant.id else { continue }
+                guard session.activeParticipants.contains(context.source) else { continue }
                 if value.event != .snapshot && value.event != .requestState &&
                     value.revision.author != context.source.id.uuidString { continue }
                 self.receive(value)
@@ -99,10 +113,36 @@ import GroupActivities
             }
         }
         session.join()
+    }
+
+    private func synchronizeInitialState(_ session: GroupSession<J1ROXWatchTogetherActivity>) {
+        guard awaitingInitialState, initialSync == nil else { coordinateIfReady(); return }
+        send(event: .requestState)
+        // Give an already-playing peer a chance to send its latest selection. The session's
+        // versioned activity is the fallback when everyone joins together or the author left.
+        initialSync = Task { [weak self, weak session] in
+            do { try await Task.sleep(nanoseconds: 1_000_000_000) } catch { return }
+            guard let self, let session, self.group?.id == session.id, !Task.isCancelled else { return }
+            _ = self.state.receive(.init(event: .snapshot, revision: session.activity.revision ?? .initial,
+                                         content: session.activity.content))
+            self.finishInitialSynchronization()
+        }
+    }
+
+    private func finishInitialSynchronization() {
+        guard awaitingInitialState, group?.state == .joined, let desired else { return }
+        initialSync?.cancel(); initialSync = nil; awaitingInitialState = false
         if let current = playerSession, current.status != "failed", current.status != "stopped",
-           WatchTogetherContent(current.source.request) == desired {
+           desired.matches(current.source.request) {
             coordinateIfReady()
-        } else if let desired { apply(desired) }
+        } else { apply(desired) }
+        send(event: .snapshot)
+    }
+
+    private func refreshAdvanceOwner() {
+        guard let group else { isAutomaticAdvanceOwner = true; return }
+        isAutomaticAdvanceOwner = !awaitingInitialState && !resolving &&
+            group.state == .joined && WatchTogetherState.automaticAdvanceOwner(in: participants) == group.localParticipant.id
     }
 
     func attach(_ player: PlayerSession,
@@ -132,14 +172,21 @@ import GroupActivities
     }
 
     private func coordinateIfReady() {
-        guard let group, group.state == .joined, let player = playerSession, player.isReadyForCoordination,
-              WatchTogetherContent(player.source.request).playbackID == desired?.playbackID else { return }
+        guard !awaitingInitialState, !resolving, let group, group.state == .joined,
+              let player = playerSession, player.isReadyForCoordination, let desired else { return }
+        guard desired.matches(player.source.request) else {
+            message = "Источник или озвучка участников недоступны. Совместный просмотр завершён на этом устройстве."
+            leave(); return
+        }
         if coordinatedSession != group.id {
+            // Joining is a catch-up, never a proposal to rewind the already-playing group.
+            suspension = player.player.playbackCoordinator.beginSuspension(for: .init(rawValue: "com.jirox.joining"))
             player.player.playbackCoordinator.coordinateWithSession(group)
             coordinatedSession = group.id
         }
         // Never propose the local saved time to an existing group.
         suspension?.end(); suspension = nil
+        refreshAdvanceOwner()
     }
 
     private func beginPlayerChange() {
@@ -157,20 +204,44 @@ import GroupActivities
         else { coordinateIfReady() }
     }
 
+    /// Retry only the shared selection once. Solo fallback must not silently change the group's dub.
+    func recoverPlayback() -> Bool {
+        guard isActive, let desired else { return false }
+        guard recoveryAttempts == 0 else {
+            message = "Видео участников не воспроизводится. Совместный просмотр отключён; пробуем обычное восстановление."
+            leave(); return false
+        }
+        recoveryAttempts += 1
+        apply(desired)
+        return true
+    }
+
     /// Called only for a successful, explicit local selection, never for fallback or received state.
     func publish(_ request: PlaybackRequest, event: WatchTogetherMessage.Event) {
-        guard let group else { return }
+        guard !awaitingInitialState, let group, group.state == .joined else { return }
         let content = WatchTogetherContent(request)
         guard state.publish(content, author: group.localParticipant.id.uuidString) else { return }
+        recoveryAttempts = 0
         localChangeStarted()
         Self.log(event.logDescription)
+        // Apple retains this for participants joining after the original sender disconnects.
+        group.activity = J1ROXWatchTogetherActivity(content: content, revision: revision)
         send(event: event)
     }
 
-    private func receive(_ value: WatchTogetherMessage) {
+    private func receive(_ value: WatchTogetherMessage, confirmsInitialState: Bool = true) {
         guard value.content.isValid else { return }
         if value.event == .requestState { send(event: .snapshot); return }
-        if state.receive(value) {
+        let changed = state.receive(value)
+        if changed { recoveryAttempts = 0 }
+        if let group, group.state == .joined, let desired, (group.activity.revision ?? .initial) < revision {
+            // Repair a concurrent, lower-version activity write without echoing a Messenger command.
+            group.activity = J1ROXWatchTogetherActivity(content: desired, revision: revision)
+        }
+        if awaitingInitialState {
+            // Equal snapshots also confirm an unchanged film: revision zero is legitimate.
+            if confirmsInitialState && value.revision == revision && value.content == desired { finishInitialSynchronization() }
+        } else if changed {
             Self.log(value.event.logDescription)
             apply(value.content)
         }
@@ -178,6 +249,7 @@ import GroupActivities
 
     private func send(event: WatchTogetherMessage.Event) {
         guard let messenger, let group, group.state == .joined, let desired else { return }
+        guard !awaitingInitialState || event == .requestState else { return }
         let value = WatchTogetherMessage(event: event, revision: revision, content: desired)
         let id = UUID(), sessionID = group.id
         sends[id] = Task { [weak self] in
@@ -193,20 +265,19 @@ import GroupActivities
 
     private func apply(_ content: WatchTogetherContent) {
         resolution?.cancel(); onRemoteChange?()
+        beginPlayerChange()
         let token = UUID(); generation = token
         let current = playerSession?.source.request
         let sameEpisode = current.map { WatchTogetherContent($0).playbackID == content.playbackID } ?? false
         let snapshot = sameEpisode ? playerSession?.snapshot() : nil
         resolving = true
+        refreshAdvanceOwner()
         resolution = Task { [weak self] in
             do {
                 let selection = try await WatchTogetherResolver().resolve(content, current: current, position: snapshot?.position ?? 0)
                 try Task.checkCancellation()
                 guard let self, self.isActive, self.generation == token else { return }
                 self.resolving = false
-                if WatchTogetherContent(selection.request) != content {
-                    self.message = "Выбранный источник или озвучка недоступны. Используется доступный вариант той же серии."
-                }
                 if let onSelection = self.onSelection { onSelection(selection, snapshot) }
                 else {
                     self.pendingSelection = selection
@@ -214,7 +285,7 @@ import GroupActivities
                 }
             } catch {
                 guard let self, !Task.isCancelled, self.generation == token else { return }
-                self.message = "Не удалось открыть видео участников. Совместный просмотр отключён; текущее видео сохранено."
+                self.message = "Выбранные участниками источник, озвучка или серия недоступны. Совместный просмотр отключён; текущее видео сохранено."
                 self.leave()
             }
         }
@@ -230,6 +301,9 @@ import GroupActivities
 
     private func cleanup() {
         let wasActive = isActive
+        if wasActive { onRemoteChange?() }
+        initialSync?.cancel(); initialSync = nil; awaitingInitialState = false
+        recoveryAttempts = 0
         generation = UUID(); resolution?.cancel(); resolution = nil
         receiver?.cancel(); receiver = nil
         for task in sends.values { task.cancel() }; sends.removeAll()
@@ -269,7 +343,7 @@ private final class WatchTogetherItemIdentity: NSObject, AVPlayerPlaybackCoordin
     private let identifiers = NSMapTable<AVPlayerItem, NSString>.weakToStrongObjects()
     func register(_ item: AVPlayerItem, request: PlaybackRequest) {
         lock.lock(); defer { lock.unlock() }
-        identifiers.setObject(WatchTogetherContent(request).playbackID as NSString, forKey: item)
+        identifiers.setObject(WatchTogetherContent(request).coordinationID as NSString, forKey: item)
     }
     func playbackCoordinator(_ coordinator: AVPlayerPlaybackCoordinator, identifierFor playerItem: AVPlayerItem) -> String {
         lock.lock(); defer { lock.unlock() }

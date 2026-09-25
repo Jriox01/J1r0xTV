@@ -7,6 +7,7 @@ import UIKit
     let prepare: () async throws -> PlaybackRequest
     @State private var invitation: Invitation?
     @State private var preparing = false
+    @State private var preparationTask: Task<Void, Never>?
 
     private struct Invitation: Identifiable {
         let id = UUID()
@@ -21,14 +22,17 @@ import UIKit
                     Button("Завершить для всех", role: .destructive) { together.leave(endForEveryone: true) }
                 } label: {
                     Label("Смотреть вместе · \(together.participantCount)", systemImage: "person.2.fill")
+                        .frame(maxWidth: .infinity)
                 }
             } else {
                 Button {
                     preparing = true
-                    Task { @MainActor in
+                    preparationTask?.cancel()
+                    preparationTask = Task { @MainActor in
                         defer { preparing = false }
                         do {
                             let content = WatchTogetherContent(try await prepare())
+                            try Task.checkCancellation()
                             guard content.isValid else { throw ProviderError.selectionUnavailable }
                             invitation = Invitation(activity: J1ROXWatchTogetherActivity(content: content))
                         } catch is CancellationError {
@@ -36,6 +40,7 @@ import UIKit
                     }
                 } label: {
                     Label(preparing ? "Подготовка…" : "Смотреть вместе", systemImage: "person.2.fill")
+                        .frame(maxWidth: .infinity)
                 }
                 .disabled(preparing)
             }
@@ -43,6 +48,7 @@ import UIKit
         .sheet(item: $invitation) { invitation in
             WatchTogetherInvitation(activity: invitation.activity)
         }
+        .onDisappear { preparationTask?.cancel(); preparationTask = nil; preparing = false }
     }
 }
 
