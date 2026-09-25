@@ -27,8 +27,9 @@ xcrun simctl bootstatus "$DEVICE" -b
 open -a Simulator --args -CurrentDeviceUDID "$DEVICE"
 APP=build/DerivedData-debug/Build/Products/Debug-iphonesimulator/J1ROXTV.app
 # Local test networking exception applies only to the built simulator app, never source/Release.
-/usr/libexec/PlistBuddy -c 'Add :NSAppTransportSecurity dict' "$APP/Info.plist"
-/usr/libexec/PlistBuddy -c 'Add :NSAppTransportSecurity:NSAllowsLocalNetworking bool true' "$APP/Info.plist"
+/usr/libexec/PlistBuddy -c 'Add :NSAppTransportSecurity dict' "$APP/Info.plist" 2>/dev/null || true
+/usr/libexec/PlistBuddy -c 'Add :NSAppTransportSecurity:NSAllowsLocalNetworking bool true' "$APP/Info.plist" 2>/dev/null || \
+  /usr/libexec/PlistBuddy -c 'Set :NSAppTransportSecurity:NSAllowsLocalNetworking true' "$APP/Info.plist"
 xcrun simctl install "$DEVICE" "$APP"
 xcrun simctl launch --console "$DEVICE" com.jirox.jiroxtv --hls-smoke-test >build/logs/hls-app.log 2>&1 &
 LAUNCH_PID=$!

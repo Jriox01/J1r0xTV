@@ -18,7 +18,10 @@ struct PlaybackSourceValidator: PlaybackSourceChecking {
     func validate(_ source: PlaybackSource) async throws { _ = try await inspect(source) }
 
     func inspect(_ source: PlaybackSource) async throws -> PlaybackValidation {
-
+        #if DEBUG
+        // Preflight may encounter ATS before a PlayerSession can be created.
+        print("[Player] Stream probe URL: \(source.url.absoluteString)")
+        #endif
         guard ["https", "http"].contains(source.url.scheme?.lowercased() ?? ""),
               source.url.host?.isEmpty == false, source.url.user == nil, source.url.password == nil else {
             throw PlaybackError.invalidURL
@@ -109,6 +112,9 @@ private final class ProbeRedirectDelegate: NSObject, URLSessionTaskDelegate, @un
     func urlSession(_ session: URLSession, task: URLSessionTask,
                     willPerformHTTPRedirection response: HTTPURLResponse, newRequest request: URLRequest,
                     completionHandler: @escaping (URLRequest?) -> Void) {
+        #if DEBUG
+        print("[Player] Stream redirect: \(response.statusCode) \(response.url?.absoluteString ?? "unknown") -> \(request.url?.absoluteString ?? "unknown")")
+        #endif
         lock.lock()
         chain.append("HTTP \(response.statusCode) \(PlaybackDiagnostics.url(response.url)) ? \(PlaybackDiagnostics.url(request.url))")
         lock.unlock()

@@ -66,6 +66,9 @@ import UIKit
             options[AVURLAssetHTTPUserAgentKey] = agent
         }
         // Offline assets use the system local URL, without network headers/resolution.
+        #if DEBUG
+        print("[Player] Final stream URL: \(source.url.absoluteString)")
+        #endif
         let asset = source.url.isFileURL ? AVURLAsset(url: source.url) : AVURLAsset(url: source.url, options: options)
         #if DEBUG
         if source.url.isFileURL { print("PLAYBACK LOCAL URL: \(source.url.absoluteString)") }
@@ -216,6 +219,10 @@ import UIKit
 
     private func readErrorLog(_ item: AVPlayerItem) {
         guard let event = item.errorLog()?.events.last else { return }
+        #if DEBUG
+        // AVKit can fail on a child playlist, segment or key rather than the initial URL.
+        if let uri = event.uri { print("[Player] Failed resource URL: \(uri)") }
+        #endif
         let detail = "errorLog domain=\(event.errorDomain) code=\(event.errorStatusCode) failedURL=\(PlaybackDiagnostics.url(event.uri.flatMap(URL.init(string:))))"
         lastError = detail
         log(detail)

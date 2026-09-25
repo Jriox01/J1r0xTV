@@ -23,8 +23,10 @@ Range, a 6-second request timeout, an 8-second resource timeout and a 15-second
 resolver operation deadline. It checks HTTP success, Content-Type and #EXTM3U.
 It does not download media segments. A successful probe is not a guarantee of
 future playback: AVPlayer failures still invoke recovery. Cookies are not collected
-by the probe; headers are stripped on cross-origin redirects. DEBUG logs contain
-provider name and hostname only, never full playback URLs or HTTP credentials.
+by the probe; headers are stripped on cross-origin redirects. General diagnostics redact
+paths and query values. The explicitly requested DEBUG-only `[Player]` stream/probe/redirect
+and failed-resource logs contain full URLs for on-device ATS investigation. They can
+contain expiring signed query values; HTTP headers are not logged. Release omits these logs.
 
 ## Cinemap status (2026-09-14)
 
@@ -75,8 +77,11 @@ External subtitle URLs are metadata, not an implemented sidecar-subtitle rendere
 Arbitrary AVURLAssetHTTPHeaderFieldsKey headers retain the existing compatibility
 path. Apple documents AVURLAssetHTTPUserAgentKey, but not a universal custom-header
 contract. Child-segment/cross-origin header propagation is NOT GUARANTEED. Preflight
-redirects strip credentials on origin changes and reject HTTPS downgrades; ATS stays
-unchanged in production. Debug diagnostics redact URL paths/query/credentials.
+redirects strip credentials on origin changes and reject HTTPS downgrades. Production ATS
+has one exact-host HTTP exception for the observed ATODO xinu CDN `ok26-1.vkuser.net`.
+No global/media/web-content ATS bypass or subdomain wildcard is enabled; HTTPS trust/TLS
+requirements remain unchanged. See [ATS-VERIFICATION.md](ATS-VERIFICATION.md) for evidence
+and the limits of the Windows checks.
 
 Tests/Research contains offline Kinogo/Cinemar fixture parsers, not a scraper or a
 production provider. See Tests/Fixtures/README.md for provenance and missing snapshots.
