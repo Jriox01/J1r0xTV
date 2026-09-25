@@ -14,9 +14,10 @@ import Combine
 final class PersistenceController {
     static let shared = PersistenceController()
     let container: NSPersistentContainer
-    init(inMemory: Bool = false) {
+    init(inMemory: Bool = false, storeURL: URL? = nil) {
         container = NSPersistentContainer(name: "J1ROXTV", managedObjectModel: Self.model())
         if inMemory { container.persistentStoreDescriptions.first?.url = URL(fileURLWithPath: "/dev/null") }
+        else if let storeURL { container.persistentStoreDescriptions.first?.url = storeURL }
         container.loadPersistentStores { _, error in if let error { assertionFailure("Core Data: \(error)") } }
         container.viewContext.automaticallyMergesChangesFromParent = true
         container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
@@ -40,7 +41,65 @@ final class PersistenceController {
     @Published private(set) var favorites: [FavoriteEntity] = []
     @Published private(set) var history: [WatchProgressEntity] = []
     private let context: NSManagedObjectContext
+    private var activeSources: [String: UUID] = [:]
+    private var completed = Set<String>()
+    private var completionTasks: [String: Task<Void, Never>] = [:]
+    private func key(_ selection: PlaybackSelection) -> String {
+        selection.request.media.mediaType + ":" + selection.request.media.id
+    }
     init(context: NSManagedObjectContext) { self.context = context; reload() }
+    deinit { for task in completionTasks.values { task.cancel() } }
+
+    /// Only an explicit new PlayerScreen may start watching a completed title again.
+    func beginPlayback(_ selection: PlaybackSelection) {
+        let id = key(selection)
+        completionTasks[id]?.cancel(); completionTasks[id] = nil
+        completed.remove(id)
+        activeSources[id] = selection.source.id
+    }
+
+    /// Item replacement / SharePlay state is not an explicit request to replay a completed title.
+    func continuePlayback(_ selection: PlaybackSelection) {
+        let id = key(selection)
+        guard !completed.contains(id) else { return }
+        completionTasks[id]?.cancel(); completionTasks[id] = nil
+        activeSources[id] = selection.source.id
+    }
+
+    /// Called only from AVPlayerItemDidPlayToEndTime, never inferred from position or closing.
+    func playbackEnded(_ selection: PlaybackSelection, finalEpisode: Bool? = nil) {
+        let id = key(selection)
+        guard !completed.contains(id), activeSources[id] == selection.source.id else { return }
+        if selection.request.media.mediaType == "movie" || finalEpisode == true {
+            complete(selection); return
+        }
+        guard selection.request.media.mediaType == "tv", finalEpisode == nil,
+              completionTasks[id] == nil else { return }
+        // Library ownership allows confirmation after the screen closes following a genuine end.
+        // A separate model never mutates the player's selectors or countdown.
+        completionTasks[id] = Task { [weak self] in
+            let model = DetailsViewModel(item: selection.request.media, streaming: StreamingService())
+            await model.synchronize(selection.request)
+            guard !Task.isCancelled, let self, self.activeSources[id] == selection.source.id else { return }
+            self.completionTasks[id] = nil
+            if model.isFinalAvailableEpisode(selection.request) == true { self.complete(selection) }
+        }
+    }
+
+    private func complete(_ selection: PlaybackSelection) {
+        let id = key(selection)
+        guard activeSources[id] == selection.source.id else { return }
+        let request = NSFetchRequest<WatchProgressEntity>(entityName: "WatchProgressEntity")
+        request.predicate = NSPredicate(format: "mediaID == %@ AND mediaType == %@", selection.request.media.id, selection.request.media.mediaType)
+        do {
+            // Remove all episodes so an older row cannot resurface after restart.
+            for entity in try context.fetch(request) { context.delete(entity) }
+            try context.save()
+            completed.insert(id)
+            completionTasks[id]?.cancel(); completionTasks[id] = nil
+            reload()
+        } catch { context.rollback() }
+    }
     func reload() {
         let favoritesRequest = NSFetchRequest<FavoriteEntity>(entityName: "FavoriteEntity"); favoritesRequest.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
         let historyRequest = NSFetchRequest<WatchProgressEntity>(entityName: "WatchProgressEntity"); historyRequest.sortDescriptors = [NSSortDescriptor(key: "lastWatchedAt", ascending: false)]
@@ -53,6 +112,9 @@ final class PersistenceController {
         save()
     }
     func save(_ selection: PlaybackSelection, position: Double, duration: Double) {
+        let id = key(selection)
+        guard position.isFinite, position >= 0, !completed.contains(id),
+              activeSources[id] == nil || activeSources[id] == selection.source.id else { return }
         let request = NSFetchRequest<WatchProgressEntity>(entityName: "WatchProgressEntity")
         request.predicate = NSPredicate(format: "mediaID == %@ AND mediaType == %@ AND season == %@ AND episode == %@", selection.request.media.id, selection.request.media.mediaType, selection.request.season ?? "", selection.request.episode ?? "")
         let entity = (try? context.fetch(request).first) ?? WatchProgressEntity(context: context); let item=selection.request.media

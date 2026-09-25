@@ -11,6 +11,7 @@ swiftc "${flags[@]}" -target "$(uname -m)-apple-macos13.0" -swift-version 5 -par
   J1ROXTV/Models/MediaModels.swift \
   J1ROXTV/Models/DownloadModels.swift \
   J1ROXTV/Persistence/DownloadStore.swift \
+  J1ROXTV/Persistence/PersistenceController.swift \
   J1ROXTV/Services/SourceAPIClient.swift \
   J1ROXTV/Networking/APIConfig.swift \
   J1ROXTV/Networking/APIClient.swift \
@@ -24,6 +25,7 @@ swiftc "${flags[@]}" -target "$(uname -m)-apple-macos13.0" -swift-version 5 -par
   Tests/Research/*.swift \
   Tests/PlaybackTests.swift \
   Tests/SeriesTests.swift \
+  Tests/ContinueWatchingTests.swift \
   Tests/WatchTogetherTests.swift \
   Tests/DownloadTests.swift \
   Tests/ProviderTests.swift \

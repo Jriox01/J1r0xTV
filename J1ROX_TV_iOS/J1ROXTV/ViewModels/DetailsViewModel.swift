@@ -81,6 +81,17 @@ import Combine
         }
         return nil
     }
+    /// nil means unknown: missing/failed metadata must never erase progress.
+    func isFinalAvailableEpisode(_ request: PlaybackRequest) -> Bool? {
+        guard !loading, error == nil, request.media.mediaType == "tv",
+              item.id == request.media.id, item.mediaType == request.media.mediaType,
+              streaming.providerID == request.providerID, activeSource == request.sourceID,
+              let translation = selectedTranslation,
+              request.translationName.map({ $0 == translation.name }) ?? (request.translationID == translation.id),
+              let season = seasons.first(where: { $0.number == request.season }),
+              streaming.episodes(in: season).contains(where: { $0.number == request.episode }) else { return nil }
+        return next(after: request) == nil
+    }
     func play(episode: EpisodeOption? = nil, resume: Double = 0) async throws -> PlaybackSelection {
         guard let translation = selectedTranslation else { throw StreamingError.noCompatibleSource }
         let token = UUID(); generation = token

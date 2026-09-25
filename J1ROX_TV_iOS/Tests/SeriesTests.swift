@@ -62,6 +62,21 @@ private struct SeriesFixture: VideoProvider {
     try expectSeries(first.next(after: request)?.0.number == "2" && first.next(after: request)?.1.number == "1", "next season")
     request.season = "2"; request.episode = "1"
     try expectSeries(first.next(after: request) == nil, "final episode has no successor")
+    request.sourceID = first.activeSource; request.providerID = "series-test"
+    request.translationID = first.selectedTranslation?.id; request.translationName = first.selectedTranslation?.name
+    try expectSeries(first.isFinalAvailableEpisode(request) == true, "known final season/episode confirms completion")
+    request.season = "1"; request.episode = "1"
+    try expectSeries(first.isFinalAvailableEpisode(request) == false && first.next(after: request)?.1.number == "2",
+                     "ordinary episode retains series and successor")
+    request.episode = "2"
+    try expectSeries(first.isFinalAvailableEpisode(request) == false && first.next(after: request)?.0.number == "2",
+                     "season end retains series with next season")
+    request.episode = "missing"
+    try expectSeries(first.isFinalAvailableEpisode(request) == nil, "unknown episode is not proof of completion")
+    request.season = "2"; request.episode = "1"
+    first.error = "Network unavailable"
+    try expectSeries(first.isFinalAvailableEpisode(request) == nil, "failed metadata must not erase series")
+    first.error = nil
     first.select(season: first.seasons[1])
     try expectSeries(first.episodes.map(\.number) == ["1"], "season replaces old episode list")
     let old = Task { try await first.select(source: .init(id: "slow", name: "2")) }

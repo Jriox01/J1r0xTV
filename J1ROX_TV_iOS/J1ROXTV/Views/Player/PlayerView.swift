@@ -108,6 +108,7 @@ import SwiftUI
     @State private var dragOffset: CGFloat = 0
     @State private var dismissTask: Task<Void, Never>?
     @State private var metadataTask: Task<Void, Never>?
+    @State private var historyStarted = false
 
     init(selection: PlaybackSelection) {
         let model = DetailsViewModel(item: selection.request.media, streaming: StreamingService())
@@ -157,6 +158,10 @@ import SwiftUI
         .onAppear {
             closed = false
             dragOffset = 0
+            if !historyStarted {
+                historyStarted = true
+                app.library.beginPlayback(session.selection)
+            }
             together.attach(playerSession, onRemoteChange: {
                 changeID = UUID(); changeTask?.cancel(); changeTask = nil
                 metadataTask?.cancel(); metadataTask = nil
@@ -167,7 +172,12 @@ import SwiftUI
                 app.library.save(PlaybackSelection(source: playerSession.source), position: saved.position, duration: playerSession.duration)
                 session.replace(selection, snapshot: snapshot)
             })
-            playerSession.onEnded = { scheduleNext() }
+            playerSession.onEnded = {
+                let endedSelection = PlaybackSelection(source: playerSession.source)
+                // Every SharePlay participant records its own end, not only the countdown owner.
+                app.library.playbackEnded(endedSelection, finalEpisode: controls.isFinalAvailableEpisode(endedSelection.request))
+                scheduleNext()
+            }
             playerSession.onProgress = { position, duration in
                 app.library.save(PlaybackSelection(source: playerSession.source), position: position, duration: duration)
             }
@@ -183,6 +193,7 @@ import SwiftUI
         .onChange(of: session.selection.source.id) { _ in
             guard !closed else { return }
             cancelCountdown()
+            app.library.continuePlayback(session.selection)
             playerSession.replace(with: session.selection.source)
             synchronizeControls()
         }
