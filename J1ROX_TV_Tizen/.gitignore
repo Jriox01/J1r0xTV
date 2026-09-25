@@ -1,0 +1,9 @@
+.build/
+dist/
+node_modules/
+*.wgt
+*.p12
+*.pfx
+author-signature.xml
+signature*.xml
+.buildResult/
