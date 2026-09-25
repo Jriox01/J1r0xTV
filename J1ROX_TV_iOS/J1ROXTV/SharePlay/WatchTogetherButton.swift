@@ -1,5 +1,6 @@
 import GroupActivities
 import SwiftUI
+import UIKit
 
 @MainActor struct WatchTogetherButton: View {
     @EnvironmentObject private var together: WatchTogetherManager
@@ -47,11 +48,16 @@ import SwiftUI
 
 @MainActor private struct WatchTogetherInvitation: UIViewControllerRepresentable {
     let activity: J1ROXWatchTogetherActivity
-    func makeUIViewController(context: Context) -> GroupActivitySharingController {
-        // The system handles eligibility, cancellation, FaceTime and the participant picker.
-        GroupActivitySharingController(preparationHandler: { activity })
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        // Apple TN3128: registering the activity makes the system SharePlay action
+        // invite participants and start this activity, even without an existing call.
+        // These APIs are available from iOS 15.4, below our iOS 16 deployment target.
+        let provider = NSItemProvider()
+        provider.registerGroupActivity(activity)
+        let configuration = UIActivityItemsConfiguration(itemProviders: [provider])
+        return UIActivityViewController(activityItemsConfiguration: configuration)
     }
-    func updateUIViewController(_ controller: GroupActivitySharingController, context: Context) {}
+    func updateUIViewController(_ controller: UIActivityViewController, context: Context) {}
 }
 
 @MainActor struct WatchTogetherAlert: ViewModifier {

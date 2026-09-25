@@ -1,8 +1,11 @@
 # Смотреть вместе
 
 В карточке фильма/сериала и в нижней панели плеера есть кнопка «Смотреть вместе».
-Системный `GroupActivitySharingController` предлагает участников/FaceTime и обрабатывает
-отмену приглашения. Для сериала используется выбранная серия (по умолчанию первая доступная).
+Системное меню `UIActivityViewController` получает активность через
+`NSItemProvider.registerGroupActivity` и `UIActivityItemsConfiguration`. Действие SharePlay
+в меню позволяет выбрать участников и начать FaceTime с выбранным контентом, даже без
+существующего звонка. Отмена меню не активирует сессию. Для сериала используется выбранная
+серия (по умолчанию первая доступная).
 Во время сессии кнопка показывает число участников и меню выхода/завершения для всех.
 Настройки источника, озвучки, сезона и серии доступны в плеере через «Настройки».
 
@@ -63,6 +66,22 @@ Minimum deployment target остаётся iOS 16.0. Добавлены Group Ac
 Team, Bundle ID и способ подписи сохранены. Provisioning profile для установки должен
 содержать этот entitlement; при необходимости его нужно обновить в Apple Developer/CI.
 
+Исправление ошибок Release-сборки: `GroupActivitySharingController` действительно есть у
+Apple, но его iOS-объявление находится в cross-import overlay `_GroupActivities_UIKit`.
+Исходный файл импортировал GroupActivities и SwiftUI без явного UIKit, поэтому компилятор
+не находил этот тип; ошибка соответствия UIViewControllerRepresentable была следствием.
+Теперь приглашение использует путь из Apple TN3128: `registerGroupActivity` (iOS 15.4+)
+и `UIActivityViewController(activityItemsConfiguration:)` (iOS 14+), с явным `import UIKit`.
+SwiftUI-обёртка оставлена для системного UIKit share sheet; тип контроллера в обоих её
+методах — UIActivityViewController. Прямой зависимости от прежнего контроллера больше нет.
+
+`GroupSessionMessenger.Messages` читается через `for await`: недостижимый `catch` и
+лишний `try` удалены. Invalidation по-прежнему обрабатывается через `$state`; при неожиданном
+завершении последовательности выполняется выход из сессии. Обработка ошибок `send` сохранена,
+поскольку этот API является throwing. Остальные GroupActivities/AVFoundation вызовы сверены
+с объявлениями Apple и доступны для iOS 16.0. Это статическая проверка; сборку с Xcode 26.6 /
+iPhoneOS SDK 26.5 после push должен подтвердить Codemagic.
+
 `Tests/WatchTogetherTests.swift` включён в существующий `Tests/run-provider-tests.sh`
 для Debug/Release: wire format, идентификаторы, дубли/устаревшие сообщения, одновременные
 изменения, snapshot позднего участника, выбор владельца для 3 участников и fallback.
@@ -82,5 +101,5 @@ Team, Bundle ID и способ подписи сохранены. Provisioning 
    качество и нативные AVKit controls. Проверить поведение при заблокированном экране.
 
 Документация Apple: [координация AVPlayer](https://developer.apple.com/documentation/avfoundation/supporting-coordinated-media-playback),
-[приглашение участников](https://developer.apple.com/documentation/groupactivities/groupactivitysharingcontroller-ybcy),
+[приглашение участников, TN3128](https://developer.apple.com/documentation/technotes/tn3128-starting-shareplay-without-an-existing-facetime-call),
 [suspension](https://developer.apple.com/documentation/avfoundation/avplaybackcoordinator/beginsuspension(for:)).

@@ -81,16 +81,19 @@ import GroupActivities
             }
         }.store(in: &subscriptions)
         receiver = Task { [weak self, weak session] in
-            do {
-                for try await (value, context) in transport.messages(of: WatchTogetherMessage.self) {
-                    guard let self, let session, !Task.isCancelled, self.group?.id == session.id else { return }
-                    guard context.source.id != session.localParticipant.id else { continue }
-                    if value.event != .snapshot && value.event != .requestState &&
-                        value.revision.author != context.source.id.uuidString { continue }
-                    self.receive(value)
-                }
-            } catch {
+            // Messages.Iterator.next() is async, not throwing. Session invalidation
+            // is observed through $state; an unexpectedly finished stream is handled below.
+            for await (value, context) in transport.messages(of: WatchTogetherMessage.self) {
                 guard let self, let session, !Task.isCancelled, self.group?.id == session.id else { return }
+                guard context.source.id != session.localParticipant.id else { continue }
+                if value.event != .snapshot && value.event != .requestState &&
+                    value.revision.author != context.source.id.uuidString { continue }
+                self.receive(value)
+            }
+            guard let self, let session, !Task.isCancelled, self.group?.id == session.id else { return }
+            if case .invalidated = session.state {
+                self.cleanup()
+            } else {
                 self.message = "Связь с совместным просмотром потеряна. Можно продолжить просмотр самостоятельно."
                 self.leave()
             }
