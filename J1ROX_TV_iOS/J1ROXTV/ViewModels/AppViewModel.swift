@@ -12,7 +12,38 @@ import Combine
         watchTogether.onOpen = { [weak self] in self?.playback = $0 }
         watchTogether.startListening()
     }
-    func loadHome() async { isLoading=true; errorMessage=nil; do { async let m=catalog.catalog(type:"movie"); async let s=catalog.catalog(type:"tv"); (movies,series)=try await(m,s) } catch { errorMessage="Не удалось загрузить каталог"; debugPrint(error) }; isLoading=false }
+    func loadHome() async {
+        guard !isLoading else { return }
+        isLoading = true
+        errorMessage = nil
+        defer { isLoading = false }
+        async let movieResult = loadCatalog(type: "movie")
+        async let seriesResult = loadCatalog(type: "tv")
+        let results = await (movieResult, seriesResult)
+        var failures: [String] = []
+        switch results.0 {
+        case .success(let items): movies = items
+        case .failure(let error):
+            if isCancelled(error) { return }
+            failures.append("Фильмы: " + error.localizedDescription)
+        }
+        switch results.1 {
+        case .success(let items): series = items
+        case .failure(let error):
+            if isCancelled(error) { return }
+            failures.append("Сериалы: " + error.localizedDescription)
+        }
+        if !failures.isEmpty { errorMessage = failures.joined(separator: "\n\n") }
+    }
+    private func loadCatalog(type: String) async -> Result<[MediaItem], Error> {
+        do { return .success(try await catalog.catalog(type: type)) }
+        catch { return .failure(error) }
+    }
+    private func isCancelled(_ error: Error) -> Bool {
+        if error is CancellationError { return true }
+        if let apiError = error as? APIError, case .cancelled = apiError { return true }
+        return false
+    }
     func search(_ query:String){ searchTask?.cancel(); guard !query.trimmingCharacters(in:.whitespaces).isEmpty else {searchResults=[];return}; searchTask=Task { try? await Task.sleep(for:.milliseconds(450)); guard !Task.isCancelled else{return}; isLoading=true; do{searchResults=try await searchService.search(query)}catch is CancellationError{}catch{errorMessage="Не удалось выполнить поиск";debugPrint(error)};isLoading=false } }
     func continueWatching(_ entry: WatchProgressEntity) async {
         guard let media = library.media(from: entry.rawJSON) else { return }
