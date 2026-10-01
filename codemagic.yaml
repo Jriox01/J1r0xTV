@@ -197,7 +197,6 @@ workflows:
     environment:
       groups:
         - tmdb
-      groups:
         - appstore_credentials
       xcode: latest
       vars:
