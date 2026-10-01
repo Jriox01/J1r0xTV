@@ -4,6 +4,8 @@ workflows:
     instance_type: mac_mini_m2
     max_build_duration: 60
     environment:
+      groups:
+        - tmdb
       xcode: latest
       vars:
         XCODE_PROJECT: "J1ROXTV.xcodeproj"
@@ -24,6 +26,18 @@ workflows:
           - "codemagic.yaml"
           - ".gitattributes"
     scripts:
+      - name: Configure TMDB credentials
+        script: |
+          python3 - <<'PYCONFIG'
+          import os, plistlib
+          from pathlib import Path
+          path = Path(os.environ['CM_BUILD_DIR']) / 'J1ROX_TV_iOS/J1ROXTV/Resources/Info.plist'
+          data = plistlib.loads(path.read_bytes())
+          for setting, env in [('TMDBReadAccessToken', 'TMDB_READ_ACCESS_TOKEN'), ('TMDBAPIKey', 'TMDB_API_KEY')]:
+              data[setting] = os.environ.get(env, '').strip()
+          path.write_bytes(plistlib.dumps(data))
+          print('TMDB configuration applied')
+          PYCONFIG
       - name: Xcode version, project, shared scheme and target diagnostics
         script: |
           #!/bin/bash
@@ -93,8 +107,22 @@ workflows:
     instance_type: mac_mini_m2
     max_build_duration: 60
     environment:
+      groups:
+        - tmdb
       xcode: latest
     scripts:
+      - name: Configure TMDB credentials
+        script: |
+          python3 - <<'PYCONFIG'
+          import os, plistlib
+          from pathlib import Path
+          path = Path(os.environ['CM_BUILD_DIR']) / 'J1ROX_TV_iOS/J1ROXTV/Resources/Info.plist'
+          data = plistlib.loads(path.read_bytes())
+          for setting, env in [('TMDBReadAccessToken', 'TMDB_READ_ACCESS_TOKEN'), ('TMDBAPIKey', 'TMDB_API_KEY')]:
+              data[setting] = os.environ.get(env, '').strip()
+          path.write_bytes(plistlib.dumps(data))
+          print('TMDB configuration applied')
+          PYCONFIG
       - name: Provider regression tests
         script: |
           #!/bin/bash
@@ -168,6 +196,8 @@ workflows:
     max_build_duration: 120
     environment:
       groups:
+        - tmdb
+      groups:
         - appstore_credentials
       xcode: latest
       vars:
@@ -176,6 +206,18 @@ workflows:
         XCODE_SCHEME: "J1ROXTV"
         MARKETING_VERSION: "1.0.0"
     scripts:
+      - name: Configure TMDB credentials
+        script: |
+          python3 - <<'PYCONFIG'
+          import os, plistlib
+          from pathlib import Path
+          path = Path(os.environ['CM_BUILD_DIR']) / 'J1ROX_TV_iOS/J1ROXTV/Resources/Info.plist'
+          data = plistlib.loads(path.read_bytes())
+          for setting, env in [('TMDBReadAccessToken', 'TMDB_READ_ACCESS_TOKEN'), ('TMDBAPIKey', 'TMDB_API_KEY')]:
+              data[setting] = os.environ.get(env, '').strip()
+          path.write_bytes(plistlib.dumps(data))
+          print('TMDB configuration applied')
+          PYCONFIG
       - name: Validate project and required credentials
         script: |
           #!/bin/bash
