@@ -5,7 +5,9 @@ struct ZonaProvider: VideoProvider {
     let name = "Zona"
     let availability = ProviderAvailability.available
     let resolutionTimeout: TimeInterval? = 60
-    var fetch: @Sendable (String, [String: String]) async throws -> JSONValue = ZonaProvider.get
+    var fetch: @Sendable (String, [String: String]) async throws -> JSONValue = { path, query in
+        try await ZonaProvider.get(path, query)
+    }
     var streamLoader: @Sendable (String, String?) async throws -> [JSONValue] = { kp, episode in
         try await ZonaStreamBridge.streams(kpID: kp, episodeKey: episode)
     }
