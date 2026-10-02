@@ -8,11 +8,11 @@ xcrun simctl bootstatus "$DEVICE" -b
 open -a Simulator --args -CurrentDeviceUDID "$DEVICE"
 APP=build/DerivedData-debug/Build/Products/Debug-iphonesimulator/J1ROXTV.app
 xcrun simctl install "$DEVICE" "$APP"
-xcrun simctl launch --console "$DEVICE" com.jirox.jiroxtv --zona-smoke-test >build/logs/zona-app.log 2>&1 &
+xcrun simctl launch --console "$DEVICE" com.jirox.jiroxtv --zona-smoke-test --zona-mutiny-smoke-test >build/logs/zona-app.log 2>&1 &
 LAUNCH_PID=$!
 trap 'xcrun simctl terminate "$DEVICE" com.jirox.jiroxtv >/dev/null 2>&1 || true' EXIT
 CONTAINER=$(xcrun simctl get_app_container "$DEVICE" com.jirox.jiroxtv data)
-for i in {1..45}; do
+for i in {1..60}; do
   test -f "$CONTAINER/Documents/zona-smoke-results.json" && break
   kill -0 "$LAUNCH_PID" 2>/dev/null || break
   sleep 2

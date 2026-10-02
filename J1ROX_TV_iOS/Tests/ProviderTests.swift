@@ -273,6 +273,7 @@ struct ProviderTests {
         try await runWatchTogetherTests()
         try await runDownloadTests()
         try await runZonaTests()
+        try await runReleaseYearTests()
         try await runCDNTests()
         try require(APIConfig.baseURL.absoluteString == "https://api.atodo.fun/", "ATODO API base")
         let defaults = ProviderResolver().providers
@@ -695,4 +696,22 @@ struct ProviderTests {
     do { _ = try await provider.playback(for: unavailable); throw TestFailure(message: "CDN silently changed episode") }
     catch ProviderError.selectionUnavailable {}
     print("PASS CDN VideoHub identity, per-voice seasons and strict episode selection")
+}
+
+@MainActor private func runReleaseYearTests() async throws {
+    let media = MediaItem.parse(["id": .string("11111"), "title": .string("Мятеж"), "original_title": .string("Mutiny"), "year": .string("2026")])
+    let row: [String: JSONValue] = ["slug": .string("myatezh-2025"), "title": .string("Мятеж"), "year": .number(2025), "type": .string("movie")]
+    func provider(original: String = "Mutiny", date: String = "2026-08-19", ambiguous: Bool = false) -> ZonaProvider {
+        ZonaProvider(fetch: { path, _ in
+            if path == "search" { return .object(["data": .array(ambiguous ? [.object(row), .object(row)] : [.object(row)])]) }
+            return .object(["data": .object(["kp_id": .number(5582050), "title_original": .string(original), "release_date": .string(date)])])
+        })
+    }
+    let kp = try await provider().kinopoiskID(for: media)
+    try require(kp == "5582050", "Original title and premiere year resolve production-year mismatch")
+    for rejected in [provider(original: "Another Mutiny"), provider(date: "2025-08-19"), provider(ambiguous: true)] {
+        do { _ = try await rejected.kinopoiskID(for: media); throw TestFailure(message: "Unverified year fallback accepted") }
+        catch ProviderError.mediaNotFound {}
+    }
+    print("PASS Zona production/premiere year matching, wrong original, wrong premiere and ambiguity rejection")
 }
