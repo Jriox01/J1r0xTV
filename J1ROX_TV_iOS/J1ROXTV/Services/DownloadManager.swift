@@ -12,7 +12,7 @@ import AVFoundation
     @Published var message: String?
     @Published var settings: DownloadSettings {
         didSet {
-            if let data = try? JSONEncoder().encode(settings) { UserDefaults.standard.set(data, forKey: "downloadSettings.v1") }
+            if let data = try? JSONEncoder().encode(settings) { UserDefaults.standard.set(data, forKey: "downloadSettings.v2") }
             if settings.wifiOnly != oldValue.wifiOnly {
                 // Session policy is immutable. Move active tasks to the appropriate session.
                 for id in Array(tasks.keys) where record(id)?.state == .downloading {
@@ -44,7 +44,9 @@ import AVFoundation
     private var completions: [String: () -> Void] = [:]
 
     private init() {
-        settings = UserDefaults.standard.data(forKey: "downloadSettings.v1")
+        // v2 resets the old implicit Wi-Fi-only default. Users can still enable
+        // the toggle explicitly in Downloads settings.
+        settings = UserDefaults.standard.data(forKey: "downloadSettings.v2")
             .flatMap { try? JSONDecoder().decode(DownloadSettings.self, from: $0) } ?? DownloadSettings()
         do { let store = try DownloadStore(); records = try store.load(); self.store = store }
         catch { message = "Не удалось открыть хранилище загрузок: \(error.localizedDescription)"; return }
