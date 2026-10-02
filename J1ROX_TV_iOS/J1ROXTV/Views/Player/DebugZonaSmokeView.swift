@@ -9,7 +9,14 @@ struct DebugZonaSmokeView: View {
         Text(status).padding().task {
             var report: [String: String] = [:]
             do {
-                let raw = try await ZonaStreamBridge.streams(kpID: "258687", episodeKey: nil)
+                let mutiny = ProcessInfo.processInfo.arguments.contains("--zona-mutiny-smoke-test")
+                let media = MediaItem.parse(["id": .string(mutiny ? "mutiny-diagnostic" : "157336"),
+                    "title": .string(mutiny ? "Мятеж" : "Интерстеллар"),
+                    "original_title": .string(mutiny ? "Mutiny" : "Interstellar"),
+                    "year": .string(mutiny ? "2026" : "2014")])
+                let kp = try await ZonaProvider().kinopoiskID(for: media)
+                report["title"] = media.title; report["catalog_year"] = media.year; report["mapped_kp"] = kp
+                let raw = try await ZonaStreamBridge.streams(kpID: kp, episodeKey: nil)
                 let streams = ZonaProvider.streams(raw)
                 report["sdk_batches"] = String(raw.count)
                 report["compatible_streams"] = String(streams.count)
@@ -17,7 +24,6 @@ struct DebugZonaSmokeView: View {
                 var playable = false
                 for stream in streams.prefix(3) {
                     do {
-                        let media = MediaItem.parse(["id": .string("157336"), "title": .string("Интерстеллар")])
                         let source = PlaybackSource(request: .init(media: media), url: stream.url,
                                                     providerID: "zona", providerName: "Zona", headers: stream.headers)
                         try await PlaybackSourceValidator().validate(source)
