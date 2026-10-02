@@ -42,7 +42,7 @@ import Combine
         guard let first = values.first else { throw StreamingError.noCompatibleSource }
         let saved = UserDefaults.standard.string(forKey: preferenceKey)
         let chosen = values.first { $0.name == saved } ?? (saved == nil ? values.first { $0.id == restoredRequest?.translationID } : nil) ?? first
-        translations = values; activeSource = source.id
+        translations = values; activeSource = source.id; providerName = streaming.providerName
         select(translation: chosen, remember: false)
     }
     @Published private(set) var activeSource: String = ""
