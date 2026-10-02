@@ -31,6 +31,10 @@ import AVFoundation
     private var store: DownloadStore?
     private let delegate = DownloadSessionDelegate()
     private var sessions: [URLSession] = []
+    // Some CDNs reject Apple's background downloader at task creation or on the
+    // first redirect. Direct MP4s use this foreground-capable session instead;
+    // HLS continues through AVAssetDownloadURLSession.
+    private var directSession: URLSession!
     // Keep the initializer's static type: Foundation's background-session class
     // cluster cannot reliably be downcast from URLSession to AVAssetDownloadURLSession.
     private var assetSessions: [AVAssetDownloadURLSession] = []
@@ -61,6 +65,13 @@ import AVFoundation
             config.timeoutIntervalForResource = 7 * 24 * 3600
             return URLSession(configuration: config, delegate: delegate, delegateQueue: .main)
         }
+        let directConfig = URLSessionConfiguration.default
+        directConfig.waitsForConnectivity = false
+        directConfig.allowsCellularAccess = true
+        directConfig.allowsExpensiveNetworkAccess = true
+        directConfig.timeoutIntervalForResource = 7 * 24 * 3600
+        directSession = URLSession(configuration: directConfig, delegate: delegate, delegateQueue: .main)
+        sessions.append(directSession)
         assetSessions = [true, false].map { wifi in
             let config = URLSessionConfiguration.background(withIdentifier: Self.sessionPrefix + (wifi ? "hls.wifi" : "hls.any"))
             config.sessionSendsLaunchEvents = true
@@ -206,7 +217,8 @@ import AVFoundation
                 guard tasks[id] == nil else { task.cancel(); continue }
                 tasks[id] = task
                 if records[index].state == .paused { cancelForPause(id, task: task) }
-                else if session.configuration.allowsCellularAccess == settings.wifiOnly {
+                else if session.configuration.identifier != nil &&
+                        session.configuration.allowsCellularAccess == settings.wifiOnly {
                     records[index].state = .paused
                     restartAfterPause.insert(id); discardResumeAfterPause.insert(id)
                     cancelForPause(id, task: task)
@@ -305,8 +317,7 @@ import AVFoundation
                         assetArtworkData: nil, options: downloadOptions) else { throw DownloadError.unavailable }
                     task = download
                 } else {
-                    let identifier = Self.sessionPrefix + (settings.wifiOnly ? "wifi" : "any")
-                    guard let session = sessions.first(where: { $0.configuration.identifier == identifier }) else { throw DownloadError.unavailable }
+                    guard let session = directSession else { throw DownloadError.unavailable }
                     var request = URLRequest(url: entry.variant.url)
                     request.allHTTPHeaderFields = entry.variant.headers
                     // The session enforces policy, including tasks restored from resumeData.
