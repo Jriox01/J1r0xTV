@@ -2,7 +2,10 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 mkdir -p build/logs
-DEVICE=$(xcrun simctl list devices booted -j | python3 -c 'import json,sys; print(next(d["udid"] for v in json.load(sys.stdin)["devices"].values() for d in v if d["state"] == "Booted"))')
+DEVICE=$(xcrun simctl list devices available -j | python3 -c 'import json,sys; ds=[d for runtime,v in json.load(sys.stdin)["devices"].items() if "iOS" in runtime for d in v if d.get("isAvailable") and d["name"].startswith("iPhone")]; print(next((d["udid"] for d in ds if d["state"] == "Booted"), ds[0]["udid"]))')
+xcrun simctl boot "$DEVICE" || true
+xcrun simctl bootstatus "$DEVICE" -b
+open -a Simulator --args -CurrentDeviceUDID "$DEVICE"
 APP=build/DerivedData-debug/Build/Products/Debug-iphonesimulator/J1ROXTV.app
 xcrun simctl install "$DEVICE" "$APP"
 xcrun simctl launch --console "$DEVICE" com.jirox.jiroxtv --zona-smoke-test >build/logs/zona-app.log 2>&1 &
