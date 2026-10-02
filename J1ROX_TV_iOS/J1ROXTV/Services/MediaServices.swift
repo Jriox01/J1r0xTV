@@ -80,8 +80,6 @@ import AVFoundation
         if let agent = source.headers.first(where: { $0.key.lowercased() == "user-agent" })?.value {
             options[AVURLAssetHTTPUserAgentKey] = agent
         }
-        let asset = AVURLAsset(url: source.url, options: options)
-        guard try await asset.load(.hasProtectedContent) == false else { throw DownloadError.unavailable }
         if variant.isHLS {
             var request = URLRequest(url: source.url, timeoutInterval: 15)
             request.allHTTPHeaderFields = source.headers
@@ -91,6 +89,8 @@ import AVFoundation
                   manifest.trimmingCharacters(in: .whitespacesAndNewlines).hasPrefix("#EXTM3U") else { throw DownloadError.invalidFile }
             return (source.request, variant.hlsVariants(manifest: manifest))
         }
+        let asset = AVURLAsset(url: source.url, options: options)
+        guard try await asset.load(.hasProtectedContent) == false else { throw DownloadError.unavailable }
         do {
             guard let provider = resolver.providers.first(where: { $0.id == source.providerID }) else { throw DownloadError.unavailable }
             let advertised = try await provider.downloads(for: source.request).filter(\.isValid)
