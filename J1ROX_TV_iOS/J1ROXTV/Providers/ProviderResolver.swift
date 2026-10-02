@@ -14,8 +14,7 @@ struct ProviderResolver: Sendable {
     let checker: any PlaybackSourceChecking
     let timeout: TimeInterval
 
-    // Optional providers must be explicitly injected; normal startup/playback uses ATODO.
-    init(providers: [any VideoProvider] = [AtodoProvider()],
+    init(providers: [any VideoProvider] = [AtodoProvider(), ZonaProvider()],
          checker: any PlaybackSourceChecking = PlaybackSourceValidator(), timeout: TimeInterval = 15) {
         self.providers = providers
         self.checker = checker
@@ -31,7 +30,7 @@ struct ProviderResolver: Sendable {
                 continue
             }
             do {
-                let requests = try await withProviderTimeout(seconds: timeout) {
+                let requests = try await withProviderTimeout(seconds: provider.resolutionTimeout ?? timeout) {
                     try await provider.requests(for: request)
                 }
                 for candidate in requests {
@@ -40,7 +39,7 @@ struct ProviderResolver: Sendable {
                     // One renewal only: no token manipulation and no unbounded retry loop.
                     for attempt in 0..<2 {
                         do {
-                            let source = try await withProviderTimeout(seconds: timeout) {
+                            let source = try await withProviderTimeout(seconds: provider.resolutionTimeout ?? timeout) {
                                 let source = try await provider.playback(for: candidate)
                                 guard source.expiresAt.map({ $0 > Date() }) ?? true else { throw ProviderError.expired }
                                 try await checker.validate(source)
@@ -73,7 +72,7 @@ struct ProviderResolver: Sendable {
         if allowRenewal,
            let provider = providers.first(where: { $0.id == failed.providerID && $0.availability == .available }) {
             do {
-                let renewed = try await withProviderTimeout(seconds: timeout) {
+                let renewed = try await withProviderTimeout(seconds: provider.resolutionTimeout ?? timeout) {
                     let source = try await provider.refresh(source: failed, request: request)
                     guard source.expiresAt.map({ $0 > Date() }) ?? true else { throw ProviderError.expired }
                     try await checker.validate(source)
