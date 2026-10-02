@@ -10,6 +10,7 @@ import UIKit
     private var continuation: CheckedContinuation<[JSONValue], Error>?
     private var deadline: Task<Void, Never>?
     private let nonce = UUID().uuidString
+    private var phase = "document"
 
     static func streams(kpID: String, episodeKey: String?) async throws -> [JSONValue] {
         let bridge = ZonaStreamBridge()
@@ -40,25 +41,32 @@ import UIKit
                 deadline = Task { [weak self] in
                     do { try await Task.sleep(nanoseconds: 55_000_000_000) }
                     catch { return }
-                    self?.finish(.failure(URLError(.timedOut)))
+                    guard let self else { return }
+                    self.finish(.failure(NSError(domain: NSURLErrorDomain, code: NSURLErrorTimedOut,
+                        userInfo: [NSLocalizedDescriptionKey: "Zona timeout at stage: \(self.phase)"])))
                 }
-                web.loadHTMLString("""
+                web.loadSimulatedRequest(URLRequest(url: URL(string: "https://kinoserial.online/")!), responseHTML: """
                 <!doctype html><meta charset="utf-8"><script>
                 const args = \(json), results = [];
                 let finished = false, settle;
+                function progress(phase) { window.webkit.messageHandlers.zonaResult.postMessage({nonce: args.nonce, phase}); }
+                progress("script-loading");
                 function finish(error) {
                   if (finished) return; finished = true; clearTimeout(settle);
                   window.webkit.messageHandlers.zonaResult.postMessage({nonce: args.nonce, error: error || '', results});
                 }
                 async function start() {
                   try {
+                    progress("script-loaded");
                     const sdk = window['ru.zona.stream.site'];
                     if (!sdk) return finish('sdk');
                     const provider = await sdk.createStreamsProvider({getStreamDurationInMicroseconds: () => '1000000000'});
+                    progress("requesting-streams");
                     provider.getStreams(\(numericID), false, args.episode || null, {
                       onStreamsReceived: value => {
                         if (finished) return;
                         try {
+                          progress("streams-received");
                           const result = JSON.parse(value);
                           if (Array.isArray(result.videoStreams)) results.push(result);
                           // Allow other extractors to supply voices, but bound selection latency.
@@ -72,7 +80,7 @@ import UIKit
                   } catch (_) { finish('sdk'); }
                 }
                 </script><script src="https://kinoserial.online/loader.js" onload="start()" onerror="finish('network')"></script>
-                """, baseURL: URL(string: "https://kinoserial.online/"))
+                """)
             }
         }, onCancel: { Task { @MainActor in self.finish(.failure(CancellationError())) } })
     }
@@ -80,6 +88,10 @@ import UIKit
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         guard message.frameInfo.isMainFrame, message.name == "zonaResult",
               let body = message.body as? [String: Any], body["nonce"] as? String == nonce else { return }
+        if let phase = body["phase"] as? String,
+           ["script-loading", "script-loaded", "requesting-streams", "streams-received"].contains(phase) {
+            self.phase = phase; return
+        }
         guard (body["error"] as? String ?? "").isEmpty,
               let objects = body["results"] as? [Any],
               let data = try? JSONSerialization.data(withJSONObject: objects),
