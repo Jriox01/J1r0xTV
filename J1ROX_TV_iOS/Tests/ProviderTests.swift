@@ -272,10 +272,11 @@ struct ProviderTests {
         try runContinueWatchingTests()
         try await runWatchTogetherTests()
         try await runDownloadTests()
+        try await runZonaTests()
         try require(APIConfig.baseURL.absoluteString == "https://api.atodo.fun/", "ATODO API base")
         let defaults = ProviderResolver().providers
-        try require(defaults.map(\.id) == ["atodo"] && defaults.first?.availability == .available,
-                    "ATODO is the default; Cinemap is not required")
+        try require(defaults.map(\.id) == ["atodo", "zona"] && defaults.allSatisfy { $0.availability == .available },
+                    "Atodo and Zona are registered; unconfigured Cinemap is not advertised")
 
         let media = MediaItem.parse([
             "id": .string("42"),
@@ -614,4 +615,48 @@ struct ProviderTests {
         try require(priority.source.providerID == "first" && reversedPriority.source.providerID == "second", "Provider priority order")
         print("ALL PROVIDER TESTS PASSED (fixtures, download policy and persistence)")
     }
+}
+
+@MainActor private func runZonaTests() async throws {
+    let media = MediaItem.parse(["id": .string("157336"), "title": .string("Интерстеллар"), "year": .string("2014")])
+    let row: [String: JSONValue] = ["slug": .string("interstellar"), "title": .string("Интерстеллар"), "year": .number(2014), "type": .string("movie")]
+    try require(ZonaProvider.matches(row, media: media), "Zona exact movie match")
+    var wrong = row; wrong["year"] = .number(2024)
+    try require(!ZonaProvider.matches(wrong, media: media), "Zona rejects remakes with another year")
+    wrong = row; wrong["type"] = .string("series")
+    try require(!ZonaProvider.matches(wrong, media: media), "Zona rejects wrong media type")
+    try require(try ZonaProvider.episodeKey(season: "2", episode: "11") == "S02E11", "Zona episode identifier")
+    do { _ = try ZonaProvider.episodeKey(season: "2", episode: nil); throw TestFailure(message: "Missing episode accepted") }
+    catch ProviderError.selectionUnavailable {}
+    func batch(_ url: String, format: String = "HLS", transform: String = "") -> JSONValue {
+        .object(["extractorType": .object(["id": .number(1), "name": .string("Fixture")]),
+                 "videoStreams": .array([.object(["source": .object(["url": .string(url), "headers": .object(["Referer": .string("https://example.com/")])]),
+                    "translation": .string("Дубляж"), "resolution": .string(format), "parameters": .object(["urlTransform": .string(transform)])])])])
+    }
+    try require(ZonaProvider.streams([batch("https://example.com/movie.m3u8")]).count == 1, "Zona HLS accepted")
+    try require(ZonaProvider.streams([batch("https://example.com/movie.mpd", format: "DASH")]).isEmpty, "Zona DASH not passed to AVPlayer")
+    try require(ZonaProvider.streams([batch("http://example.com/movie.m3u8")]).isEmpty, "Zona does not weaken ATS")
+    try require(ZonaProvider.streams([batch("https://example.com/movie.m3u8", transform: "unsupported")]).isEmpty, "Transform-required streams excluded")
+    let fixture = batch("https://example.com/movie.m3u8")
+    let provider = ZonaProvider(fetch: { path, _ in
+        if path == "search" { return .object(["data": .array([.object(row)])]) }
+        return .object(["data": .object(["kp_id": .number(258687), "slug": .string("interstellar")])])
+    }, streamLoader: { kp, episode in
+        guard kp == "258687", episode == nil else { throw ProviderError.invalidResponse }
+        return [fixture]
+    })
+    let content = try await provider.content(for: media, sourceID: "zona")
+    let voice = provider.translations(in: content)[0]
+    let request = PlaybackRequest(media: media, sourceID: "zona", translationID: voice.id, translationName: voice.name, providerID: "zona")
+    let playback = try await provider.playback(for: request)
+    try require(playback.providerID == "zona" && playback.request.media.id == "157336", "Zona keeps original TMDB identity")
+    try require(playback.headers["Referer"] == "https://example.com/", "Zona preserves declared request headers")
+    var unavailable = request; unavailable.translationID = "missing"
+    do { _ = try await provider.playback(for: unavailable); throw TestFailure(message: "Zona changed voice silently") }
+    catch ProviderError.selectionUnavailable {}
+    let service = StreamingService(resolver: ProviderResolver(providers: [provider]))
+    let sources = try await service.sources(for: media)
+    _ = try await service.content(for: media, sourceID: sources.1[0].id)
+    try require(service.providerID == "zona", "Source routes to Zona")
+    print("PASS Zona matching, episode identity, native stream filtering, source routing and explicit voice")
 }
