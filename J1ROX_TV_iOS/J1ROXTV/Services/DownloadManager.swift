@@ -370,9 +370,21 @@ import AVFoundation
             }
             guard let name = records[index].localFilename else { throw DownloadError.invalidFile }
             let destination = try DownloadFiles.file(name)
-            // Must move before returning from this delegate callback: URLSession deletes location.
-            try FileManager.default.setAttributes([.protectionKey: FileProtectionType.completeUntilFirstUserAuthentication], ofItemAtPath: location.path)
-            try FileManager.default.moveItem(at: location, to: destination)
+            // Must finalize before returning from this delegate callback: URLSession deletes
+            // its temporary location. A retry can leave the same destination behind, and
+            // FileManager.moveItem then reports the unhelpful "Cannot create file" error.
+            // Remove that stale target and fall back to copy for providers/filesystems where
+            // the temporary URL cannot be moved directly.
+            try? FileManager.default.setAttributes([.protectionKey: FileProtectionType.completeUntilFirstUserAuthentication], ofItemAtPath: location.path)
+            if FileManager.default.fileExists(atPath: destination.path) {
+                try FileManager.default.removeItem(at: destination)
+            }
+            do {
+                try FileManager.default.moveItem(at: location, to: destination)
+            } catch {
+                try FileManager.default.copyItem(at: location, to: destination)
+                try? FileManager.default.removeItem(at: location)
+            }
             records[index].received = size; records[index].total = size
             records[index].state = .completed; records[index].completedAt = Date(); records[index].resumeData = nil
             speeds[records[index].id] = nil
