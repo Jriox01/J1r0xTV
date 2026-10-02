@@ -9,7 +9,9 @@ import SwiftUI
     var body: some Scene {
         WindowGroup {
             #if DEBUG
-            if ProcessInfo.processInfo.arguments.contains("--hls-smoke-test") {
+            if ProcessInfo.processInfo.arguments.contains("--zona-smoke-test") {
+                DebugZonaSmokeView()
+            } else if ProcessInfo.processInfo.arguments.contains("--hls-smoke-test") {
                 DebugHLSSmokeView()
             } else {
                 #if targetEnvironment(simulator)
