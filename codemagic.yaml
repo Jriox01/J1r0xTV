@@ -111,7 +111,8 @@ workflows:
         - tmdb
       xcode: latest
     scripts:
-      - name: Configure TMDB credentials
+      - &tmdb-setup
+        name: Configure TMDB credentials
         script: |
           python3 - <<'PYCONFIG'
           import os, plistlib
@@ -123,12 +124,14 @@ workflows:
           path.write_bytes(plistlib.dumps(data))
           print('TMDB configuration applied')
           PYCONFIG
-      - name: Provider regression tests
+      - &provider-regressions
+        name: Provider regression tests
         script: |
           #!/bin/bash
           set -euo pipefail
           bash "$CM_BUILD_DIR/J1ROX_TV_iOS/Tests/run-provider-tests.sh"
-      - name: Build unsigned Release app
+      - &release-ipa-build
+        name: Build unsigned Release app
         script: |
           #!/bin/bash
           set -euo pipefail
@@ -147,7 +150,8 @@ workflows:
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
             build 2>&1 | tee build/logs/unsigned-ipa-build.log
-      - name: Package and verify unsigned IPA
+      - &release-ipa-package
+        name: Package and verify unsigned IPA
         script: |
           #!/bin/bash
           set -euo pipefail
@@ -298,3 +302,35 @@ workflows:
         key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
         issuer_id: $APP_STORE_CONNECT_ISSUER_ID
         submit_to_testflight: true
+
+  ios-zona-ipa:
+    name: J1ROX TV iOS - Zona validation and IPA
+    instance_type: mac_mini_m2
+    max_build_duration: 30
+    environment:
+      groups:
+        - tmdb
+      xcode: latest
+    scripts:
+      - *tmdb-setup
+      - *provider-regressions
+      - name: Build Debug simulator for live Zona diagnostic
+        script: |
+          #!/bin/bash
+          set -euo pipefail
+          cd "$CM_BUILD_DIR/J1ROX_TV_iOS"
+          mkdir -p build/logs
+          xcodebuild -project J1ROXTV.xcodeproj -scheme J1ROXTV \
+            -configuration Debug -sdk iphonesimulator -destination "generic/platform=iOS Simulator" \
+            -derivedDataPath build/DerivedData-debug CODE_SIGNING_ALLOWED=NO \
+            build 2>&1 | tee build/logs/zona-debug-build.log
+      - name: Live Zona SDK and AVFoundation diagnostic
+        script: |
+          #!/bin/bash
+          set -euo pipefail
+          bash "$CM_BUILD_DIR/J1ROX_TV_iOS/Tests/run-zona-smoke.sh"
+      - *release-ipa-build
+      - *release-ipa-package
+    artifacts:
+      - J1ROX_TV_iOS/build/ipa/*.ipa
+      - J1ROX_TV_iOS/build/logs/**
