@@ -70,6 +70,10 @@ struct ZonaProvider: VideoProvider {
         let headers: [String: String]
         let quality: String
     }
+    static func compatibleFormat(_ format: String) -> Bool {
+        ["HLS", "mp4", "LQ", "MQ", "HQ"].contains(format) ||
+            format.range(of: "^\\d{3,4}p$", options: [.regularExpression, .caseInsensitive]) != nil
+    }
     static func streams(_ results: [JSONValue]) -> [Stream] {
         var streams: [Stream] = []
         for result in results {
@@ -77,7 +81,7 @@ struct ZonaProvider: VideoProvider {
             for node in object["videoStreams"]?.array ?? [] {
                 guard let value = node.object, let source = value["source"]?.object,
                       value["isTrailer"] != .bool(true),
-                      ["HLS", "mp4"].contains(value.text("resolution")),
+                      compatibleFormat(value.text("resolution")),
                       (value["parameters"]?.object?.text("urlTransform") ?? "").isEmpty,
                       let url = URL(string: source.text("url")), url.scheme == "https", url.host != nil,
                       url.user == nil, url.password == nil else { continue }

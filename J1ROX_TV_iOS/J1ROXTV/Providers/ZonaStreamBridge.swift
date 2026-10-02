@@ -62,7 +62,7 @@ import UIKit
                           const result = JSON.parse(value);
                           if (Array.isArray(result.videoStreams)) results.push(result);
                           // Allow other extractors to supply voices, but bound selection latency.
-                          if (results.some(r => r.videoStreams.some(s => ['HLS','mp4'].includes(s.resolution) && !s.parameters?.urlTransform))) {
+                          if (results.some(r => r.videoStreams.some(s => (['HLS','mp4','LQ','MQ','HQ'].includes(s.resolution) || /^\\d{3,4}p$/i.test(s.resolution)) && !s.parameters?.urlTransform))) {
                             clearTimeout(settle); settle = setTimeout(() => finish(), 2500);
                           }
                         } catch (_) {}
