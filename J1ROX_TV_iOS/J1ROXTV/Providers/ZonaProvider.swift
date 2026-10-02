@@ -35,16 +35,40 @@ struct ZonaProvider: VideoProvider {
         let names = [media.title, media.originalTitle].filter { !$0.isEmpty }.map(normalized)
         return [row.text("title"), row.text("title_original")].contains { !normalized($0).isEmpty && names.contains(normalized($0)) }
     }
-    private func metadata(_ media: MediaItem) async throws -> [String: JSONValue] {
-        // Keep TMDB IDs separate from Zona/Kinopoisk IDs; never choose the first fuzzy search hit.
-        let rows = try await fetch("search", ["query": media.title]).object?["data"]?.array ?? []
-        let matches = rows.compactMap(\.object).filter { Self.matches($0, media: media) }
-        guard matches.count == 1, let match = matches.first, !match.text("slug").isEmpty else { throw ProviderError.mediaNotFound }
+    private func detail(_ row: [String: JSONValue], media: MediaItem) async throws -> [String: JSONValue] {
         let category = media.mediaType == "tv" ? "series" : "movies"
-        let slug = match.text("slug").addingPercentEncoding(withAllowedCharacters: .urlPathAllowed.subtracting(CharacterSet(charactersIn: "/?#"))) ?? ""
-        guard let detail = try await fetch("api/\(category)/\(slug)", [:]).object?["data"]?.object,
-              Int(detail.text("kp_id")) ?? 0 > 0 else { throw ProviderError.mediaNotFound }
-        return detail
+        let slug = row.text("slug").addingPercentEncoding(withAllowedCharacters: .urlPathAllowed.subtracting(CharacterSet(charactersIn: "/?#"))) ?? ""
+        guard !slug.isEmpty, let value = try await fetch("api/\(category)/\(slug)", [:]).object?["data"]?.object,
+              Int(value.text("kp_id")) ?? 0 > 0 else { throw ProviderError.mediaNotFound }
+        return value
+    }
+    static func releaseMatches(_ detail: [String: JSONValue], media: MediaItem) -> Bool {
+        // Production and premiere years can differ. Require the original title AND an explicit premiere year.
+        guard !media.originalTitle.isEmpty, !media.year.isEmpty,
+              normalized(detail.text("title_original")) == normalized(media.originalTitle) else { return false }
+        return ["release_date", "release_date_ru"].contains { String(detail.text($0).prefix(4)) == media.year }
+    }
+    private func metadata(_ media: MediaItem) async throws -> [String: JSONValue] {
+        // Keep TMDB IDs separate from Zona/Kinopoisk IDs; never choose a fuzzy search hit.
+        let rows = try await fetch("search", ["query": media.title]).object?["data"]?.array?.compactMap(\.object) ?? []
+        let exact = rows.filter { Self.matches($0, media: media) }
+        if exact.count == 1, let match = exact.first { return try await detail(match, media: media) }
+        guard exact.isEmpty, let wantedYear = Int(media.year), !media.originalTitle.isEmpty else { throw ProviderError.mediaNotFound }
+        let near = rows.filter { row in
+            guard let year = Int(row.text("year")), abs(year - wantedYear) == 1 else { return false }
+            var copy = row; copy["year"] = .string(media.year)
+            return Self.matches(copy, media: media)
+        }
+        guard !near.isEmpty, near.count <= 3 else { throw ProviderError.mediaNotFound }
+        var confirmed: [[String: JSONValue]] = []
+        for row in near {
+            do {
+                let value = try await detail(row, media: media)
+                if Self.releaseMatches(value, media: media) { confirmed.append(value) }
+            } catch { try Task.checkCancellation() }
+        }
+        guard confirmed.count == 1, let value = confirmed.first else { throw ProviderError.mediaNotFound }
+        return value
     }
     func kinopoiskID(for media: MediaItem) async throws -> String { try await metadata(media).text("kp_id") }
     func search(_ query: MediaQuery) async throws -> [MediaItem] { [] }
