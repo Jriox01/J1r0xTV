@@ -1,10 +1,12 @@
 import Foundation
 import AVFoundation
 
-// Detail selectors use the first available provider; playback is always resolved afresh.
+// Each source is routed to its own provider; temporary playback URLs are never cached.
 @MainActor final class StreamingService {
     let resolver: ProviderResolver
     private var activeProvider: any VideoProvider
+    private var sourceProviders: [String: any VideoProvider] = [:]
+    private var contentGeneration = UUID()
     var providerID: String { activeProvider.id }
     var providerName: String { activeProvider.name }
 
@@ -13,20 +15,41 @@ import AVFoundation
         activeProvider = resolver.providers.first ?? AtodoProvider()
     }
     func sources(for item: MediaItem) async throws -> (MediaItem, [SourceOption]) {
-        for provider in resolver.providers where provider.availability == .available {
-            do {
-                let result = try await withProviderTimeout(seconds: resolver.timeout) {
-                    try await provider.sources(for: item)
+        let timeout = resolver.timeout
+        let providers = resolver.providers
+        let results = await withTaskGroup(of: (Int, [SourceOption]).self) { group in
+            for (index, provider) in providers.enumerated() where provider.availability == .available && provider.canHandle(item) {
+                group.addTask {
+                    do { return (index, try await withProviderTimeout(seconds: timeout) { try await provider.sources(for: item) }.1) }
+                    catch { return (index, []) }
                 }
-                guard !result.1.isEmpty else { continue }
-                activeProvider = provider
-                return result
-            } catch { try Task.checkCancellation() }
+            }
+            var results: [(Int, [SourceOption])] = []
+            for await result in group { results.append(result) }
+            return results.sorted { $0.0 < $1.0 }
         }
-        throw ProviderError.unavailable
+        try Task.checkCancellation()
+        var options: [SourceOption] = []
+        var routes: [String: any VideoProvider] = [:]
+        for (index, values) in results {
+            for value in values where routes[value.id] == nil {
+                options.append(value); routes[value.id] = providers[index]
+            }
+        }
+        guard let first = options.first, let provider = routes[first.id] else { throw ProviderError.unavailable }
+        sourceProviders = routes; activeProvider = provider
+        return (item, options)
     }
     func content(for item: MediaItem, sourceID: String) async throws -> [String: JSONValue] {
-        try await activeProvider.content(for: item, sourceID: sourceID)
+        guard let provider = sourceProviders[sourceID] else { throw ProviderError.selectionUnavailable }
+        let generation = UUID(); contentGeneration = generation
+        let content = try await withProviderTimeout(seconds: provider.resolutionTimeout ?? resolver.timeout) {
+            try await provider.content(for: item, sourceID: sourceID)
+        }
+        try Task.checkCancellation()
+        guard contentGeneration == generation else { throw CancellationError() }
+        activeProvider = provider
+        return content
     }
     func translations(in object: [String: JSONValue]) -> [TranslationOption] { activeProvider.translations(in: object) }
     func seasons(in translation: TranslationOption) -> [SeasonOption] { activeProvider.seasons(in: translation) }
@@ -37,9 +60,9 @@ import AVFoundation
     }
     // Explicit user selections must not silently resolve another source or voice.
     func resolveSelected(_ request: PlaybackRequest) async throws -> PlaybackSelection {
-        let provider = activeProvider
+        guard let provider = resolver.providers.first(where: { $0.id == request.providerID }) else { throw ProviderError.selectionUnavailable }
         let checker = resolver.checker
-        let source = try await withProviderTimeout(seconds: resolver.timeout) {
+        let source = try await withProviderTimeout(seconds: provider.resolutionTimeout ?? resolver.timeout) {
             let source = try await provider.playback(for: request)
             try await checker.validate(source)
             return source
