@@ -92,7 +92,8 @@ import AVFoundation
             return (source.request, variant.hlsVariants(manifest: manifest))
         }
         do {
-            let advertised = try await activeProvider.downloads(for: source.request).filter(\.isValid)
+            guard let provider = resolver.providers.first(where: { $0.id == source.providerID }) else { throw DownloadError.unavailable }
+            let advertised = try await provider.downloads(for: source.request).filter(\.isValid)
             if !advertised.isEmpty { return (source.request, advertised) }
         } catch { try Task.checkCancellation() }
         return (source.request, [try await variant.inspectingSize()])
