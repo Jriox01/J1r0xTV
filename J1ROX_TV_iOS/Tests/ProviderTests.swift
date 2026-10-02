@@ -634,6 +634,7 @@ struct ProviderTests {
                     "translation": .string("Дубляж"), "resolution": .string(format), "parameters": .object(["urlTransform": .string(transform)])])])])
     }
     try require(ZonaProvider.streams([batch("https://example.com/movie.m3u8")]).count == 1, "Zona HLS accepted")
+    try require(ZonaProvider.streams([batch("https://example.com/movie.mp4", format: "1080p")]).count == 1, "Zona MP4 quality label accepted")
     try require(ZonaProvider.streams([batch("https://example.com/movie.mpd", format: "DASH")]).isEmpty, "Zona DASH not passed to AVPlayer")
     try require(ZonaProvider.streams([batch("http://example.com/movie.m3u8")]).isEmpty, "Zona does not weaken ATS")
     try require(ZonaProvider.streams([batch("https://example.com/movie.m3u8", transform: "unsupported")]).isEmpty, "Transform-required streams excluded")
@@ -654,9 +655,10 @@ struct ProviderTests {
     var unavailable = request; unavailable.translationID = "missing"
     do { _ = try await provider.playback(for: unavailable); throw TestFailure(message: "Zona changed voice silently") }
     catch ProviderError.selectionUnavailable {}
-    let service = StreamingService(resolver: ProviderResolver(providers: [provider]))
+    let service = StreamingService(resolver: ProviderResolver(providers: [AtodoProvider(client: FixtureAPI(series: false)), provider]))
     let sources = try await service.sources(for: media)
-    _ = try await service.content(for: media, sourceID: sources.1[0].id)
+    try require(sources.1.map(\.id) == ["one", "zona"], "Aggregate sources from both providers")
+    _ = try await service.content(for: media, sourceID: "zona")
     try require(service.providerID == "zona", "Source routes to Zona")
     print("PASS Zona matching, episode identity, native stream filtering, source routing and explicit voice")
 }
