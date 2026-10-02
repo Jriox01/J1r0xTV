@@ -46,6 +46,7 @@ struct ZonaProvider: VideoProvider {
               Int(detail.text("kp_id")) ?? 0 > 0 else { throw ProviderError.mediaNotFound }
         return detail
     }
+    func kinopoiskID(for media: MediaItem) async throws -> String { try await metadata(media).text("kp_id") }
     func search(_ query: MediaQuery) async throws -> [MediaItem] { [] }
     func sources(for media: MediaItem) async throws -> (MediaItem, [SourceOption]) {
         _ = try await metadata(media)

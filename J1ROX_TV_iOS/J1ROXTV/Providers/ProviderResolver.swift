@@ -14,7 +14,7 @@ struct ProviderResolver: Sendable {
     let checker: any PlaybackSourceChecking
     let timeout: TimeInterval
 
-    init(providers: [any VideoProvider] = [AtodoProvider(), ZonaProvider()],
+    init(providers: [any VideoProvider] = [AtodoProvider(), ZonaProvider(), CDNVideoHubProvider()],
          checker: any PlaybackSourceChecking = PlaybackSourceValidator(), timeout: TimeInterval = 15) {
         self.providers = providers
         self.checker = checker
