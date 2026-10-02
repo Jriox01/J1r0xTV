@@ -273,10 +273,11 @@ struct ProviderTests {
         try await runWatchTogetherTests()
         try await runDownloadTests()
         try await runZonaTests()
+        try await runCDNTests()
         try require(APIConfig.baseURL.absoluteString == "https://api.atodo.fun/", "ATODO API base")
         let defaults = ProviderResolver().providers
-        try require(defaults.map(\.id) == ["atodo", "zona"] && defaults.allSatisfy { $0.availability == .available },
-                    "Atodo and Zona are registered; unconfigured Cinemap is not advertised")
+        try require(defaults.map(\.id) == ["atodo", "zona", "cdnvideohub"] && defaults.allSatisfy { $0.availability == .available },
+                    "Atodo, Zona and CDN VideoHub are registered; unconfigured Cinemap is not advertised")
 
         let media = MediaItem.parse([
             "id": .string("42"),
@@ -661,4 +662,37 @@ struct ProviderTests {
     _ = try await service.content(for: media, sourceID: "zona")
     try require(service.providerID == "zona", "Source routes to Zona")
     print("PASS Zona matching, episode identity, native stream filtering, source routing and explicit voice")
+}
+
+@MainActor private func runCDNTests() async throws {
+    let media = MediaItem.parse(["id": .string("1396"), "title": .string("Fixture series"), "year": .string("2008"), "media_type": .string("tv")])
+    let rows: [JSONValue] = [
+        .object(["vkId": .string("101"), "season": .number(1), "episode": .number(11), "voiceStudio": .string("Studio A")]),
+        .object(["vkId": .string("202"), "season": .number(2), "episode": .number(11), "voiceStudio": .string("Studio A")]),
+        .object(["vkId": .string("203"), "season": .number(2), "episode": .number(11), "voiceStudio": .string("Studio B")])
+    ]
+    let provider = CDNVideoHubProvider(identify: { item in
+        guard item.id == "1396" else { throw ProviderError.mediaNotFound }
+        return "404"
+    }, fetch: { path, query in
+        if path == "playlist" {
+            guard query["id"] == "404" else { throw ProviderError.invalidResponse }
+            return .object(["isSerial": .bool(true), "items": .array(rows)])
+        }
+        guard path == "video/202" else { throw ProviderError.selectionUnavailable }
+        return .object(["sources": .object(["hlsUrl": .string("https://example.com/series.m3u8")])])
+    })
+    let content = try await provider.content(for: media, sourceID: provider.id)
+    let voice = provider.translations(in: content).first { $0.name == "Studio A" }!
+    try require(provider.seasons(in: voice).count == 2, "CDN lists seasons per voice")
+    let request = PlaybackRequest(media: media, sourceID: provider.id, translationID: voice.id, season: "2", episode: "11", translationName: voice.name, providerID: provider.id)
+    let source = try await provider.playback(for: request)
+    try require(source.url.absoluteString == "https://example.com/series.m3u8" && source.request.media.id == "1396", "CDN maps TMDB separately and selects S02E11")
+    var unavailable = request; unavailable.translationID = "missing"
+    do { _ = try await provider.playback(for: unavailable); throw TestFailure(message: "CDN silently changed voice") }
+    catch ProviderError.selectionUnavailable {}
+    unavailable = request; unavailable.episode = "12"
+    do { _ = try await provider.playback(for: unavailable); throw TestFailure(message: "CDN silently changed episode") }
+    catch ProviderError.selectionUnavailable {}
+    print("PASS CDN VideoHub identity, per-voice seasons and strict episode selection")
 }
