@@ -272,10 +272,13 @@ struct ProviderTests {
         try runContinueWatchingTests()
         try await runWatchTogetherTests()
         try await runDownloadTests()
+        try await runZonaTests()
+        try await runReleaseYearTests()
+        try await runCDNTests()
         try require(APIConfig.baseURL.absoluteString == "https://api.atodo.fun/", "ATODO API base")
         let defaults = ProviderResolver().providers
-        try require(defaults.map(\.id) == ["atodo"] && defaults.first?.availability == .available,
-                    "ATODO is the default; Cinemap is not required")
+        try require(defaults.map(\.id) == ["atodo", "zona", "cdnvideohub"] && defaults.allSatisfy { $0.availability == .available },
+                    "Atodo, Zona and CDN VideoHub are registered; unconfigured Cinemap is not advertised")
 
         let media = MediaItem.parse([
             "id": .string("42"),
@@ -614,4 +617,101 @@ struct ProviderTests {
         try require(priority.source.providerID == "first" && reversedPriority.source.providerID == "second", "Provider priority order")
         print("ALL PROVIDER TESTS PASSED (fixtures, download policy and persistence)")
     }
+}
+
+@MainActor private func runZonaTests() async throws {
+    let media = MediaItem.parse(["id": .string("157336"), "title": .string("Интерстеллар"), "year": .string("2014")])
+    let row: [String: JSONValue] = ["slug": .string("interstellar"), "title": .string("Интерстеллар"), "year": .number(2014), "type": .string("movie")]
+    try require(ZonaProvider.matches(row, media: media), "Zona exact movie match")
+    var wrong = row; wrong["year"] = .number(2024)
+    try require(!ZonaProvider.matches(wrong, media: media), "Zona rejects remakes with another year")
+    wrong = row; wrong["type"] = .string("series")
+    try require(!ZonaProvider.matches(wrong, media: media), "Zona rejects wrong media type")
+    try require(try ZonaProvider.episodeKey(season: "2", episode: "11") == "S02E11", "Zona episode identifier")
+    do { _ = try ZonaProvider.episodeKey(season: "2", episode: nil); throw TestFailure(message: "Missing episode accepted") }
+    catch ProviderError.selectionUnavailable {}
+    func batch(_ url: String, format: String = "HLS", transform: String = "") -> JSONValue {
+        .object(["extractorType": .object(["id": .number(1), "name": .string("Fixture")]),
+                 "videoStreams": .array([.object(["source": .object(["url": .string(url), "headers": .object(["Referer": .string("https://example.com/")])]),
+                    "translation": .string("Дубляж"), "resolution": .string(format), "parameters": .object(["urlTransform": .string(transform)])])])])
+    }
+    try require(ZonaProvider.streams([batch("https://example.com/movie.m3u8")]).count == 1, "Zona HLS accepted")
+    try require(ZonaProvider.streams([batch("https://example.com/movie.mp4", format: "1080p")]).count == 1, "Zona MP4 quality label accepted")
+    try require(ZonaProvider.streams([batch("https://example.com/movie.mpd", format: "DASH")]).isEmpty, "Zona DASH not passed to AVPlayer")
+    try require(ZonaProvider.streams([batch("http://example.com/movie.m3u8")]).isEmpty, "Zona does not weaken ATS")
+    try require(ZonaProvider.streams([batch("https://example.com/movie.m3u8", transform: "unsupported")]).isEmpty, "Transform-required streams excluded")
+    let fixture = batch("https://example.com/movie.m3u8")
+    let provider = ZonaProvider(fetch: { path, _ in
+        if path == "search" { return .object(["data": .array([.object(row)])]) }
+        return .object(["data": .object(["kp_id": .number(258687), "slug": .string("interstellar")])])
+    }, streamLoader: { kp, episode in
+        guard kp == "258687", episode == nil else { throw ProviderError.invalidResponse }
+        return [fixture]
+    })
+    let content = try await provider.content(for: media, sourceID: "zona")
+    let voice = provider.translations(in: content)[0]
+    let request = PlaybackRequest(media: media, sourceID: "zona", translationID: voice.id, translationName: voice.name, providerID: "zona")
+    let playback = try await provider.playback(for: request)
+    try require(playback.providerID == "zona" && playback.request.media.id == "157336", "Zona keeps original TMDB identity")
+    try require(playback.headers["Referer"] == "https://example.com/", "Zona preserves declared request headers")
+    var unavailable = request; unavailable.translationID = "missing"
+    do { _ = try await provider.playback(for: unavailable); throw TestFailure(message: "Zona changed voice silently") }
+    catch ProviderError.selectionUnavailable {}
+    let service = StreamingService(resolver: ProviderResolver(providers: [AtodoProvider(client: FixtureAPI(series: false)), provider]))
+    let sources = try await service.sources(for: media)
+    try require(sources.1.map(\.id) == ["one", "zona"], "Aggregate sources from both providers")
+    _ = try await service.content(for: media, sourceID: "zona")
+    try require(service.providerID == "zona", "Source routes to Zona")
+    print("PASS Zona matching, episode identity, native stream filtering, source routing and explicit voice")
+}
+
+@MainActor private func runCDNTests() async throws {
+    let media = MediaItem.parse(["id": .string("1396"), "title": .string("Fixture series"), "year": .string("2008"), "media_type": .string("tv")])
+    let rows: [JSONValue] = [
+        .object(["vkId": .string("101"), "season": .number(1), "episode": .number(11), "voiceStudio": .string("Studio A")]),
+        .object(["vkId": .string("202"), "season": .number(2), "episode": .number(11), "voiceStudio": .string("Studio A")]),
+        .object(["vkId": .string("203"), "season": .number(2), "episode": .number(11), "voiceStudio": .string("Studio B")])
+    ]
+    let provider = CDNVideoHubProvider(identify: { item in
+        guard item.id == "1396" else { throw ProviderError.mediaNotFound }
+        return "404"
+    }, fetch: { path, query in
+        if path == "playlist" {
+            guard query["id"] == "404" else { throw ProviderError.invalidResponse }
+            return .object(["isSerial": .bool(true), "items": .array(rows)])
+        }
+        guard path == "video/202" else { throw ProviderError.selectionUnavailable }
+        return .object(["sources": .object(["hlsUrl": .string("https://example.com/series.m3u8")])])
+    })
+    let content = try await provider.content(for: media, sourceID: provider.id)
+    let voice = provider.translations(in: content).first { $0.name == "Studio A" }!
+    try require(provider.seasons(in: voice).count == 2, "CDN lists seasons per voice")
+    let request = PlaybackRequest(media: media, sourceID: provider.id, translationID: voice.id, season: "2", episode: "11", translationName: voice.name, providerID: provider.id)
+    let source = try await provider.playback(for: request)
+    try require(source.url.absoluteString == "https://example.com/series.m3u8" && source.request.media.id == "1396", "CDN maps TMDB separately and selects S02E11")
+    var unavailable = request; unavailable.translationID = "missing"
+    do { _ = try await provider.playback(for: unavailable); throw TestFailure(message: "CDN silently changed voice") }
+    catch ProviderError.selectionUnavailable {}
+    unavailable = request; unavailable.episode = "12"
+    do { _ = try await provider.playback(for: unavailable); throw TestFailure(message: "CDN silently changed episode") }
+    catch ProviderError.selectionUnavailable {}
+    print("PASS CDN VideoHub identity, per-voice seasons and strict episode selection")
+}
+
+@MainActor private func runReleaseYearTests() async throws {
+    let media = MediaItem.parse(["id": .string("11111"), "title": .string("Мятеж"), "original_title": .string("Mutiny"), "year": .string("2026")])
+    let row: [String: JSONValue] = ["slug": .string("myatezh-2025"), "title": .string("Мятеж"), "year": .number(2025), "type": .string("movie")]
+    func provider(original: String = "Mutiny", date: String = "2026-08-19", ambiguous: Bool = false) -> ZonaProvider {
+        ZonaProvider(fetch: { path, _ in
+            if path == "search" { return .object(["data": .array(ambiguous ? [.object(row), .object(row)] : [.object(row)])]) }
+            return .object(["data": .object(["kp_id": .number(5582050), "title_original": .string(original), "release_date": .string(date)])])
+        })
+    }
+    let kp = try await provider().kinopoiskID(for: media)
+    try require(kp == "5582050", "Original title and premiere year resolve production-year mismatch")
+    for rejected in [provider(original: "Another Mutiny"), provider(date: "2025-08-19"), provider(ambiguous: true)] {
+        do { _ = try await rejected.kinopoiskID(for: media); throw TestFailure(message: "Unverified year fallback accepted") }
+        catch ProviderError.mediaNotFound {}
+    }
+    print("PASS Zona production/premiere year matching, wrong original, wrong premiere and ambiguity rejection")
 }

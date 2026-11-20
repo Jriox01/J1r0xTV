@@ -36,6 +36,7 @@ struct ProviderCandidate: Hashable, Sendable {
 }
 
 protocol VideoProvider: Sendable {
+    var resolutionTimeout: TimeInterval? { get }
     var id: String { get }
     var name: String { get }
     var availability: ProviderAvailability { get }
@@ -53,6 +54,10 @@ protocol VideoProvider: Sendable {
     func playback(for request: PlaybackRequest) async throws -> PlaybackSource
     /// Download permission is independent from the ability to stream a URL.
     func downloads(for request: PlaybackRequest) async throws -> [DownloadVariant]
+}
+
+extension VideoProvider {
+    var resolutionTimeout: TimeInterval? { nil }
 }
 
 enum ProviderError: LocalizedError {

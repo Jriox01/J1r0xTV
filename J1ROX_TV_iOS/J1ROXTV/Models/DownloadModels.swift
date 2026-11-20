@@ -191,7 +191,10 @@ struct DownloadRecord: Codable, Equatable, Identifiable, Sendable {
 struct DownloadSettings: Codable, Equatable, Sendable {
     var quality = "720p"
     var askQuality = true
-    var wifiOnly = true
+    // Allow downloads on the current connection by default. Wi-Fi-only remains
+    // available as an explicit setting, but the old implicit default caused
+    // cellular downloads to fail at 0% with an opaque "unknown error".
+    var wifiOnly = false
     var simultaneous = 2
 }
 

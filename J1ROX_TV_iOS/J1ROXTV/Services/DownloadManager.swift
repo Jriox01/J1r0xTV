@@ -12,7 +12,7 @@ import AVFoundation
     @Published var message: String?
     @Published var settings: DownloadSettings {
         didSet {
-            if let data = try? JSONEncoder().encode(settings) { UserDefaults.standard.set(data, forKey: "downloadSettings.v1") }
+            if let data = try? JSONEncoder().encode(settings) { UserDefaults.standard.set(data, forKey: "downloadSettings.v2") }
             if settings.wifiOnly != oldValue.wifiOnly {
                 // Session policy is immutable. Move active tasks to the appropriate session.
                 for id in Array(tasks.keys) where record(id)?.state == .downloading {
@@ -31,6 +31,10 @@ import AVFoundation
     private var store: DownloadStore?
     private let delegate = DownloadSessionDelegate()
     private var sessions: [URLSession] = []
+    // Some CDNs reject Apple's background downloader at task creation or on the
+    // first redirect. Direct MP4s use this foreground-capable session instead;
+    // HLS continues through AVAssetDownloadURLSession.
+    private var directSession: URLSession!
     // Keep the initializer's static type: Foundation's background-session class
     // cluster cannot reliably be downcast from URLSession to AVAssetDownloadURLSession.
     private var assetSessions: [AVAssetDownloadURLSession] = []
@@ -44,7 +48,9 @@ import AVFoundation
     private var completions: [String: () -> Void] = [:]
 
     private init() {
-        settings = UserDefaults.standard.data(forKey: "downloadSettings.v1")
+        // v2 resets the old implicit Wi-Fi-only default. Users can still enable
+        // the toggle explicitly in Downloads settings.
+        settings = UserDefaults.standard.data(forKey: "downloadSettings.v2")
             .flatMap { try? JSONDecoder().decode(DownloadSettings.self, from: $0) } ?? DownloadSettings()
         do { let store = try DownloadStore(); records = try store.load(); self.store = store }
         catch { message = "Не удалось открыть хранилище загрузок: \(error.localizedDescription)"; return }
@@ -59,6 +65,13 @@ import AVFoundation
             config.timeoutIntervalForResource = 7 * 24 * 3600
             return URLSession(configuration: config, delegate: delegate, delegateQueue: .main)
         }
+        let directConfig = URLSessionConfiguration.default
+        directConfig.waitsForConnectivity = false
+        directConfig.allowsCellularAccess = true
+        directConfig.allowsExpensiveNetworkAccess = true
+        directConfig.timeoutIntervalForResource = 7 * 24 * 3600
+        directSession = URLSession(configuration: directConfig, delegate: delegate, delegateQueue: .main)
+        sessions.append(directSession)
         assetSessions = [true, false].map { wifi in
             let config = URLSessionConfiguration.background(withIdentifier: Self.sessionPrefix + (wifi ? "hls.wifi" : "hls.any"))
             config.sessionSendsLaunchEvents = true
@@ -204,7 +217,8 @@ import AVFoundation
                 guard tasks[id] == nil else { task.cancel(); continue }
                 tasks[id] = task
                 if records[index].state == .paused { cancelForPause(id, task: task) }
-                else if session.configuration.allowsCellularAccess == settings.wifiOnly {
+                else if session.configuration.identifier != nil &&
+                        session.configuration.allowsCellularAccess == settings.wifiOnly {
                     records[index].state = .paused
                     restartAfterPause.insert(id); discardResumeAfterPause.insert(id)
                     cancelForPause(id, task: task)
@@ -303,8 +317,7 @@ import AVFoundation
                         assetArtworkData: nil, options: downloadOptions) else { throw DownloadError.unavailable }
                     task = download
                 } else {
-                    let identifier = Self.sessionPrefix + (settings.wifiOnly ? "wifi" : "any")
-                    guard let session = sessions.first(where: { $0.configuration.identifier == identifier }) else { throw DownloadError.unavailable }
+                    guard let session = directSession else { throw DownloadError.unavailable }
                     var request = URLRequest(url: entry.variant.url)
                     request.allHTTPHeaderFields = entry.variant.headers
                     // The session enforces policy, including tasks restored from resumeData.
@@ -370,9 +383,21 @@ import AVFoundation
             }
             guard let name = records[index].localFilename else { throw DownloadError.invalidFile }
             let destination = try DownloadFiles.file(name)
-            // Must move before returning from this delegate callback: URLSession deletes location.
-            try FileManager.default.setAttributes([.protectionKey: FileProtectionType.completeUntilFirstUserAuthentication], ofItemAtPath: location.path)
-            try FileManager.default.moveItem(at: location, to: destination)
+            // Must finalize before returning from this delegate callback: URLSession deletes
+            // its temporary location. A retry can leave the same destination behind, and
+            // FileManager.moveItem then reports the unhelpful "Cannot create file" error.
+            // Remove that stale target and fall back to copy for providers/filesystems where
+            // the temporary URL cannot be moved directly.
+            try? FileManager.default.setAttributes([.protectionKey: FileProtectionType.completeUntilFirstUserAuthentication], ofItemAtPath: location.path)
+            if FileManager.default.fileExists(atPath: destination.path) {
+                try FileManager.default.removeItem(at: destination)
+            }
+            do {
+                try FileManager.default.moveItem(at: location, to: destination)
+            } catch {
+                try FileManager.default.copyItem(at: location, to: destination)
+                try? FileManager.default.removeItem(at: location)
+            }
             records[index].received = size; records[index].total = size
             records[index].state = .completed; records[index].completedAt = Date(); records[index].resumeData = nil
             speeds[records[index].id] = nil

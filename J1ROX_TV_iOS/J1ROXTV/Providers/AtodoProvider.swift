@@ -14,21 +14,21 @@ private func unwrapObject(_ value: JSONValue) -> [String: JSONValue] {
 }
 
 struct CatalogService {
-    var client: any ProviderAPI = APIClient.shared
+    var client: any ProviderAPI = TMDBClient.shared
     func catalog(type: String, page: Int = 1) async throws -> [MediaItem] {
         let payload = try await client.get(path: "api/list", query: ["type_movie": type, "page": String(page)])
         return unwrapItems(payload).map { MediaItem.parse($0, fallbackType: type) }
     }
 }
 struct SearchService {
-    var client: any ProviderAPI = APIClient.shared
+    var client: any ProviderAPI = TMDBClient.shared
     func search(_ query: String, page: Int = 1) async throws -> [MediaItem] {
         let payload = try await client.get(path: "api/search", query: ["query": query, "page": String(page)])
-        return unwrapItems(payload).map { MediaItem.parse($0) }
+        return unwrapItems(payload).filter {  $0.text("media_type") != "person" }.map { MediaItem.parse($0) }
     }
 }
 struct DetailsService {
-    var client: any ProviderAPI = APIClient.shared
+    var client: any ProviderAPI = TMDBClient.shared
     func details(type: String, id: String) async throws -> MediaItem {
         var root = try await client.get(path: "api/details/\(type)/\(id)")
         if let object = root.object { for key in ["data", "result", "item", "movie"] { if let nested = object[key]?.object { root = .object(nested); break } } }

@@ -24,5 +24,6 @@ run_suite() {
 run_suite provider-and-series Tests/run-provider-tests.sh
 run_suite hls-simulator Tests/run-hls-simulator.sh
 run_suite download-simulator Tests/run-download-simulator.sh
+bash Tests/run-zona-smoke.sh || printf "Zona live diagnostic could not run\n"
 cat "$summary"
 exit "$failed"
